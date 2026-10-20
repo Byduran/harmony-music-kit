@@ -1,0 +1,522 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Harmony Lab 0.9.18</title><style>
+:root{--bg:#101613;--panel:#18241e;--card:#202f27;--line:#435849;--text:#f5f9ff;--muted:#b0b9a9;--blue:#b58b57;--cyan:#87b59a;--pink:#bf9b75;--green:#89b99c;--amber:#d4ab6d;--red:#ff506d}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#121c18,#18221d);color:var(--text);font-family:Inter,system-ui,sans-serif}.app{max-width:620px;margin:auto;min-height:100vh;padding-bottom:84px}header{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;background:#04111dec;backdrop-filter:blur(16px);padding:14px 18px;border-bottom:1px solid #102f46}.brand{font-size:13px;letter-spacing:.16em;font-weight:900}.brand span{color:var(--cyan)}.headkey{font-size:12px;color:var(--muted);text-align:right}.page{padding:16px}.hide{display:none}.hero{text-align:center}.hero h2{margin:2px 0;font-size:20px}.muted{color:var(--muted);font-size:13px}.seg{display:grid;grid-template-columns:1fr 1fr;background:#26372c;border:1px solid var(--line);border-radius:999px;padding:3px;margin:14px auto;width:min(290px,90%)}.seg button{border:0;border-radius:999px;min-height:38px;background:transparent;color:var(--muted);font-weight:800}.seg button.active{background:linear-gradient(90deg,#1688ef,#29b6ff);color:white;box-shadow:0 4px 18px #1688ef55}.circle{width:330px;height:330px;margin:16px auto 22px;border:50px solid #0c2a40;border-radius:50%;position:relative;box-shadow:inset 0 0 0 2px #15547c,0 0 40px #009dff15}.keybtn{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px;border:1px solid #ffffff33;border-radius:50%;color:#fff;font-weight:900;line-height:1.02;padding:5px 2px;box-shadow:0 7px 16px #0007;text-shadow:0 1px 5px #000}.keybtn:nth-of-type(12n+1){background:linear-gradient(145deg,#ff784d,#c63f62)}.keybtn:nth-of-type(12n+2){background:linear-gradient(145deg,#23b879,#087c79)}.keybtn:nth-of-type(12n+3){background:linear-gradient(145deg,#268cff,#3158d5)}.keybtn:nth-of-type(12n+4){background:linear-gradient(145deg,#20bdb0,#14728c)}.keybtn:nth-of-type(12n+5){background:linear-gradient(145deg,#18a99d,#176777)}.keybtn:nth-of-type(12n+6){background:linear-gradient(145deg,#087d91,#174c72)}.keybtn:nth-of-type(12n+7){background:linear-gradient(145deg,#1662a9,#273d91)}.keybtn:nth-of-type(12n+8){background:linear-gradient(145deg,#2458c4,#45369b)}.keybtn:nth-of-type(12n+9){background:linear-gradient(145deg,#5441c1,#762f9f)}.keybtn:nth-of-type(12n+10){background:linear-gradient(145deg,#8c3ba8,#9e356f)}.keybtn:nth-of-type(12n+11){background:linear-gradient(145deg,#ba3b78,#b94054)}.keybtn:nth-of-type(12n+12){background:linear-gradient(145deg,#d55356,#c45c31)}.keybtn small{display:block;margin-top:4px;color:#f2f8ff;font-size:8px;font-weight:800;white-space:nowrap;letter-spacing:-.03em}.keybtn.active small{color:#fff}.keybtn.active{border:2px solid #fff;transform-origin:center;box-shadow:0 0 0 3px #b58b5788,0 0 25px #b58b57aa}.center{position:absolute;inset:80px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,#0d2c43,#16221c);border:1px solid #1a567d}.center b{font-size:30px;text-shadow:0 0 18px #b58b5788}.center small{display:block;color:#8eb7d0;text-align:center;margin-top:-34px}.card{background:linear-gradient(145deg,#0b2235,#071824);border:1px solid var(--line);border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 14px 34px #0005}.card h3{margin:0 0 10px}.glow{box-shadow:0 0 0 1px #a3bc8755,0 12px 34px #008cff18}.degreeRow{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:14px 0}.degree{display:grid;place-items:center;aspect-ratio:1;border-radius:50%;font-size:18px;font-weight:900;border:1px solid}.d1{color:#55b7ff;border-color:#b58b57;background:#b58b5718}.d3{color:#dc78ff;border-color:#bf9b75;background:#bf9b7518}.d5{color:#ffc14b;border-color:#d4ab6d;background:#d4ab6d18}.d7{color:#52e5d5;border-color:#87b59a;background:#87b59a18}.flow{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0}.flowChord{min-width:76px;padding:12px 9px;border-radius:13px;text-align:center;background:#2b4335;border:1px solid #22506d;font-weight:900}.flowChord.hot{border-color:var(--amber);background:#6a410d55;color:#ffd37a}.flowChord.alt{border-color:var(--pink);background:#54205c55;color:#f3a5ff}.arrow{color:#7095ad;font-weight:900}.topicTabs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:#16221c;border:1px solid var(--line);padding:4px;border-radius:14px;margin:14px 0}.topicTabs button{border:0;background:transparent;color:var(--muted);padding:10px 4px;border-radius:10px;font-size:11px;font-weight:800}.topicTabs button.active{background:#6b8669;color:white}.why{border-left:3px solid var(--amber);padding:11px 12px;background:#d4ab6d10;border-radius:10px;margin-top:12px}.ab{display:grid;grid-template-columns:1fr 1fr;gap:8px}.legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:12px;font-size:11px;color:var(--muted)}.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.fretWrap{background:linear-gradient(90deg,#2c1b13,#5b3925,#2d1b13);padding:9px;border-radius:12px}.instTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.row{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid #1a4b6d;padding:7px 10px;border-radius:9px;background:#0b2a41}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.chord{min-height:62px;border:1px solid var(--line);border-radius:12px;background:#26372c;color:var(--text);text-align:left;padding:9px}.chord.active{border-color:#27a9ff;background:#0d3350;box-shadow:inset 3px 0 #28a9ff}.roman{display:block;color:#72a8ca;font-size:11px}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.action{min-height:48px;border:1px solid #24506e;border-radius:12px;background:#202f27;color:var(--text);font-weight:800}.action.active,.action:active{background:#0e4167;border-color:#2fb6ff}.speedbox{margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#061724}.speed{display:flex;justify-content:space-between;align-items:center;gap:10px}input{width:100%;accent-color:#a3bc87}.notes{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:13px}.note{padding:8px 10px;border:1px solid var(--line);border-radius:10px;font-weight:900;transition:.12s}.note.on{background:#a3bc87;color:white;border-color:#7ed2ff;transform:translateY(-3px);box-shadow:0 0 18px #a3bc8777}.prog,.lesson{width:100%;margin:6px 0;text-align:left;padding:15px;border:1px solid var(--line);border-radius:15px;background:#26372c;color:var(--text)}.prog b,.lesson b{font-size:16px}.prog.active{border-color:#a3bc87;background:#0c3452}.tabs{display:flex;gap:8px}.tabs button{flex:1}.piano{display:flex;height:150px;overflow:hidden;border-radius:10px;background:white}.pk{position:relative;flex:1;border-right:1px solid #aaa;background:#fff;color:#102030;font-size:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;transition:.1s}.pk.black{background:#111;color:#fff;height:92px;margin:0 -11px;z-index:2;border-radius:0 0 4px 4px}.pk.chordtone{background:#ccecff}.pk.black.chordtone{background:#174d74}.pk.playing{background:#a3bc87!important;color:white;box-shadow:inset 0 0 0 3px #7dd8ff}.fret{min-width:540px;display:grid;grid-template-columns:42px repeat(9,1fr);font-size:11px}.fc{height:40px;border-right:1px solid #476075;border-bottom:1px solid #476075;display:flex;align-items:center;justify-content:center}.dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#176fa8;color:white;font-size:9px;font-weight:900}.dot.playing{background:#29b6ff;box-shadow:0 0 16px #29b6ff;transform:scale(1.15)}nav{position:fixed;bottom:0;left:0;right:0;max-width:620px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);background:#16221cf5;border-top:1px solid #16384f;padding-bottom:max(5px,env(safe-area-inset-bottom));z-index:10}nav button{min-height:68px;border:0;background:transparent;color:#6f8da2;font-size:11px;font-weight:800}nav button.active{color:#27aaff;background:#0a2133}.logo{font-size:20px;margin-right:7px}@media(min-width:520px){.grid{grid-template-columns:repeat(4,1fr)}}
+.modeChooser{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.modeChoice{padding:11px 6px;border-radius:12px;border:1px solid var(--line);background:#081c2b;color:var(--text);font-weight:800}.modeChoice.active{border-color:var(--cyan);background:#0c4551}.formulaStrip,.modeNotes{display:flex;gap:6px;overflow-x:auto;padding:8px 0 12px}.formulaStep,.modeNote{min-width:39px;padding:9px 6px;text-align:center;border-radius:10px;background:#2b4335;border:1px solid #24516d;font-weight:900}.character{border-color:var(--amber)!important;color:#ffd67d!important;background:#70460d55!important}.modeCompare{border:1px solid #285069;background:#061725;border-radius:14px;padding:12px;margin-top:10px}.modeKeyRow{display:grid;grid-template-columns:54px 1fr 54px;gap:10px;align-items:center;text-align:center}.relativeList{display:grid;gap:8px;margin:14px 0}.relativeMode{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;border:1px solid var(--line);background:#081c2b;color:var(--text);text-align:left}.relativeMode span{font-size:11px;color:var(--muted)} 
+/* Studio palette — charcoal, olive, parchment and copper */
+:root{--bg:#111915;--panel:#19251e;--card:#203127;--line:#435848;--text:#f2efe4;--muted:#b1bba9;--blue:#c5a16e;--cyan:#9cbba0;--pink:#d6a17c;--green:#99bd94;--amber:#e3b774}
+body{background:linear-gradient(180deg,#121a15,#1b2820);color:var(--text)}
+header,nav{background:#16231deF;border-color:#405645}
+.card{background:linear-gradient(145deg,#223329,#1b2a22);border-color:#435849}
+.action,.prog,.lesson,.chord,.modeChoice,.relativeMode{background:#27392d;border-color:#4a614e;color:#f2efe4}
+.action.active,.action:active,.chord.active,.prog.active,.modeChoice.active{background:#3d5942;border-color:#a3c19b;color:#f6f4e9}
+nav button.active{background:#33483a;color:#d5bb8c}
+.seg button.active{background:linear-gradient(90deg,#627e5d,#839978);box-shadow:none}
+.degree.d1{color:#b8d3b0;border-color:#7e9d75;background:#6d90601b}
+.degree.d3{color:#e1b48e;border-color:#bd8b65;background:#bd8b651b}
+.degree.d5{color:#e4cf9d;border-color:#c9aa69;background:#c9aa691b}
+.degree.d7{color:#a6c9bc;border-color:#86a99b;background:#86a99b1b}
+.glow{box-shadow:0 0 0 1px #82977d45,0 12px 34px #080e0a35}
+.modeNote,.formulaStep,.pill,.flowChord{background:#304437;border-color:#5b705c}
+select{background:#304437!important;color:#f5f1e5!important;border-color:#637960!important}
+
+/* Modern Conservatory — warm paper, editorial hierarchy, evergreen actions */
+:root{--bg:#F3F0E8;--panel:#FFFFFF;--card:#FFFFFF;--line:#DCE4DA;--text:#25312C;--muted:#67786D;--blue:#315B48;--cyan:#315B48;--pink:#A87356;--green:#315B48;--amber:#B18448;--red:#A44E50;color-scheme:light}
+html{background:#F3F0E8}body{background:#F3F0E8!important;color:var(--text);font-family:Inter,'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.45}
+.app{max-width:660px;background:#F3F0E8;box-shadow:0 0 80px #23392b09}
+header{background:#F3F0E8F2!important;border-bottom:1px solid #E1E4DB!important;padding:17px 20px;min-height:72px;box-shadow:none}
+.brand{font-size:15px;letter-spacing:.025em;font-weight:850;color:#25312C}.brand span{color:#315B48}.logo{display:inline-grid;place-items:center;width:30px;height:30px;background:#315B48;color:#fff;border-radius:9px;font-size:18px;margin-right:9px}
+.headkey{color:#687A6F;font-size:11px;line-height:1.5;max-width:48%}
+.page{padding:22px 18px 24px}.page>h2,.hero h2{font-size:29px;font-weight:760;letter-spacing:-.045em;line-height:1.15;color:#25312C;margin:0 0 6px}.hero{text-align:left}.hero .muted,.page>.muted{font-size:13px;color:#738278}.muted{color:#67786D!important}
+h3{color:#25312C;font-size:17px;letter-spacing:-.025em}.card{background:#FFFFFF!important;border:1px solid #E3E8DF!important;border-radius:20px;padding:19px;margin:15px 0;box-shadow:0 5px 24px #283D2B0B!important}.card .card{background:#F6F7F2!important;border:1px solid #E6ECE3!important;box-shadow:none!important}.glow{box-shadow:0 7px 28px #233E2B0D!important}
+.seg{background:#E7EDE5;border:1px solid #E0E7DD;border-radius:100px}.seg button{color:#627568;font-weight:680}.seg button.active{background:#315B48!important;color:#FFFFFF!important;box-shadow:0 2px 7px #25493625!important}
+.circle{background:#EAF0E9;border:45px solid #E4EDE5!important;box-shadow:inset 0 0 0 1px #CFDACF,0 6px 24px #315B4811!important;max-width:calc(100vw - 48px);max-height:calc(100vw - 48px)}
+.keybtn,.keybtn:nth-of-type(n){background:#FFFFFF!important;color:#315B48!important;border:1px solid #D3DED4!important;text-shadow:none!important;box-shadow:0 2px 6px #233D2B0C!important;font-size:13px}.keybtn small{color:#788C7B!important;font-weight:650}.keybtn.active,.keybtn.active:nth-of-type(n){background:#315B48!important;color:white!important;border:2px solid #315B48!important;box-shadow:0 0 0 4px #9FB8A455!important}.keybtn.active small{color:#E2EFE5!important}
+.center{background:#FFFFFF!important;border:1px solid #DAE4DA!important}.center b{color:#315B48;text-shadow:none!important}.center small{color:#718376!important}
+.grid{gap:10px}.chord{background:#F3F6F1!important;border:1px solid #E2E9E0!important;border-radius:13px;color:#304838!important;padding:12px}.chord.active{background:#315B48!important;color:#FFFFFF!important;border-color:#315B48!important;box-shadow:none!important}.roman{color:#718778!important}.chord.active .roman{color:#DCEBE0!important}
+.degreeRow{gap:10px}.degree{border-radius:14px;background:#EAF1E9!important;border:1px solid #D9E5DA!important;color:#315B48!important;box-shadow:none!important;font-size:17px}.degree small{color:#617B68!important}
+.action{background:#E7EEE7!important;color:#315B48!important;border:1px solid #D4E1D6!important;border-radius:12px;min-height:46px;font-weight:750}.action.active,.action:active{background:#315B48!important;color:#FFFFFF!important;border-color:#315B48!important}
+button{cursor:pointer;transition:background-color .16s,border-color .16s,transform .16s}button:focus-visible,select:focus-visible{outline:3px solid #A7BEA7;outline-offset:2px}
+#libraryPlay,#runProg,#mlPlay,#guidePlay{background:#315B48!important;color:white!important;border-color:#315B48!important}
+#libraryArp,#mlAB{background:#E7EEE7!important;color:#315B48!important}
+#libraryPanel .row{align-items:end}label{font-size:12px;color:#65796A;font-weight:700}select{display:block;background:#F5F7F2!important;color:#25312C!important;border:1px solid #D7E2D7!important;border-radius:11px!important;padding:11px 12px!important;min-height:44px;font-size:14px;font-weight:650}
+#libraryResult{color:#25312C}#libraryResult .note{background:#EAF1E9!important;color:#315B48!important;border-color:#D8E6D9!important}
+#chordsPage>.card:last-of-type{background:#FFFFFF!important;box-shadow:0 4px 16px #2843310B!important;bottom:78px!important}
+#instView{background:#F6F8F4!important}.tabs{gap:8px}.tabs .action{flex:1}
+.pk.chordtone{background:#CDE2D0!important}.pk.black.chordtone{background:#476B57!important}.pk.playing{background:#8DB69A!important;color:#fff!important}.dot{background:#315B48!important}.fretWrap{background:linear-gradient(90deg,#A17A54,#D2B58B,#A17A54)}.fc{border-color:#B8A283;color:#23392B}
+.note,.pill,.formulaStep,.modeNote{background:#EEF3EB!important;border:1px solid #DCE7DB!important;color:#315B48!important;border-radius:11px}.note.on{background:#315B48!important;color:white!important;box-shadow:0 4px 14px #315B4830!important;border-color:#315B48!important}.character{background:#F3E9D9!important;border-color:#C8A475!important;color:#8A6136!important}
+.prog,.lesson,.modeChoice,.relativeMode{background:#FFFFFF!important;border:1px solid #E1E8DF!important;border-radius:15px;color:#25312C!important;box-shadow:0 3px 14px #243D2B08!important}.prog.active,.modeChoice.active{background:#E5F0E6!important;border-color:#789D83!important;box-shadow:inset 3px 0 #315B48!important}.prog b,.lesson b{color:#25312C}.modeCompare{background:#F5F8F3!important;border:1px solid #DCE8DC!important}.modeKeyRow b{color:#315B48}.relativeMode span{color:#67786D}.speedbox{background:#F5F7F3!important;border-color:#DCE6DC!important}
+.topicTabs{background:#E7EEE7!important;border-color:#DDE6DC!important;gap:4px}.topicTabs button{color:#647B6A;font-weight:700}.topicTabs button.active{background:#315B48!important;color:#FFFFFF!important}.flowChord{background:#EAF1E9!important;border:1px solid #D8E5D8!important;color:#315B48!important}.flowChord.hot{background:#F1E8D8!important;color:#8A6035!important;border-color:#C6A676!important}.flowChord.alt{background:#E9E4EE!important;color:#635176!important;border-color:#B8A8C8!important}.arrow{color:#8B9E8D}.why{background:#F2F4E9!important;border-left:3px solid #B08B52!important;color:#354A39}
+nav{background:#FFFEFBF5!important;border-top:1px solid #DFE6DC!important;box-shadow:0 -8px 22px #233B2B0C!important;padding:4px 4px max(5px,env(safe-area-inset-bottom))}nav button{color:#788A7D!important;min-height:65px;font-weight:670;font-size:11px}nav button.active{color:#315B48!important;background:#EAF0E8!important;border-radius:12px}
+#libraryResult .formulaStrip{overflow-x:auto}#libraryResult .modeNote{min-width:38px}
+@media(max-width:390px){.page{padding:18px 13px}.circle{transform:scale(.91);margin:0 auto -10px;transform-origin:center}.keybtn{width:59px;height:59px;margin:-29.5px}.topicTabs button{font-size:10px;padding:9px 2px}.brand{font-size:13px}.headkey{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+
+/* v0.9.9: clearer interactive hierarchy and compact note cards */
+.play-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.play-actions .action{width:100%;min-height:52px}
+.action-primary,#libraryPlay,#runProg,#mlPlay,#guidePlay{background:#315B48!important;color:#fff!important;border:1px solid #315B48!important;box-shadow:0 3px 8px #315B4822!important}
+.action-secondary,#libraryArp,#mlAB{background:#DFEADF!important;color:#244C39!important;border:1px solid #9FBAA6!important;box-shadow:0 2px 5px #294A3210!important}
+.action-primary:hover{background:#244936!important}.action-secondary:hover{background:#D0E3D1!important}
+.action-primary:active,.action-secondary:active{transform:scale(.985)}
+.degreeRow{gap:10px!important}.degree{aspect-ratio:auto!important;min-height:104px!important;padding:12px 6px!important;line-height:1.55}
+.degree small{display:inline-block;margin-top:9px;font-size:16px}
+#arpNotes .note{padding:9px 12px}
+.mode-compare-panel{background:#F7F9F5;border:1px solid #D9E5D9;border-radius:17px;padding:16px;margin-top:18px}
+.compare-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px;color:#25312C}
+.compare-title .muted{font-size:11px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.compare-choice{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:8px;padding:13px;background:#EAF1E9;border:2px solid #D9E6DA;border-radius:13px;color:#315B48}
+.compare-choice small{font-size:11px;color:#5D7564;font-weight:650}
+.compare-choice b{font-size:16px}
+.compare-choice select{width:100%;min-width:0;margin:0!important;padding:8px!important;background:#fff!important}
+.compare-choice.is-playing{background:#D7E8D8!important;border-color:#315B48!important;box-shadow:0 0 0 2px #315B4820}
+.compare-reason{font-size:13px;line-height:1.55;color:#546B59;margin:13px 0}
+.compare-play{width:100%}.compare-status{font-size:12px;color:#315B48;margin-top:10px;min-height:18px;text-align:center}
+#chordsPage .row:has(#libraryPlay){display:grid!important;grid-template-columns:1fr 1fr;gap:12px!important}
+#chordsPage>.card:last-of-type{background:#fff!important}
+@media(max-width:370px){.play-actions,.compare-grid{gap:7px}.compare-choice{padding:9px}.compare-choice b{font-size:13px}.compare-choice select{font-size:12px!important}}
+
+/* v0.9.10 Appearance: explicit Light/Dark/System. Existing light styles retained. */
+.header-right{display:flex;align-items:center;gap:10px}.header-right #themeToggle{flex:none;border:1px solid #C6D8C8;background:#E7EEE7;color:#315B48;border-radius:11px;min-width:40px;min-height:40px;font-size:19px;cursor:pointer}
+.harmony-key-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:15px 0}.harmony-key-controls select{width:auto;min-width:150px}.harmony-key-controls .muted{font-size:11px}
+html[data-theme="dark"]{color-scheme:dark;--bg:#151D19;--panel:#202C24;--card:#26332B;--line:#415849;--text:#F1F0E8;--muted:#B2C3B5}
+html[data-theme="dark"] body{background:#151D19!important;color:var(--text)!important}
+html[data-theme="dark"] header,html[data-theme="dark"] nav{background:#1B2720F5!important;border-color:#415849!important}
+html[data-theme="dark"] .card,html[data-theme="dark"] #chordsPage>.card:last-of-type{background:#26332B!important;border-color:#415849!important;box-shadow:0 5px 18px #0002!important;color:#F1F0E8!important}
+html[data-theme="dark"] .muted,html[data-theme="dark"] label{color:#B2C3B5!important}
+html[data-theme="dark"] .center,html[data-theme="dark"] .keybtn,html[data-theme="dark"] .keybtn:nth-of-type(n){background:#26372D!important;color:#E7F1E8!important;border-color:#4B6352!important}
+html[data-theme="dark"] .circle{background:#1A2820!important;border-color:#283D30!important;box-shadow:inset 0 0 0 1px #415849!important}
+html[data-theme="dark"] .center b,html[data-theme="dark"] .modeKeyRow b{color:#B7D5BC!important}
+html[data-theme="dark"] .keybtn.active,html[data-theme="dark"] .keybtn.active:nth-of-type(n){background:#779B7E!important;color:#101B14!important;border-color:#B7D5BC!important}
+html[data-theme="dark"] .keybtn.active small{color:#101B14!important}
+html[data-theme="dark"] .seg,html[data-theme="dark"] .topicTabs{background:#23342A!important;border-color:#415849!important}
+html[data-theme="dark"] .seg button,html[data-theme="dark"] .topicTabs button{color:#B2C3B5!important}
+html[data-theme="dark"] .seg button.active,html[data-theme="dark"] .topicTabs button.active{background:#779B7E!important;color:#102015!important}
+html[data-theme="dark"] .chord,html[data-theme="dark"] .prog,html[data-theme="dark"] .lesson,html[data-theme="dark"] .modeChoice,html[data-theme="dark"] .relativeMode{background:#293B30!important;color:#F1F0E8!important;border-color:#48624F!important;box-shadow:none!important}
+html[data-theme="dark"] .chord.active,html[data-theme="dark"] .prog.active,html[data-theme="dark"] .modeChoice.active{background:#486D51!important;color:white!important;border-color:#86AB8D!important}
+html[data-theme="dark"] .prog b,html[data-theme="dark"] .lesson b,html[data-theme="dark"] #libraryResult{color:#F1F0E8!important}
+html[data-theme="dark"] .roman,html[data-theme="dark"] .chord.active .roman{color:#B6CEBA!important}
+html[data-theme="dark"] .action,html[data-theme="dark"] .action-secondary,html[data-theme="dark"] #libraryArp,html[data-theme="dark"] #mlAB{background:#344A3A!important;color:#E6F2E8!important;border-color:#63856A!important}
+html[data-theme="dark"] .action-primary,html[data-theme="dark"] #libraryPlay,html[data-theme="dark"] #runProg,html[data-theme="dark"] #mlPlay,html[data-theme="dark"] #guidePlay{background:#779B7E!important;color:#101B14!important;border-color:#779B7E!important}
+html[data-theme="dark"] .degree,html[data-theme="dark"] .note,html[data-theme="dark"] .pill,html[data-theme="dark"] .formulaStep,html[data-theme="dark"] .modeNote,html[data-theme="dark"] .flowChord,html[data-theme="dark"] #libraryResult .note{background:#33483A!important;color:#E6F2E8!important;border-color:#536F59!important}
+html[data-theme="dark"] .flowChord.hot,html[data-theme="dark"] .character{background:#55472F!important;color:#F1D4A1!important;border-color:#987A4C!important}
+html[data-theme="dark"] .flowChord.alt{background:#473B4B!important;color:#E9CFEF!important}
+html[data-theme="dark"] .why{background:#303B2F!important;color:#E7EEDD!important;border-color:#B79561!important}
+html[data-theme="dark"] .mode-compare-panel,html[data-theme="dark"] .modeCompare,html[data-theme="dark"] .speedbox,html[data-theme="dark"] #instView{background:#213026!important;border-color:#415849!important}
+html[data-theme="dark"] .compare-title,html[data-theme="dark"] .compare-reason,html[data-theme="dark"] .compare-status{color:#DCEADC!important}
+html[data-theme="dark"] .compare-choice{background:#34493A!important;color:#E6F2E8!important;border-color:#536F59!important}
+html[data-theme="dark"] .compare-choice small{color:#B2C3B5!important}
+html[data-theme="dark"] .compare-choice.is-playing{background:#486D51!important;border-color:#A3C8AA!important}
+html[data-theme="dark"] select,html[data-theme="dark"] .compare-choice select{background:#2A3D30!important;color:#F1F0E8!important;border-color:#57735D!important}
+html[data-theme="dark"] nav button{color:#B2C3B5!important}html[data-theme="dark"] nav button.active{color:#DFF2E3!important;background:#3C5542!important}
+html[data-theme="dark"] #themeToggle{background:#344A3A;color:#F1F0E8;border-color:#63856A}
+html[data-theme="dark"] .pk{color:#102030!important}html[data-theme="dark"] .pk.black{color:white!important}
+
+/* v0.9.12: compact header and complete dark palette */
+header{gap:10px;justify-content:space-between;min-width:0}
+.brand{display:flex;align-items:center;white-space:nowrap;min-width:0;flex:0 1 auto;letter-spacing:0}
+.header-right{margin-left:auto;min-width:0;flex:0 0 auto;gap:9px}
+.headkey{max-width:none;width:85px;text-align:right;line-height:1.3;font-size:11px;overflow-wrap:normal;white-space:normal}
+.headkey strong{display:block;color:#315B48;font-size:12px;white-space:nowrap}
+.headkey.hide{display:none!important}
+@media(max-width:390px){header{padding:12px 12px!important}.brand{font-size:12px!important}.logo{margin-right:6px!important}.header-right{gap:6px}.headkey{width:77px;font-size:10px}.header-right #themeToggle{min-width:37px;min-height:37px}}
+html[data-theme="dark"]{background:#151D19!important;color-scheme:dark!important}
+html[data-theme="dark"] .app{background:#151D19!important;box-shadow:none!important}
+html[data-theme="dark"] header{background:#1B2720F5!important;border-bottom-color:#415849!important}
+html[data-theme="dark"] .brand,html[data-theme="dark"] .brand span,html[data-theme="dark"] .page>h2,html[data-theme="dark"] .hero h2,html[data-theme="dark"] h3{color:#F1F0E8!important}
+html[data-theme="dark"] .headkey{color:#B2C3B5!important}
+html[data-theme="dark"] .headkey strong{color:#D9EDDD!important}
+html[data-theme="dark"] .logo{background:#779B7E!important;color:#101B14!important}
+html[data-theme="dark"] .muted,html[data-theme="dark"] .hero .muted,html[data-theme="dark"] .page>.muted{color:#B2C3B5!important}
+html[data-theme="dark"] .card .card{background:#293A30!important;border-color:#48624F!important}
+html[data-theme="dark"] .degree,html[data-theme="dark"] .degree small{color:#E6F2E8!important}
+html[data-theme="dark"] .relativeMode span{color:#B2C3B5!important}
+html[data-theme="dark"] #instView,html[data-theme="dark"] .modeCompare{background:#213026!important;border-color:#415849!important}
+html[data-theme="dark"] .pk.chordtone{background:#476B57!important}
+html[data-theme="dark"] .pk.black.chordtone{background:#365A43!important}
+html[data-theme="dark"] .pk.playing{background:#8DB69A!important;color:#102015!important}
+html[data-theme="dark"] .compare-choice select{background:#2A3D30!important;color:#F1F0E8!important}
+html[data-theme="dark"] #themeToggle{background:#344A3A!important;color:#F1F0E8!important;border-color:#63856A!important}
+html[data-theme="dark"] #chordsPage>.card:last-of-type{background:#26332B!important}
+
+/* v0.9.13: make dark theme genuinely override Modern Conservatory light !important rules */
+html[data-theme="dark"]{--bg:#151D19!important;--panel:#202C24!important;--card:#26332B!important;--line:#415849!important;--text:#F1F0E8!important;--muted:#B2C3B5!important;color-scheme:dark!important}
+html[data-theme="dark"] body,html[data-theme="dark"] .app{background:#151D19!important;color:#F1F0E8!important}
+html[data-theme="dark"] .card,html[data-theme="dark"] .card .card,html[data-theme="dark"] #chordsPage>.card:last-of-type{background:#26332B!important;border-color:#415849!important;color:#F1F0E8!important;box-shadow:0 5px 18px #0002!important}
+html[data-theme="dark"] .circle{background:#1A2820!important;border-color:#283D30!important;box-shadow:inset 0 0 0 1px #415849!important}
+html[data-theme="dark"] .center{background:#26372D!important;border-color:#4B6352!important}
+html[data-theme="dark"] .keybtn:nth-of-type(n){background:#26372D!important;color:#E7F1E8!important;border-color:#4B6352!important}
+html[data-theme="dark"] .keybtn:nth-of-type(n) small{color:#B2C3B5!important}
+html[data-theme="dark"] .keybtn.active:nth-of-type(n){background:#779B7E!important;color:#101B14!important;border-color:#B7D5BC!important}
+html[data-theme="dark"] .keybtn.active:nth-of-type(n) small{color:#101B14!important}
+html[data-theme="dark"] .seg{background:#23342A!important;border-color:#415849!important}
+html[data-theme="dark"] .seg button.active{background:#779B7E!important;color:#102015!important;box-shadow:none!important}
+html[data-theme="dark"] .chord,html[data-theme="dark"] .prog,html[data-theme="dark"] .lesson,html[data-theme="dark"] .modeChoice,html[data-theme="dark"] .relativeMode{background:#293B30!important;color:#F1F0E8!important;border-color:#48624F!important;box-shadow:none!important}
+html[data-theme="dark"] .chord.active,html[data-theme="dark"] .prog.active,html[data-theme="dark"] .modeChoice.active{background:#486D51!important;color:white!important;border-color:#86AB8D!important}
+html[data-theme="dark"] .degree,html[data-theme="dark"] .note,html[data-theme="dark"] .pill,html[data-theme="dark"] .formulaStep,html[data-theme="dark"] .modeNote,html[data-theme="dark"] .flowChord,html[data-theme="dark"] #libraryResult .note{background:#33483A!important;color:#E6F2E8!important;border-color:#536F59!important}
+html[data-theme="dark"] .character,html[data-theme="dark"] .flowChord.hot{background:#55472F!important;color:#F1D4A1!important;border-color:#987A4C!important}
+html[data-theme="dark"] .flowChord.alt{background:#473B4B!important;color:#E9CFEF!important}
+html[data-theme="dark"] .action,html[data-theme="dark"] .action-secondary,html[data-theme="dark"] #libraryArp,html[data-theme="dark"] #mlAB{background:#344A3A!important;color:#E6F2E8!important;border-color:#63856A!important}
+html[data-theme="dark"] .action-primary,html[data-theme="dark"] #libraryPlay,html[data-theme="dark"] #runProg,html[data-theme="dark"] #mlPlay,html[data-theme="dark"] #guidePlay{background:#779B7E!important;color:#101B14!important;border-color:#779B7E!important}
+html[data-theme="dark"] .topicTabs{background:#23342A!important;border-color:#415849!important}
+html[data-theme="dark"] .topicTabs button.active{background:#779B7E!important;color:#102015!important}
+html[data-theme="dark"] .modeCompare,html[data-theme="dark"] .mode-compare-panel,html[data-theme="dark"] .speedbox,html[data-theme="dark"] #instView{background:#213026!important;border-color:#415849!important}
+html[data-theme="dark"] select{background:#2A3D30!important;color:#F1F0E8!important;border-color:#57735D!important}
+html[data-theme="dark"] nav{background:#1B2720F5!important;border-color:#415849!important}
+html[data-theme="dark"] nav button{color:#B2C3B5!important}
+html[data-theme="dark"] nav button.active{color:#DFF2E3!important;background:#3C5542!important}
+html[data-theme="dark"] .muted,html[data-theme="dark"] .hero .muted,html[data-theme="dark"] .page>.muted{color:#B2C3B5!important}
+html[data-theme="dark"] .prog b,html[data-theme="dark"] .lesson b,html[data-theme="dark"] #libraryResult,html[data-theme="dark"] h3{color:#F1F0E8!important}
+/* Header: no redundant Circle Key label; key visible only on Circle tab. */
+header{padding-left: max(16px, env(safe-area-inset-left))!important;padding-right:max(16px,env(safe-area-inset-right))!important}
+.header-right{gap:8px!important}.headkey{width:auto!important;min-width:70px;max-width:80px;text-align:right;font-size:0!important;line-height:1.2}.headkey strong{font-size:12px!important;white-space:nowrap}
+@media(max-width:390px){.brand{font-size:12px!important}.headkey{min-width:61px;max-width:68px}.header-right #themeToggle{min-width:38px;min-height:38px}}
+/* v0.9.15: content can scroll above fixed bottom navigation. Native root owns Android insets. */
+.app{padding-bottom:110px!important}
+html,body{overflow-x:hidden}
+@media(max-width:390px){.brand{letter-spacing:0!important;font-size:12px!important}.header-right{gap:7px!important}}
+
+/* v0.9.16: native FrameLayout already handles Android navigation-bar insets.
+   Keep bottom tab bar compact, and reserve scroll clearance inside the page. */
+:root { --hl-bottom-tabs: 74px; }
+html, body { min-height: 100%; overflow-x: hidden; }
+.app { padding-bottom: calc(var(--hl-bottom-tabs) + 22px) !important; }
+nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  top: auto !important;
+  height: var(--hl-bottom-tabs) !important;
+  min-height: 0 !important;
+  max-height: var(--hl-bottom-tabs) !important;
+  padding: 4px 5px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  align-items: stretch !important;
+  grid-template-rows: minmax(0, 1fr) !important;
+  overflow: hidden !important;
+}
+nav button {
+  min-height: 0 !important;
+  height: 100% !important;
+  padding: 4px 2px !important;
+  line-height: 1.25 !important;
+}
+/* Sticky Chord Library actions sit just above the bottom navigation. */
+#chordsPage > .card:last-of-type { bottom: calc(var(--hl-bottom-tabs) + 6px) !important; }
+@media (display-mode: standalone) {
+  /* Android native container already applies system insets. */
+}
+
+/* v0.9.18 MIDNIGHT JAZZ — visual tokens only. Preserve layout and behavior. */
+html[data-theme="light"]{
+ --bg:#F7F5F0;--panel:#FFFFFF;--card:#E9EFF5;--line:#D7E0EA;--text:#202D40;--muted:#667587;
+ --blue:#B9743F;--cyan:#3862D1;--pink:#A788D6;--green:#B9743F;--amber:#B9743F;
+ color-scheme:light!important;
+}
+html[data-theme="dark"]{
+ --bg:#101827!important;--panel:#1F2A3F!important;--card:#2E3B52!important;--line:#40516B!important;
+ --text:#F5EFE6!important;--muted:#AEBBCB!important;--blue:#D89B62!important;
+ --cyan:#7C9AE6!important;--pink:#A788D6!important;--green:#D89B62!important;--amber:#D89B62!important;
+ color-scheme:dark!important;
+}
+/* LIGHT */
+html[data-theme="light"],html[data-theme="light"] body,html[data-theme="light"] .app{background:#F7F5F0!important;color:#202D40!important}
+html[data-theme="light"] header{background:#F7F5F0F5!important;border-color:#E2E5E9!important}
+html[data-theme="light"] nav{background:#FFFFFFF5!important;border-color:#D7E0EA!important}
+html[data-theme="light"] .brand,html[data-theme="light"] .brand span,html[data-theme="light"] .page>h2,html[data-theme="light"] .hero h2,html[data-theme="light"] h3{color:#202D40!important}
+html[data-theme="light"] .logo{background:#B9743F!important;color:#FFF!important}
+html[data-theme="light"] .card,html[data-theme="light"] .card .card,html[data-theme="light"] #chordsPage>.card:last-of-type{background:#FFFFFF!important;border-color:#E0E5EC!important;color:#202D40!important;box-shadow:0 5px 20px #1A29400C!important}
+html[data-theme="light"] .muted,html[data-theme="light"] label,html[data-theme="light"] .headkey{color:#667587!important}
+html[data-theme="light"] .headkey strong{color:#202D40!important}
+html[data-theme="light"] .circle{background:#EDF2F8!important;border-color:#E2EAF3!important;box-shadow:inset 0 0 0 1px #CCD9E9!important}
+html[data-theme="light"] .center,html[data-theme="light"] .keybtn:nth-of-type(n){background:#E9EFF5!important;color:#202D40!important;border-color:#CFDCEB!important;box-shadow:none!important}
+html[data-theme="light"] .center b{color:#202D40!important}
+html[data-theme="light"] .keybtn:nth-of-type(n) small{color:#667587!important}
+html[data-theme="light"] .keybtn.active:nth-of-type(n){background:#D99054!important;color:#182231!important;border-color:#B9743F!important;box-shadow:0 0 0 3px #B9743F24!important}
+html[data-theme="light"] .keybtn.active:nth-of-type(n) small{color:#202D40!important}
+html[data-theme="light"] .seg,html[data-theme="light"] .topicTabs{background:#E9EFF5!important;border-color:#D7E0EA!important}
+html[data-theme="light"] .seg button.active,html[data-theme="light"] .topicTabs button.active{background:#B9743F!important;color:white!important;box-shadow:none!important}
+html[data-theme="light"] .chord,html[data-theme="light"] .prog,html[data-theme="light"] .lesson,html[data-theme="light"] .modeChoice,html[data-theme="light"] .relativeMode{background:#E9EFF5!important;color:#202D40!important;border-color:#D7E0EA!important;box-shadow:none!important}
+html[data-theme="light"] .chord.active,html[data-theme="light"] .prog.active,html[data-theme="light"] .modeChoice.active{background:#F8E6D7!important;color:#202D40!important;border-color:#B9743F!important;box-shadow:inset 3px 0 #B9743F!important}
+html[data-theme="light"] .degree,html[data-theme="light"] .note,html[data-theme="light"] .pill,html[data-theme="light"] .formulaStep,html[data-theme="light"] .modeNote,html[data-theme="light"] .flowChord,html[data-theme="light"] #libraryResult .note{background:#E9EFF5!important;color:#202D40!important;border-color:#D3DFEC!important}
+html[data-theme="light"] .flowChord.hot,html[data-theme="light"] .character{background:#F6DDC5!important;color:#75421F!important;border-color:#D6A16F!important}
+html[data-theme="light"] .flowChord.alt{background:#EDE3F8!important;color:#67498E!important;border-color:#B8A0D9!important}
+html[data-theme="light"] .action,html[data-theme="light"] .action-secondary,html[data-theme="light"] #libraryArp,html[data-theme="light"] #mlAB{background:#E9EFF5!important;color:#202D40!important;border-color:#CFDCEB!important}
+html[data-theme="light"] .action-primary,html[data-theme="light"] #libraryPlay,html[data-theme="light"] #runProg,html[data-theme="light"] #mlPlay,html[data-theme="light"] #guidePlay{background:#B9743F!important;color:#FFFFFF!important;border-color:#B9743F!important;box-shadow:none!important}
+html[data-theme="light"] .mode-compare-panel,html[data-theme="light"] .modeCompare,html[data-theme="light"] .speedbox,html[data-theme="light"] #instView{background:#F4F6FA!important;border-color:#D7E0EA!important}
+html[data-theme="light"] .compare-choice{background:#E9EFF5!important;color:#202D40!important;border-color:#C7D6E7!important}
+html[data-theme="light"] .compare-choice.is-playing{background:#DBE6FC!important;border-color:#3862D1!important}
+html[data-theme="light"] select,html[data-theme="light"] .compare-choice select{background:#E9EFF5!important;color:#202D40!important;border-color:#D1DCE9!important}
+html[data-theme="light"] .why{background:#FFF4E5!important;color:#202D40!important;border-color:#B9743F!important}
+html[data-theme="light"] nav button{color:#667587!important}html[data-theme="light"] nav button.active{color:#8B4C26!important;background:#F4D9C1!important}
+html[data-theme="light"] #themeToggle{background:#E9EFF5!important;color:#202D40!important;border-color:#D1DCE9!important}
+html[data-theme="light"] .pk.chordtone{background:#C8DDF6!important}html[data-theme="light"] .pk.black.chordtone{background:#3862D1!important}html[data-theme="light"] .dot{background:#3862D1!important}
+/* DARK */
+html[data-theme="dark"],html[data-theme="dark"] body,html[data-theme="dark"] .app{background:#101827!important;color:#F5EFE6!important}
+html[data-theme="dark"] header{background:#101827F5!important;border-color:#34435A!important}
+html[data-theme="dark"] nav{background:#141F30F7!important;border-color:#34435A!important}
+html[data-theme="dark"] .brand,html[data-theme="dark"] .brand span,html[data-theme="dark"] .page>h2,html[data-theme="dark"] .hero h2,html[data-theme="dark"] h3{color:#F5EFE6!important}
+html[data-theme="dark"] .logo{background:#D89B62!important;color:#101827!important}
+html[data-theme="dark"] .card,html[data-theme="dark"] .card .card,html[data-theme="dark"] #chordsPage>.card:last-of-type{background:#1F2A3F!important;border-color:#34465F!important;color:#F5EFE6!important;box-shadow:0 6px 24px #00000022!important}
+html[data-theme="dark"] .muted,html[data-theme="dark"] label,html[data-theme="dark"] .headkey,html[data-theme="dark"] .hero .muted{color:#AEBBCB!important}
+html[data-theme="dark"] .headkey strong{color:#F5EFE6!important}
+html[data-theme="dark"] .circle{background:#16243A!important;border-color:#1D304B!important;box-shadow:inset 0 0 0 1px #40516B!important}
+html[data-theme="dark"] .center,html[data-theme="dark"] .keybtn:nth-of-type(n){background:#223550!important;color:#F5EFE6!important;border-color:#455B77!important;box-shadow:none!important}
+html[data-theme="dark"] .center b{color:#D89B62!important}
+html[data-theme="dark"] .keybtn:nth-of-type(n) small{color:#AEBBCB!important}
+html[data-theme="dark"] .keybtn.active:nth-of-type(n){background:#D89B62!important;color:#101827!important;border-color:#F4C28F!important;box-shadow:0 0 0 3px #D89B6244!important}
+html[data-theme="dark"] .keybtn.active:nth-of-type(n) small{color:#101827!important}
+html[data-theme="dark"] .seg,html[data-theme="dark"] .topicTabs{background:#1B2C44!important;border-color:#34465F!important}
+html[data-theme="dark"] .seg button.active,html[data-theme="dark"] .topicTabs button.active{background:#D89B62!important;color:#101827!important;box-shadow:none!important}
+html[data-theme="dark"] .chord,html[data-theme="dark"] .prog,html[data-theme="dark"] .lesson,html[data-theme="dark"] .modeChoice,html[data-theme="dark"] .relativeMode{background:#233650!important;color:#F5EFE6!important;border-color:#40516B!important;box-shadow:none!important}
+html[data-theme="dark"] .chord.active,html[data-theme="dark"] .prog.active,html[data-theme="dark"] .modeChoice.active{background:#594333!important;color:#F5EFE6!important;border-color:#D89B62!important;box-shadow:inset 3px 0 #D89B62!important}
+html[data-theme="dark"] .degree,html[data-theme="dark"] .note,html[data-theme="dark"] .pill,html[data-theme="dark"] .formulaStep,html[data-theme="dark"] .modeNote,html[data-theme="dark"] .flowChord,html[data-theme="dark"] #libraryResult .note{background:#2E405B!important;color:#F5EFE6!important;border-color:#4A607C!important}
+html[data-theme="dark"] .flowChord.hot,html[data-theme="dark"] .character{background:#67452F!important;color:#FFD8B0!important;border-color:#B9814B!important}
+html[data-theme="dark"] .flowChord.alt{background:#433757!important;color:#E2D2FF!important;border-color:#8D71B8!important}
+html[data-theme="dark"] .action,html[data-theme="dark"] .action-secondary,html[data-theme="dark"] #libraryArp,html[data-theme="dark"] #mlAB{background:#263B57!important;color:#F5EFE6!important;border-color:#506887!important}
+html[data-theme="dark"] .action-primary,html[data-theme="dark"] #libraryPlay,html[data-theme="dark"] #runProg,html[data-theme="dark"] #mlPlay,html[data-theme="dark"] #guidePlay{background:#D89B62!important;color:#101827!important;border-color:#D89B62!important;box-shadow:none!important}
+html[data-theme="dark"] .mode-compare-panel,html[data-theme="dark"] .modeCompare,html[data-theme="dark"] .speedbox,html[data-theme="dark"] #instView{background:#1A293F!important;border-color:#40516B!important}
+html[data-theme="dark"] .compare-choice{background:#293E5C!important;color:#F5EFE6!important;border-color:#506887!important}
+html[data-theme="dark"] .compare-choice.is-playing{background:#344F85!important;border-color:#7C9AE6!important}
+html[data-theme="dark"] select,html[data-theme="dark"] .compare-choice select{background:#263B57!important;color:#F5EFE6!important;border-color:#506887!important}
+html[data-theme="dark"] .why{background:#29364A!important;color:#F5EFE6!important;border-color:#D89B62!important}
+html[data-theme="dark"] nav button{color:#AEBBCB!important}html[data-theme="dark"] nav button.active{color:#FFD2A8!important;background:#49382F!important}
+html[data-theme="dark"] #themeToggle{background:#263B57!important;color:#F5EFE6!important;border-color:#506887!important}
+html[data-theme="dark"] .pk.chordtone{background:#456C9E!important}html[data-theme="dark"] .pk.black.chordtone{background:#315181!important}html[data-theme="dark"] .dot{background:#7C9AE6!important}
+/* Shared musical semantics: blue mode choice, violet borrowed color, copper selected. */
+html[data-theme] .modeChoice.active{border-color:#7C9AE6!important}
+html[data-theme="dark"] .modeChoice.active{background:#344F85!important}
+html[data-theme="light"] .modeChoice.active{background:#DCE7FF!important}
+html[data-theme="dark"] .character{border-left-color:#A788D6!important}
+html[data-theme="light"] .character{border-left-color:#A788D6!important}
+html[data-theme] .note.on{background:#D89B62!important;color:#101827!important;border-color:#D89B62!important}
+html[data-theme] button:focus-visible,html[data-theme] select:focus-visible{outline:3px solid #7C9AE6!important;outline-offset:2px}
+/* v0.9.18: theme-aware Progression key selector */
+#progKey{background:var(--surface,#202D40);color:var(--text,#F5EFE6);border:1px solid var(--border,#455B76);padding:11px 12px;border-radius:10px;margin:8px;max-width:100%;font:inherit}
+</style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY <span>LAB</span></div><div class="header-right"><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div></header>
+<section id="circlePage" class="page"><div class="hero"><h2>Circle of Fifths</h2><div class="muted">Explore keys and harmonic relationships</div></div><div class="seg"><button data-mode="major" class="active">Major</button><button data-mode="minor">Minor</button></div><div id="circle" class="circle"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small></div></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3>Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord">▶ Play Chord</button><button class="action action-secondary" data-play="up">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
+<section id="progressionsPage" class="page hide"><h2>Progressions</h2><div id="progSub" class="muted"></div><label class="muted">Progression Key <select id="progKey" aria-label="Progression Key - independent of Circle"></select> <small class="muted" style="display:block;font-weight:400;margin-bottom:12px">Independent of Circle · 12 Major + 12 Minor</small></label><div id="progs"></div><div id="progDetail" class="card"></div></section>
+<section id="modesPage" class="page hide"><h2>Modes Lab</h2><div class="muted">Understand the character of every mode</div><div id="modesStandalone"></div></section><section id="harmonyPage" class="page hide">
+<h2>Harmony Lab</h2><div class="muted">Explore the language of harmony</div><div class="harmony-key-controls"><label for="harmonyKey">Harmony Key</label><select id="harmonyKey" aria-label="Harmony key"></select><span class="muted">Independent of Circle</span></div>
+<div class="topicTabs">
+<button class="active" data-htopic="secondary">Secondary</button>
+<button data-htopic="tritone">Tritone Sub</button>
+<button data-htopic="backdoor">Backdoor</button>
+<button data-htopic="modal">Modal</button>
+</div>
+<div id="harmonyLab"></div>
+</section>
+<section id="chordsPage" class="page hide"><h2>Chord Library</h2><div class="muted">Build, hear and understand every chord</div><div class="card"><div id="libraryPanel" style="margin-top:14px"><div class="muted">Choose a root and chord type. Formulas describe complete theoretical chord tones; real voicings may omit notes.</div><div class="row" style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap"><label>Root <select id="libraryRoot" style="background:#263b30;color:white;padding:10px;border-radius:9px"></select></label><label>Chord <select id="libraryType" style="background:#263b30;color:white;padding:10px;border-radius:9px;max-width:190px"></select></label></div><div id="libraryResult"></div></div></div><div class="card glow"><h3>Piano / Guitar</h3><div id="instChord" class="card glow"></div><div class="tabs"><button class="action active" data-inst="piano">Piano</button><button class="action" data-inst="guitar">Guitar</button></div><div id="instView" class="card" style="overflow-x:auto"></div></div><div class="card" style="position:sticky;bottom:78px;z-index:8;padding:10px;background:#FFFFFF;box-shadow:0 6px 20px #233B2B16"><div class="row" style="display:flex;gap:8px;margin-top:12px"><button class="action action-primary" id="libraryPlay">▶ Play Chord</button><button class="action action-secondary" id="libraryArp">♪ Play Arpeggio</button></div></div></section>
+<nav><button class="active" data-nav="circle">◎<br>Circle</button><button data-nav="chords">♩<br>Chords</button><button data-nav="progressions">≋<br>Progress</button><button data-nav="modes">◈<br>Modes</button><button data-nav="harmony">◇<br>Harmony</button></nav></div><script>
+const KEYDATA={major:[['C','0 ♯ / 0 ♭',['C','D','E','F','G','A','B']],['G','1 ♯',['G','A','B','C','D','E','F♯']],['D','2 ♯',['D','E','F♯','G','A','B','C♯']],['A','3 ♯',['A','B','C♯','D','E','F♯','G♯']],['E','4 ♯',['E','F♯','G♯','A','B','C♯','D♯']],['B','5 ♯',['B','C♯','D♯','E','F♯','G♯','A♯']],['F♯','6 ♯',['F♯','G♯','A♯','B','C♯','D♯','E♯']],['D♭','5 ♭',['D♭','E♭','F','G♭','A♭','B♭','C']],['A♭','4 ♭',['A♭','B♭','C','D♭','E♭','F','G']],['E♭','3 ♭',['E♭','F','G','A♭','B♭','C','D']],['B♭','2 ♭',['B♭','C','D','E♭','F','G','A']],['F','1 ♭',['F','G','A','B♭','C','D','E']]],minor:[['A','0 ♯ / 0 ♭',['A','B','C','D','E','F','G']],['E','1 ♯',['E','F♯','G','A','B','C','D']],['B','2 ♯',['B','C♯','D','E','F♯','G','A']],['F♯','3 ♯',['F♯','G♯','A','B','C♯','D','E']],['C♯','4 ♯',['C♯','D♯','E','F♯','G♯','A','B']],['G♯','5 ♯',['G♯','A♯','B','C♯','D♯','E','F♯']],['D♯','6 ♯',['D♯','E♯','F♯','G♯','A♯','B','C♯']],['B♭','5 ♭',['B♭','C','D♭','E♭','F','G♭','A♭']],['F','4 ♭',['F','G','A♭','B♭','C','D♭','E♭']],['C','3 ♭',['C','D','E♭','F','G','A♭','B♭']],['G','2 ♭',['G','A','B♭','C','D','E♭','F']],['D','1 ♭',['D','E','F','G','A','B♭','C']]]};
+const SIGDETAIL={major:[['0 ♯ / 0 ♭','No sharps or flats'],['1♯','F♯'],['2♯','F♯ · C♯'],['3♯','F♯ · C♯ · G♯'],['4♯','F♯ · C♯ · G♯ · D♯'],['5♯','F♯ · C♯ · G♯ · D♯ · A♯'],['6♯','F♯ · C♯ · G♯ · D♯ · A♯ · E♯'],['5♭','B♭ · E♭ · A♭ · D♭ · G♭'],['4♭','B♭ · E♭ · A♭ · D♭'],['3♭','B♭ · E♭ · A♭'],['2♭','B♭ · E♭'],['1♭','B♭']],minor:[['0 ♯ / 0 ♭','No sharps or flats'],['1♯','F♯'],['2♯','F♯ · C♯'],['3♯','F♯ · C♯ · G♯'],['4♯','F♯ · C♯ · G♯ · D♯'],['5♯','F♯ · C♯ · G♯ · D♯ · A♯'],['6♯','F♯ · C♯ · G♯ · D♯ · A♯ · E♯'],['5♭','B♭ · E♭ · A♭ · D♭ · G♭'],['4♭','B♭ · E♭ · A♭ · D♭'],['3♭','B♭ · E♭ · A♭'],['2♭','B♭ · E♭'],['1♭','B♭']]};
+const QUAL={major:['maj7','m7','m7','maj7','7','m7','m7♭5'],minor:['m7','m7♭5','maj7','m7','m7','maj7','7']},ROM={major:['I','ii','iii','IV','V','vi','viiø'],minor:['i','iiø','III','iv','v','VI','VII']};let mode='major',ki=0,degree=0,bpm=90,audio=null,token=0,inst='piano',activePc=null;const circle=document.querySelector('#circle');
+function data(){return KEYDATA[mode]}function sig(){return SIGDETAIL[mode][ki]}function cn(d){return data()[ki][2][d]+QUAL[mode][d]}function notes(d){return[0,2,4,6].map(x=>data()[ki][2][(d+x)%7])}const PCS={'C':0,'C♯':1,'D♭':1,'D':2,'D♯':3,'E♭':3,'E':4,'E♯':5,'F':5,'F♯':6,'G♭':6,'G':7,'G♯':8,'A♭':8,'A':9,'A♯':10,'B♭':10,'B':11};const CHROM=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];function pc(n){if(PCS[n]!==undefined)return PCS[n];let m=n.match(/^([A-G])([♯♭𝄫𝄪]*)$/);if(!m)return undefined;let v={C:0,D:2,E:4,F:5,G:7,A:9,B:11}[m[1]];for(let a of m[2])v+=a==='♯'?1:a==='♭'?-1:a==='𝄫'?-2:2;return (v+120)%12}
+const LETTERS=['C','D','E','F','G','A','B'],NATURAL=[0,2,4,5,7,9,11];
+function degreeParts(f){let match=f.match(/^(𝄫|♭|♯)?(\d+)$/);if(!match)throw Error('Invalid degree '+f);return {alter:match[1]==='𝄫'?-2:match[1]==='♭'?-1:match[1]==='♯'?1:0,degree:+match[2]}}
+function chordPitch(root,formula){
+ const ri=LETTERS.indexOf(root[0]),base=pc(root);
+ if(ri<0||base===undefined)throw Error('Unknown root '+root);
+ return formula.map(f=>{const {alter,degree}=degreeParts(f),letter=LETTERS[(ri+degree-1)%7],target=(base+NATURAL[(degree-1)%7]+alter)%12,diatonic=NATURAL[LETTERS.indexOf(letter)],delta=((target-diatonic+18)%12)-6;
+ if(Math.abs(delta)>2)throw Error('Spelling out of range '+root+' '+f);
+ return {name:letter+(delta===-2?'𝄫':delta===-1?'♭':delta===1?'♯':delta===2?'𝄪':''),midi:48+base+NATURAL[(degree-1)%7]+alter+12*Math.floor((degree-1)/7),pc:(target+12)%12,formula:f};
+ });
+}
+function chordVoice(tones){let bass=36+tones[0].pc;let top=tones.map((n,i)=>{let v=60+n.pc+12*Math.floor((parseInt(n.formula.replace(/[^0-9]/g,''),10)-1)/7);return v});return [bass,...top];}
+function playVoicing(tones,duration=1.2){chordVoice(tones).forEach((m,i)=>toneMidi(m,duration,i===0?.15:.065))}
+function toneMidi(m,len=2,vol=.075){try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();let o=audio.createOscillator(),g=audio.createGain(),t=audio.currentTime;o.type='triangle';o.frequency.value=440*Math.pow(2,(m-69)/12);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.035);g.gain.setValueAtTime(vol*.66,t+Math.max(.09,len-.2));g.gain.exponentialRampToValueAtTime(.0001,t+len);o.connect(g);g.connect(audio.destination);o.start(t);o.stop(t+len+.02)}catch(e){}}
+function tone(n,len=.6){toneMidi(60+pc(n),len)}
+function circleTones(d){let root=data()[ki][2][d],quality=QUAL[mode][d],f=quality==='maj7'?['1','3','5','7']:quality==='m7'?['1','♭3','5','♭7']:quality==='7'?['1','3','5','♭7']:['1','♭3','♭5','♭7'];return chordPitch(root,f)}
+function buildCircle(){circle.querySelectorAll('.keybtn').forEach(x=>x.remove());data().forEach((k,i)=>{let b=document.createElement('button');b.className='keybtn';let sd=SIGDETAIL[mode][i][1]; b.innerHTML=`<span>${k[0]}</span><small>${sd==='No sharps or flats'?'—':sd.replaceAll(' · ',' ')}</small>`;let a=i*30-90;b.style.transform=`rotate(${a}deg) translate(140px) rotate(${-a}deg)`;b.onclick=()=>selectKey(i);circle.appendChild(b)})}
+function light(n){activePc=n==null?null:pc(n);document.querySelectorAll('.note').forEach(x=>x.classList.toggle('on',x.dataset.pc==activePc));renderInstrument()}function playChord(cancelSequence=true){if(cancelSequence)token++;activePc=null;playVoicing(circleTones(degree));renderInstrument()}function renderNotes(a){document.querySelector('#arpNotes').innerHTML=a.map((n,i)=>`<span class="note" data-note="${i}" data-pc="${pc(n)}">${n}</span>${i<a.length-1?'→':''}`).join('')}function playArp(m){let a=notes(degree);if(m==='ud')a=[...a,...a.slice(0,-1).reverse().slice(1)];let beat=60000/bpm,my=++token;renderNotes(a);a.forEach((n,i)=>setTimeout(()=>{if(my!==token)return;light(n);tone(n,Math.min(.6,beat/1000*.82));if(i===a.length-1)setTimeout(()=>{if(my===token){activePc=null;renderInstrument()}},beat*.8)},i*beat))}
+function choose(d,play=true){degree=d;activePc=null;let a=notes(d),degrees=circleTones(d).map(n=>n.formula);document.querySelectorAll('.chord').forEach((x,i)=>x.classList.toggle('active',i===d));document.querySelector('#detail').innerHTML=`<span class="muted">${ROM[mode][d]} degree</span><div style="font-size:25px;font-weight:900">${cn(d)}</div><div class="degreeRow"><div class="degree d1">${degrees[0]}<br><small>${a[0]}</small></div><div class="degree d3">${degrees[1]}<br><small>${a[1]}</small></div><div class="degree d5">${degrees[2]}<br><small>${a[2]}</small></div><div class="degree d7">${degrees[3]}<br><small>${a[3]}</small></div></div>`;renderNotes(a);renderInstrument();if(play)playChord()}
+function selectKey(i){ki=i;token++;activePc=null;document.querySelectorAll('.keybtn').forEach((b,j)=>b.classList.toggle('active',i===j));let k=data()[i],label=k[0]+' '+(mode==='major'?'Major':'Minor');document.querySelector('#centerKey').textContent=k[0];document.querySelector('#centerMode').textContent=mode==='major'?'Major':'Minor';document.querySelector('#headerKey').innerHTML='<strong>'+label+'</strong>';document.querySelector('#keyName').textContent=label;document.querySelector('#signature').innerHTML=`<b>${sig()[0]}</b><br>${sig()[1]}`;document.querySelector('#scaleNotes').innerHTML=k[2].map(n=>`<span class="pill">${n}</span>`).join('');document.querySelector('#chords').innerHTML=k[2].map((n,d)=>`<button class="chord" data-chord="${d}"><span class="roman">${ROM[mode][d]}</span><b>${cn(d)}</b></button>`).join('');document.querySelectorAll('[data-chord]').forEach(b=>b.onclick=()=>choose(+b.dataset.chord));renderProgs();choose(0,false)}
+function progressions(){return progMode==='major'?[['ii – V – I',[1,4,0],'The essential jazz cadence.'],['I – vi – ii – V',[0,5,1,4],'Classic turnaround.'],['iii – vi – ii – V – I',[2,5,1,4,0],'Circle movement back to tonic.'],['IV – V – I',[3,4,0],'Classic major-key resolution.'],['I – IV – V – I',[0,3,4,0],'Fundamental tonic–subdominant–dominant movement.'],['vi – ii – V – I',[5,1,4,0],'Minor-start turnaround.'],['I – V – vi – IV',[0,4,5,3],'Popular four-chord progression.'],['ii – V – I – vi',[1,4,0,5],'Jazz cadence extended to a turnaround.']]:[['iiø – v – i',[1,4,0],'Natural-minor diatonic cadence: the v chord is minor. Classical/jazz minor iiø–V7–i uses a raised leading tone and is not represented by this natural-minor example.'],['i – iv – v – i',[0,3,4,0],'A core natural-minor movement.'],['i – VI – VII – i',[0,5,6,0],'Strong modal minor movement.'],['i – VII – VI – VII',[0,6,5,6],'Descending natural-minor color.'],['i – iv – VII – III',[0,3,6,2],'Natural-minor diatonic movement.'],['VI – VII – i',[5,6,0],'Natural-minor ascending resolution.']]}
+let progKi=0,progMode='major',selectedProg=null;
+function progIndex(){return progKi}
+function progChord(d){let k=KEYDATA[progMode][progIndex()][2][d];return k+QUAL[progMode][d]}
+function renderProgs(){
+ let pk=document.querySelector('#progKey');
+ pk.innerHTML=['major','minor'].flatMap(m=>KEYDATA[m].map((k,i)=>`<option value="${m}:${i}" ${m===progMode&&i===progIndex()?'selected':''}>${k[0]} ${m==='major'?'Major':'Minor'}</option>`)).join('');
+ pk.onchange=()=>{let [newMode,newIndex]=pk.value.split(':');progMode=newMode;progKi=Number(newIndex);selectedProg=null;token++;renderProgs()};
+ let p=progressions(),label=KEYDATA[progMode][progIndex()][0]+' '+(progMode==='major'?'Major':'Minor');
+ document.querySelector('#progSub').textContent='Common progressions in '+label;
+ document.querySelector('#progs').innerHTML=p.map((x,i)=>`<button class="prog ${i===selectedProg?'active':''}" data-prog="${i}"><b>${x[0]}</b><br><span class="muted">${x[1].map(progChord).join(' → ')}</span></button>`).join('');
+ document.querySelectorAll('[data-prog]').forEach(b=>b.onclick=()=>{selectedProg=+b.dataset.prog;renderProgs()});
+ let detail=document.querySelector('#progDetail');
+ if(selectedProg===null||!p[selectedProg]){detail.innerHTML='<span class="muted">Choose a progression to explore it.</span>';return}
+ let x=p[selectedProg],chords=x[1].map(progChord);
+ detail.innerHTML=`<h3>${x[0]}</h3><div class="notes">${chords.map((ch,j)=>`<span class="note progstep" data-progstep="${j}">${ch}</span>${j<chords.length-1?'→':''}`).join('')}</div><p class="muted">${x[2]}</p><button id="runProg" class="action" style="width:100%">▶ Play Progression</button>`;
+ document.querySelector('#runProg').onclick=()=>{let my=++token,ms=1500;chords.forEach((ch,i)=>setTimeout(()=>{if(my!==token)return;document.querySelectorAll('.progstep').forEach((el,j)=>el.classList.toggle('on',j===i));playVoicing(parseChord(ch))},i*ms));setTimeout(()=>{if(my===token)document.querySelectorAll('.progstep').forEach(el=>el.classList.remove('on'))},chords.length*ms)};
+}
+function renderInstrument(){let tones=new Set((libraryNotes.length?libraryNotes:notes(degree)).map(pc)),v=document.querySelector('#instView');if(inst==='piano'){v.innerHTML='<div class="piano">'+CHROM.map((n,i)=>`<div class="pk ${[1,3,6,8,10].includes(i)?'black':''} ${tones.has(i)?'chordtone':''} ${activePc===i?'playing':''}">${n}</div>`).join('')+'</div>'}else{let tuning=[['e',4],['B',11],['G',7],['D',2],['A',9],['E',4]],h='<div class="fret"><div class="fc">Str</div>'+[0,1,2,3,4,5,6,7,8].map(f=>`<div class="fc">${f}</div>`).join('');tuning.forEach(s=>{h+=`<div class="fc"><b>${s[0]}</b></div>`;for(let f=0;f<=8;f++){let p=(s[1]+f)%12,on=tones.has(p);h+=`<div class="fc">${on?`<span class="dot ${activePc===p?'playing':''}">${CHROM[p]}</span>`:''}</div>`}});v.innerHTML='<div class="fretWrap">'+h+'</div></div>'}}
+
+
+const MODESLAB={
+ionian:{n:'Ionian',f:['1','2','3','4','5','6','7'],i:[0,2,4,5,7,9,11],c:'3',d:'The familiar major sound.',x:'lydian'},
+dorian:{n:'Dorian',f:['1','2','♭3','4','5','6','♭7'],i:[0,2,3,5,7,9,10],c:'6',d:'Minor color with a bright natural 6.',x:'aeolian'},
+phrygian:{n:'Phrygian',f:['1','♭2','♭3','4','5','♭6','♭7'],i:[0,1,3,5,7,8,10],c:'♭2',d:'Minor color with a tense flat 2.',x:'aeolian'},
+lydian:{n:'Lydian',f:['1','2','3','♯4','5','6','7'],i:[0,2,4,6,7,9,11],c:'♯4',d:'Major color with a floating sharp 4.',x:'ionian'},
+mixolydian:{n:'Mixolydian',f:['1','2','3','4','5','6','♭7'],i:[0,2,4,5,7,9,10],c:'♭7',d:'Major color with a dominant flat 7.',x:'ionian'},
+aeolian:{n:'Aeolian',f:['1','2','♭3','4','5','♭6','♭7'],i:[0,2,3,5,7,8,10],c:'♭6',d:'The natural minor sound.',x:'dorian'},
+locrian:{n:'Locrian',f:['1','♭2','♭3','4','♭5','♭6','♭7'],i:[0,1,3,5,6,8,10],c:'♭5',d:'Unstable minor color with a flat 5.',x:'phrygian'}};
+const MODELABORDER=['ionian','dorian','phrygian','lydian','mixolydian','aeolian','locrian'];
+const MODEKEYS=['C','G','D','A','E','B','F♯','F','B♭','E♭','A♭','D♭'];
+let selectedModeLab='dorian',modeView='same',modeKeyIndex=0,compareModeLab=null;
+function normModeNote(n){return n.replace('#','♯').replace('b','♭')}
+function modeFlat(root){return ['F','B♭','E♭','A♭','D♭'].includes(root)}
+function displayModeNote(n,flat){let sharp=n.replace('#','♯'),mp={'C#':'D♭','D#':'E♭','F#':'G♭','G#':'A♭','A#':'B♭'};return flat?(mp[n]||sharp):sharp}
+function mlNotes(root,key){return chordPitch(root,MODESLAB[key].f).map(n=>n.name)}
+function mlPlay(ns){let my=++token,root=pc(ns[0]),offsets=ns.map(n=>(pc(n)-root+12)%12);let sequence=[...offsets,...offsets.map(x=>x+12),24];sequence.forEach((off,i)=>setTimeout(()=>{if(my===token)toneMidi(48+root+off,.58,.095)},i*330));return sequence.length*330}
+function mlPills(ns,m){return ns.map((n,i)=>`<span class="modeNote ${m.f[i]===m.c?'character':''}">${n}<small style="display:block;color:var(--muted)">${m.f[i]}</small></span>`).join('')}
+function relativeFamily(root){let flat=modeFlat(root),r=pc(normModeNote(root)),offs=[0,2,4,5,7,9,11],names=['Ionian','Dorian','Phrygian','Lydian','Mixolydian','Aeolian','Locrian'];return offs.map((o,i)=>({root:displayModeNote(CHROM[(r+o)%12],flat),name:names[i],key:MODELABORDER[i]}))}
+function parentMajor(root,key){let offset=[0,2,4,5,7,9,11][MODELABORDER.indexOf(key)];let target=(pc(root)-offset+12)%12;return MODEKEYS.find(n=>pc(n)===target)||CHROM[target]}
+
+function modeDifferences(a,b){
+ const aa=MODESLAB[a].f,bb=MODESLAB[b].f;
+ return aa.map((v,i)=>v===bb[i]?null:`${i+1}. derece: ${v} → ${bb[i]}`).filter(Boolean);
+}
+function compareExplanation(a,b){
+ const diff=modeDifferences(a,b);
+ return diff.length===0?'Both modes use the same intervals.':`Listen for ${diff.join(' · ')}. The tonic stays the same; only these scale degrees change.`;
+}
+function playModeCompare(aNotes,bNotes,root,a,b){
+ const my=++token,stage=17*330+450;
+ function status(which){if(my!==token)return;const el=document.querySelector('#mlABStatus');if(el)el.textContent=which==='A'?`Now playing A · ${root} ${MODESLAB[a].n}`:which==='B'?`Now playing B · ${root} ${MODESLAB[b].n}`:'Comparison complete';const aBox=document.querySelector('#modeCompareA'),bBox=document.querySelector('#modeCompareB');if(aBox)aBox.classList.toggle('is-playing',which==='A');if(bBox)bBox.classList.toggle('is-playing',which==='B')}
+ function playSequence(ns,delay){let r=pc(ns[0]),offs=ns.map(n=>(pc(n)-r+12)%12),seq=[...offs,...offs.map(x=>x+12),24];seq.forEach((off,i)=>setTimeout(()=>{if(my===token)toneMidi(48+r+off,.58,.095)},delay+i*330))}
+ status('A');playSequence(aNotes,0);setTimeout(()=>status('B'),stage);playSequence(bNotes,stage);setTimeout(()=>status('done'),stage+17*330+250);
+}
+function renderModesStandalone(){
+ let host=document.querySelector('#modesStandalone');if(!host)return;let root=MODEKEYS[modeKeyIndex],m=MODESLAB[selectedModeLab],compareKey=compareModeLab&&compareModeLab!==selectedModeLab?compareModeLab:m.x,cmp=MODESLAB[compareKey],ns=mlNotes(root,selectedModeLab),cs=mlNotes(root,compareKey),fam=relativeFamily(root);
+ host.innerHTML=`<div class="card glow"><div class="modeKeyRow"><button id="modePrev" class="action">‹</button><div><div class="muted">KEY / TONIC</div><b style="font-size:28px">${root}</b></div><button id="modeNext" class="action">›</button></div><div class="seg" style="width:100%;margin:12px 0"><button class="${modeView==='same'?'active':''}" data-mview="same">Same Root</button><button class="${modeView==='relative'?'active':''}" data-mview="relative">Relative Family</button></div>${modeView==='same'?`<div class="muted">Keep ${root} as home. Change the mode and hear the color shift.</div><div class="modeChooser">${MODELABORDER.map(k=>`<button class="modeChoice ${k===selectedModeLab?'active':''}" data-ml="${k}">${MODESLAB[k].n}</button>`).join('')}</div><h3>${root} ${m.n}</h3><div class="muted">${m.d}</div><b>Formula</b><div class="formulaStrip">${m.f.map(v=>`<span class="formulaStep ${v===m.c?'character':''}">${v}</span>`).join('')}</div><b>Notes</b><div class="modeNotes">${mlPills(ns,m)}</div><div class="muted" style="margin:6px 0 12px">Parent major scale: <b>${parentMajor(root,selectedModeLab)}</b> · Same notes, different tonal center</div><div class="play-actions"><button id="mlPlay" class="action action-primary">▶ Play Scale</button></div><div class="mode-compare-panel"><div class="compare-title"><b>Compare Modes</b><span class="muted">Ear training · Same tonic</span></div><div class="compare-grid"><div id="modeCompareA" class="compare-choice"><small>A · Current mode</small><b>${root} ${m.n}</b></div><label id="modeCompareB" class="compare-choice"><small>B · Compare with</small><select id="mlCompareSelect" aria-label="Compare with mode">${MODELABORDER.filter(k=>k!==selectedModeLab).map(k=>`<option value="${k}" ${k===compareKey?'selected':''}>${root} ${MODESLAB[k].n}</option>`).join('')}</select></label></div><p class="compare-reason">${compareExplanation(selectedModeLab,compareKey)}</p><button id="mlAB" class="action action-secondary compare-play">▶ Play A → B</button><div id="mlABStatus" class="compare-status" aria-live="polite">Ready to compare ${root} ${m.n} and ${root} ${cmp.n}</div></div><div class="why"><b>✨ Character note: ${m.c}</b><div class="muted">${m.d}</div></div>`:`<div class="muted">All seven modes below share the notes of ${root} Ionian. Only “home” changes.</div><div class="relativeList">${fam.map(x=>`<button class="relativeMode" data-rel="${x.key}"><b>${x.root} ${x.name}</b><span>${x.key==='ionian'?'Parent major':'same notes'}</span></button>`).join('')}</div><div class="why"><b>Same notes, different home</b><div class="muted">${fam.map(x=>x.root+' '+x.name).join(' · ')}</div></div>`}</div>`;
+ host.querySelector('#modePrev').onclick=()=>{modeKeyIndex=(modeKeyIndex+MODEKEYS.length-1)%MODEKEYS.length;renderModesStandalone()};
+ host.querySelector('#modeNext').onclick=()=>{modeKeyIndex=(modeKeyIndex+1)%MODEKEYS.length;renderModesStandalone()};
+ host.querySelectorAll('[data-mview]').forEach(b=>b.onclick=()=>{modeView=b.dataset.mview;renderModesStandalone()});
+ host.querySelectorAll('[data-ml]').forEach(b=>b.onclick=()=>{selectedModeLab=b.dataset.ml;compareModeLab=null;renderModesStandalone()});
+ host.querySelectorAll('[data-rel]').forEach(b=>b.onclick=()=>{selectedModeLab=b.dataset.rel;compareModeLab=null;modeView='same';renderModesStandalone()});
+ let pick=host.querySelector('#mlCompareSelect');if(pick)pick.onchange=()=>{compareModeLab=pick.value;token++;renderModesStandalone()};let play=host.querySelector('#mlPlay'),ab=host.querySelector('#mlAB');if(play)play.onclick=()=>mlPlay(ns);if(ab)ab.onclick=()=>playModeCompare(ns,cs,root,selectedModeLab,compareKey);
+}
+// Harmony Explorer: independent tonic/mode; spell chords by letter and pitch class.
+const HARMONY={
+ secondary:{title:'Secondary Dominant',sub:'Temporarily make a diatonic chord feel like a tonic.'},
+ tritone:{title:'Tritone Substitution',sub:'Replace a dominant with another dominant a tritone away.'},
+ backdoor:{title:'Backdoor Dominant',sub:'A soulful alternative route back to the tonic.'},
+ modal:{title:'Modal Interchange',sub:'Borrow a chord from the parallel mode for a new color.'}
+};
+const HKEYS=[...KEYDATA.major.map(x=>({root:x[0],mode:'major'})),...KEYDATA.minor.map(x=>({root:x[0],mode:'minor'}))];
+let harmonyKeyIndex=0,htopic='secondary';
+const HLETTERS='CDEFGAB', HNATURAL_PC={C:0,D:2,E:4,F:5,G:7,A:9,B:11};
+function spelledRoot(tonic,offset,letterSteps){
+ const target=(pc(tonic)+offset+120)%12,letter=HLETTERS[(HLETTERS.indexOf(tonic[0])+letterSteps)%7];
+ let delta=(target-HNATURAL_PC[letter]+12)%12;if(delta>6)delta-=12;
+ const accidental=delta===0?'':delta===1?'♯':delta===-1?'♭':delta===2?null:delta===-2?null:null;
+ return accidental===null?CHROM[target]:letter+accidental;
+}
+function harmonyExample(topic,tonic,isMinor){
+ const n=(semitones,steps,quality)=>spelledRoot(tonic,semitones,steps)+quality;
+ const I=n(0,0,isMinor?'m7':'maj7'),tonicDom=n(0,0,'7');
+ if(!isMinor){
+  const ii=n(2,1,'m7'),V=n(7,4,'7'),sec=n(9,5,'7'),iv=n(5,3,'m7'),back=n(10,6,'7'),sub=n(1,1,'7');
+  if(topic==='secondary')return {normal:[I,sec,ii],roman:['I','V/ii','ii'],color:sec,why:`${sec} tonicizes ${ii}. Its raised third leads toward the root of the ii chord.`};
+  if(topic==='tritone')return {normal:[ii,V,I],alt:[ii,sub,I],roman:['ii','V','I'],color:sub,why:`${sub} replaces ${V}: their dominant sevenths contain enharmonically equivalent tritone guide tones. The substitute root approaches ${tonic} by semitone.`};
+  if(topic==='backdoor')return {normal:[iv,back,I],roman:['iv (borrowed)','♭VII7','I'],color:back,why:`${iv} and ${back} borrow parallel-minor color and resolve back to ${I}.`};
+  return {normal:[I,iv,I],roman:['I','iv (borrowed)','I'],color:iv,why:`${iv} is borrowed from the parallel minor; its lowered sixth adds color while ${tonic} remains home.`};
+ }
+ const ii=n(2,1,'m7♭5'),V=n(7,4,'7'),sub=n(1,1,'7'),iv=n(5,3,'m7'),back=n(10,6,'7'),majorIV=n(5,3,'7'),sec=n(2,1,'7');
+ if(topic==='secondary')return {normal:[I,sec,V,I],roman:['i','V/V','V','i'],color:sec,why:`${sec} is V/V: a secondary dominant resolving toward ${V} before returning to ${I}.`};
+ if(topic==='tritone')return {normal:[ii,V,I],alt:[ii,sub,I],roman:['iiø','V','i'],color:sub,why:`${sub} substitutes for ${V}, approaching the minor tonic chromatically. In minor keys the original ${V} uses a raised leading tone.`};
+ if(topic==='backdoor')return {normal:[iv,back,I],roman:['iv','♭VII7','i'],color:back,why:`${back} offers a modal backdoor resolution to minor tonic ${I}; it is a coloristic alternative rather than the classical dominant.`};
+ return {normal:[I,majorIV,I],roman:['i','IV7 (Dorian)','i'],color:majorIV,why:`${majorIV} is borrowed from parallel Dorian. Its natural sixth contrasts with the lowered sixth of natural minor.`};
+}
+function harmonyGuide(ch){let notes=parseChord(ch);return notes.slice(0,4)}
+function initHarmonyKeys(){let select=document.querySelector('#harmonyKey');select.innerHTML=HKEYS.map((k,i)=>`<option value="${i}">${k.root} ${k.mode==='major'?'Major':'Minor'}</option>`).join('');select.value=harmonyKeyIndex;select.onchange=()=>{harmonyKeyIndex=+select.value;token++;renderHarmony()}}
+function parseChord(ch){
+ let m=ch.match(/^([A-G](?:♯|♭)?)(.*)$/);if(!m)throw Error('Chord '+ch);
+ let q=m[2],f=q==='m7♭5'?'1 ♭3 ♭5 ♭7':q==='m7'?'1 ♭3 5 ♭7':q==='7'?'1 3 5 ♭7':q==='maj7'?'1 3 5 7':null;
+ if(!f)throw Error('Unsupported chord '+ch);
+ return chordPitch(m[1],f.split(' '));
+}
+function playNamedChord(ch,delay=0,my=token){
+ setTimeout(()=>{if(my!==token)return;playVoicing(parseChord(ch))},delay);
+}
+function playNamedProgression(arr){
+ let my=++token, ms=1500;
+ arr.forEach((ch,i)=>{playNamedChord(ch,i*ms,my);setTimeout(()=>{if(my!==token)return;document.querySelectorAll('.hstep').forEach((e,j)=>e.classList.toggle('on',j===i))},i*ms)});
+ setTimeout(()=>{if(my===token)document.querySelectorAll('.hstep').forEach(e=>e.classList.remove('on'))},arr.length*ms);
+}
+function harmonyFlow(arr,roman){
+ return `<div class="flow">${arr.map((c,i)=>`<div class="flowChord hstep ${i===1?'hot':''}"><small class="muted">${roman[i]||''}</small><br>${c}</div>${i<arr.length-1?'<span class="arrow">→</span>':''}`).join('')}</div>`;
+}
+function renderHarmony(){
+ const k=HKEYS[harmonyKeyIndex],h=HARMONY[htopic],example=harmonyExample(htopic,k.root,k.mode==='minor'),alt=example.alt||null;
+ const tones=harmonyGuide(example.color),roman=example.roman;
+ document.querySelector('#harmonyLab').innerHTML=`<div class="card glow"><h3>${h.title}</h3><div class="muted">${k.root} ${k.mode==='major'?'Major':'Minor'} · ${h.sub}</div>${harmonyFlow(example.normal,roman)}
+ <div class="ab"><button id="hPlay" class="action action-primary">▶ Play</button>${alt?'<button id="hAB" class="action action-secondary">A/B Compare</button>':'<button id="hChord" class="action action-secondary">♬ Hear Color</button>'}</div>
+ ${alt?`<div id="altFlow" style="margin-top:10px"><div class="muted">Substitution</div>${harmonyFlow(alt,roman)}</div>`:''}
+ <div class="why"><b>💡 WHY?</b><div class="muted" style="margin-top:5px">${example.why}</div></div></div>
+ <div class="card"><b>${example.color} · Chord tones</b><div class="degreeRow">${tones.map((n,i)=>`<div class="degree ${['d1','d3','d5','d7'][i]}">${n.name}</div>`).join('')}</div><button id="guidePlay" class="action action-primary" style="width:100%">▶ Play Chord Tones</button><div class="muted" style="margin-top:9px">Hear these notes one by one, then together.</div></div>`;
+ document.querySelector('#hPlay').onclick=()=>playNamedProgression(example.normal);
+ if(alt)document.querySelector('#hAB').onclick=()=>{playNamedProgression(example.normal);let my=token;setTimeout(()=>{if(my===token)playNamedProgression(alt)},example.normal.length*1500+500)};
+ else document.querySelector('#hChord').onclick=()=>{token++;playVoicing(tones)};
+ document.querySelector('#guidePlay').onclick=()=>{let my=++token;tones.forEach((n,i)=>setTimeout(()=>{if(my===token)tone(n.name,.4)},i*400));setTimeout(()=>{if(my===token)playVoicing(tones)},tones.length*400+250)};
+}
+document.querySelectorAll('[data-htopic]').forEach(b=>b.onclick=()=>{htopic=b.dataset.htopic;document.querySelectorAll('[data-htopic]').forEach(x=>x.classList.toggle('active',x===b));renderHarmony()});
+document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;ki=0;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));buildCircle();selectKey(0)});
+document.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>b.dataset.play==='chord'?playChord():playArp(b.dataset.play));
+document.querySelectorAll('[data-iplay]').forEach(b=>b.onclick=()=>b.dataset.iplay==='chord'?playChord():playArp(b.dataset.iplay));
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{document.querySelector('#headerKey').classList.toggle('hide',b.dataset.nav!=='circle');token++;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));['circle','chords','progressions','modes','harmony'].forEach(x=>document.querySelector('#'+x+'Page').classList.toggle('hide',x!==b.dataset.nav));if(b.dataset.nav==='chords'){libraryBuild();renderInstrument()};if(b.dataset.nav==='modes')renderModesStandalone()});
+document.querySelectorAll('[data-inst]').forEach(b=>b.onclick=()=>{inst=b.dataset.inst;document.querySelectorAll('[data-inst]').forEach(x=>x.classList.toggle('active',x===b));renderInstrument()});
+
+const LIBTYPES=[
+['Major','', '1 3 5'],['Power chord','5','1 5'],['Sus2','sus2','1 2 5'],['Sus4','sus4','1 4 5'],
+['Add9','add9','1 3 5 9'],['Major 6','6','1 3 5 6'],['6/9','6/9','1 3 5 6 9'],
+['Major 7','maj7','1 3 5 7'],['Major 9','maj9','1 3 5 7 9'],['Major 7 ♯11','maj7♯11','1 3 5 7 ♯11'],
+['Major 13','maj13','1 3 5 7 9 11 13'],
+['Minor','m','1 ♭3 5'],['Minor add9','m(add9)','1 ♭3 5 9'],['Minor 6','m6','1 ♭3 5 6'],
+['Minor ♭6','m(♭6)','1 ♭3 5 ♭6'],['Minor 6/9','m6/9','1 ♭3 5 6 9'],
+['Minor 7','m7','1 ♭3 5 ♭7'],['Half-diminished','m7♭5','1 ♭3 ♭5 ♭7'],
+['Minor 9','m9','1 ♭3 5 ♭7 9'],['Minor 11','m11','1 ♭3 5 ♭7 9 11'],
+['Minor 13','m13','1 ♭3 5 ♭7 9 11 13'],['Minor-major 7','m(maj7)','1 ♭3 5 7'],
+['Dominant 7','7','1 3 5 ♭7'],['7sus4','7sus4','1 4 5 ♭7'],
+['Dominant 9','9','1 3 5 ♭7 9'],['9sus4','9sus4','1 4 5 ♭7 9'],
+['Dominant 11','11','1 3 5 ♭7 9 11'],['Dominant 13','13','1 3 5 ♭7 9 11 13'],
+['13sus4','13sus4','1 4 5 ♭7 9 13'],
+['7♭9','7♭9','1 3 5 ♭7 ♭9'],['7♯9','7♯9','1 3 5 ♭7 ♯9'],['7♯11','7♯11','1 3 5 ♭7 ♯11'],
+['Diminished','dim','1 ♭3 ♭5'],['Diminished 7','dim7','1 ♭3 ♭5 𝄫7'],['Augmented','aug','1 3 ♯5']
+];
+const LIBROOTS=['C','C♯','D','E♭','E','F','F♯','G','A♭','A','B♭','B'];
+
+let libraryNotes=[];
+function libraryBuild(){
+const root=document.querySelector('#libraryRoot').value,entry=LIBTYPES[+document.querySelector('#libraryType').value],r=pc(root);
+const formula=entry[2].split(' ');
+const pitches=chordPitch(root,formula);
+libraryNotes=pitches.map(x=>x.name);
+let rootLabel=root+entry[1];
+document.querySelector('#instChord').innerHTML=`<span class="muted">Selected chord</span><div style="font-size:26px;font-weight:900">${rootLabel}</div><div>${libraryNotes.join(' · ')}</div>`;
+renderInstrument();
+document.querySelector('#libraryResult').innerHTML=`<h2 style="margin:8px 0">${rootLabel}</h2><div class="muted">${entry[0]}</div><div style="margin:12px 0"><b>Formula</b><div class="modeNotes">${formula.map((f,i)=>`<span class="modeNote">${f}</span>`).join('')}</div></div><b>Notes</b><div class="modeNotes">${libraryNotes.map(n=>`<span class="modeNote">${n}</span>`).join('')}</div><details class="muted" style="font-size:12px;margin-top:8px"><summary>Notation note</summary>Notes follow interval-based spelling. Extended voicings may omit tones; 11 may clash with the major 3rd.</details>`;
+
+}
+(function initLibrary(){
+let rr=document.querySelector('#libraryRoot'),tt=document.querySelector('#libraryType');
+rr.innerHTML=LIBROOTS.map(x=>`<option value="${x}">${x}</option>`).join('');
+tt.innerHTML=LIBTYPES.map((x,i)=>`<option value="${i}">${x[0]}</option>`).join('');
+rr.onchange=libraryBuild;tt.onchange=libraryBuild;
+
+document.querySelector('#libraryPlay').onclick=()=>{token++;playVoicing(chordPitch(document.querySelector('#libraryRoot').value,LIBTYPES[+document.querySelector('#libraryType').value][2].split(' ')))};
+document.querySelector('#libraryArp').onclick=()=>{let my=++token;chordPitch(document.querySelector('#libraryRoot').value,LIBTYPES[+document.querySelector('#libraryType').value][2].split(' ')).forEach((n,i)=>setTimeout(()=>{if(my===token)toneMidi(n.midi,.4)},i*400))};libraryBuild();
+})();
+
+initHarmonyKeys();renderHarmony();renderModesStandalone();buildCircle();selectKey(0);
+
+// Appearance preference; system is the default. No billing or account features.
+(function(){
+ const themes=['system','light','dark'];let preference='system';
+ try{let stored=localStorage.getItem('harmony-theme');if(themes.includes(stored))preference=stored}catch(e){}
+ const mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+ const nativeDark=()=>{try{return window.AndroidAppearance && window.AndroidAppearance.isDarkMode()}catch(e){return null}};
+ function apply(){let osDark=nativeDark();let actual=preference==='system'?(osDark===null?(mq&&mq.matches?'dark':'light'):(osDark?'dark':'light')):preference;document.documentElement.dataset.theme=actual;let b=document.querySelector('#themeToggle');if(b){b.textContent=preference==='system'?'◐':preference==='light'?'☼':'☾';b.title='Appearance: '+preference+' (tap to change)';b.setAttribute('aria-label','Appearance: '+preference+'. Tap to change')}}
+ document.querySelector('#themeToggle').onclick=()=>{preference=themes[(themes.indexOf(preference)+1)%themes.length];try{localStorage.setItem('harmony-theme',preference)}catch(e){}apply()};
+ window.refreshHarmonyAppearance=apply; if(mq){if(mq.addEventListener)mq.addEventListener('change',apply);else if(mq.addListener)mq.addListener(apply)}apply();
+})();
+</script></body></html>
