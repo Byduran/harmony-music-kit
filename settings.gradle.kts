@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HarmonyLab"
+rootProject.name = "HarmonyMusicKit"
 include(":app")
