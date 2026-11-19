@@ -1,3 +1,12 @@
+# Harmony Music Kit v0.9.28 (sound prototype)
+
+- New Sound selector under the header: Classic (original, unchanged), Piano, Guitar, Synth guitar. The choice is remembered
+- Piano: Salamander Grand Piano samples (Alexander Holm, CC BY 3.0)
+- Guitar: FluidR3_GM acoustic nylon guitar samples (CC BY 3.0); chords are strummed low to high
+- Synth guitar: Karplus-Strong plucked-string synthesis, no sample files
+- Samples load on demand from `web/sounds/` (~1.2 MB); Classic plays until they are ready
+- Levels balanced so switching modes does not jump in volume
+
 # Harmony Music Kit v0.9.27
 
 Fixes on top of v0.9.26:

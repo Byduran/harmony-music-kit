@@ -48,3 +48,8 @@ assert(!/derece/.test(vm.runInContext("compareExplanation('dorian','aeolian')",c
 assert.equal(vm.runInContext("noteNameFor(['E','G♯','B'],8)",ctx),'G♯');
 assert.equal(vm.runInContext("noteNameFor(['F','A♭','C'],8)",ctx),'A♭');
 console.log('PASS review fixes: relative spelling, ascending arpeggios, compare text, fretboard spelling');
+// v0.9.28 sound engine
+const grid=[];for(let m=33;m<=96;m+=3)grid.push(m);
+for(let m=36;m<=96;m++){const k=vm.runInContext(`nearestKey(${JSON.stringify(grid)},${m})`,ctx);assert(Math.abs(k-m)<=1,`nearest sample within a semitone for ${m}`)}
+assert.equal(vm.runInContext('soundMode',ctx),'classic');
+console.log('PASS sound engine: sample grid covers every note within one semitone; Classic stays default');
