@@ -10,8 +10,8 @@ android {
         applicationId = "com.harmonylab.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 29
-        versionName = "0.9.26"
+        versionCode = 30
+        versionName = "0.9.27"
     }
 
     sourceSets.getByName("main").assets.setSrcDirs(listOf("../web"))
