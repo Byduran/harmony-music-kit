@@ -1,9 +1,7 @@
 # Harmony Music Kit v0.9.30
 
-- The app opens in English by default; Turkish is chosen from the new flag menu in the header (🇬🇧 English / 🇹🇷 Türkçe) and remembered
-- Flags are drawn as SVG so they look the same on Android, iPhone and Windows
-- Menu closes on outside tap or Escape; keyboard and screen-reader friendly
-- Logo no longer squeezes on narrow (360px) screens
+- The app opens in English by default; the EN/TR button in the header switches to Turkish and the choice is remembered
+- The app name in the header no longer gets cut off on phones (checked with Roboto at 360–411px)
 
 # Harmony Music Kit v0.9.29
 
