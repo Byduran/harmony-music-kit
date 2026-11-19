@@ -34,3 +34,17 @@ for(const k of vm.runInContext('HKEYS',ctx))for(const topic of ['secondary','tri
  assert(result.why.length>20);
 }
 console.log('PASS circle chord consistency:',circleCount,'dynamic harmony chords:',harmonyCount);
+// v0.9.27 review fixes
+for(const r of vm.runInContext('MODEKEYS',ctx)){
+ assert.deepEqual(Array.from(vm.runInContext(`relativeFamily(${JSON.stringify(r)})`,ctx),x=>x.root),Array.from(vm.runInContext(`mlNotes(${JSON.stringify(r)},'ionian')`,ctx)),`relative family ${r}`);
+}
+for(const mode of ['major','minor'])for(let k=0;k<12;k++)for(let d=0;d<7;d++){
+ vm.runInContext(`mode=${JSON.stringify(mode)};ki=${k};degree=${d}`,ctx);
+ const up=Array.from(vm.runInContext("arpSequence('up')",ctx),x=>x.midi);
+ for(let i=1;i<up.length;i++)assert(up[i]>up[i-1],`arpeggio ascends ${mode} ${k} ${d}`);
+ assert.deepEqual(Array.from(vm.runInContext("arpSequence('ud')",ctx),x=>x.midi),[...up,...up.slice(0,-1).reverse()]);
+}
+assert(!/derece/.test(vm.runInContext("compareExplanation('dorian','aeolian')",ctx)));
+assert.equal(vm.runInContext("noteNameFor(['E','G♯','B'],8)",ctx),'G♯');
+assert.equal(vm.runInContext("noteNameFor(['F','A♭','C'],8)",ctx),'A♭');
+console.log('PASS review fixes: relative spelling, ascending arpeggios, compare text, fretboard spelling');
