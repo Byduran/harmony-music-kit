@@ -317,15 +317,10 @@ html[data-theme="light"] .hmk-player .hmk-step{background:#E9EFF5;border-color:#
 html[data-theme="light"] .hmk-player .hmk-step.on,html[data-theme="light"] .hmk-controls button{background:#B9743F;border-color:#B9743F;color:#fff}
 html[data-theme="light"] .hmk-player input{accent-color:#B9743F}
 
-/* v0.9.28: sound selector and credits */
-header{flex-wrap:wrap}
-.soundbar{flex-basis:100%;display:flex;align-items:center;gap:8px;margin-top:8px}
-.soundbar .soundlabel{font-size:12px;font-weight:700;color:var(--muted)}
-.soundbar .soundseg{margin:0!important;width:auto!important;min-width:210px}
-.soundbar .soundseg button{min-height:32px!important;font-size:13px;padding:0 12px}
-.soundbar #soundStatus{font-size:11px}
+/* v0.9.28: sound loading status and credits */
+.sound-status{font-size:11px;min-height:15px;margin-top:6px;text-align:center}
 .credits{font-size:10px;line-height:1.4;text-align:center;padding:4px 18px 0;opacity:.8}
-</style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div><div class="soundbar"><span class="soundlabel">Sound</span><div id="soundMode" class="seg soundseg" role="radiogroup" aria-label="Sound"></div><span id="soundStatus" class="muted" aria-live="polite"></span></div></header>
+</style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div></header>
 <section id="circlePage" class="page"><div class="hero"><h2>Circle of Fifths</h2><div class="muted">Explore keys and harmonic relationships</div></div><div class="seg"><button data-mode="major" class="active">Major</button><button data-mode="minor">Minor</button></div><div id="circle" class="circle"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small></div></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3>Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord">▶ Play Chord</button><button class="action action-secondary" data-play="up">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
 <section id="progressionsPage" class="page hide"><h2>Progressions</h2><div id="progSub" class="muted"></div><label class="muted">Progression Key <select id="progKey" aria-label="Progression Key - independent of Circle"></select> <small class="muted" style="display:block;font-weight:400;margin-bottom:12px">Independent of Circle · 12 Major + 12 Minor</small></label><div id="progs"></div><div id="progHint" class="muted" style="text-align:center;margin:10px 0">Tap a progression to play it instantly.</div></section>
 <section id="modesPage" class="page hide"><h2>Modes Lab</h2><div class="muted">Understand the character of every mode</div><div id="modesStandalone"></div></section><section id="harmonyPage" class="page hide">
@@ -338,7 +333,7 @@ header{flex-wrap:wrap}
 </div>
 <div id="harmonyLab"></div>
 </section>
-<section id="chordsPage" class="page hide"><h2>Chord Library</h2><div class="muted">Build, hear and understand every chord</div><div class="card"><div id="libraryPanel" style="margin-top:14px"><div class="muted">Choose a root and chord type. Formulas describe complete theoretical chord tones; real voicings may omit notes.</div><div class="row" style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap"><label>Root <select id="libraryRoot" style="background:#263b30;color:white;padding:10px;border-radius:9px"></select></label><label>Chord <select id="libraryType" style="background:#263b30;color:white;padding:10px;border-radius:9px;max-width:190px"></select></label></div><div id="libraryResult"></div></div></div><div class="card glow"><h3>Piano / Guitar</h3><div id="instChord" class="card glow"></div><div class="tabs"><button class="action active" data-inst="piano">Piano</button><button class="action" data-inst="guitar">Guitar</button></div><div id="instView" class="card" style="overflow-x:auto"></div></div><div class="card" style="position:sticky;bottom:78px;z-index:8;padding:10px;background:#FFFFFF;box-shadow:0 6px 20px #233B2B16"><div class="row" style="display:flex;gap:8px;margin-top:12px"><button class="action action-primary" id="libraryPlay">▶ Play Chord</button><button class="action action-secondary" id="libraryArp">♪ Play Arpeggio</button></div></div></section>
+<section id="chordsPage" class="page hide"><h2>Chord Library</h2><div class="muted">Build, hear and understand every chord</div><div class="card"><div id="libraryPanel" style="margin-top:14px"><div class="muted">Choose a root and chord type. Formulas describe complete theoretical chord tones; real voicings may omit notes.</div><div class="row" style="display:flex;gap:8px;margin:12px 0;flex-wrap:wrap"><label>Root <select id="libraryRoot" style="background:#263b30;color:white;padding:10px;border-radius:9px"></select></label><label>Chord <select id="libraryType" style="background:#263b30;color:white;padding:10px;border-radius:9px;max-width:190px"></select></label></div><div id="libraryResult"></div></div></div><div class="card glow"><h3>Piano / Guitar</h3><div id="instChord" class="card glow"></div><div class="tabs"><button class="action active" data-inst="piano">Piano</button><button class="action" data-inst="guitar">Guitar</button></div><div id="soundStatus" class="muted sound-status" aria-live="polite"></div><div id="instView" class="card" style="overflow-x:auto"></div></div><div class="card" style="position:sticky;bottom:78px;z-index:8;padding:10px;background:#FFFFFF;box-shadow:0 6px 20px #233B2B16"><div class="row" style="display:flex;gap:8px;margin-top:12px"><button class="action action-primary" id="libraryPlay">▶ Play Chord</button><button class="action action-secondary" id="libraryArp">♪ Play Arpeggio</button></div></div></section>
 <footer class="credits muted">Piano samples: Salamander Grand Piano by Alexander Holm (CC BY 3.0). Guitar samples: FluidR3_GM acoustic nylon guitar (CC BY 3.0).</footer><nav><button class="active" data-nav="circle">◎<br>Circle</button><button data-nav="chords">♩<br>Chords</button><button data-nav="progressions">≋<br>Progress</button><button data-nav="modes">◈<br>Modes</button><button data-nav="harmony">◇<br>Harmony</button></nav></div><script>
 const KEYDATA={major:[['C','0 ♯ / 0 ♭',['C','D','E','F','G','A','B']],['G','1 ♯',['G','A','B','C','D','E','F♯']],['D','2 ♯',['D','E','F♯','G','A','B','C♯']],['A','3 ♯',['A','B','C♯','D','E','F♯','G♯']],['E','4 ♯',['E','F♯','G♯','A','B','C♯','D♯']],['B','5 ♯',['B','C♯','D♯','E','F♯','G♯','A♯']],['F♯','6 ♯',['F♯','G♯','A♯','B','C♯','D♯','E♯']],['D♭','5 ♭',['D♭','E♭','F','G♭','A♭','B♭','C']],['A♭','4 ♭',['A♭','B♭','C','D♭','E♭','F','G']],['E♭','3 ♭',['E♭','F','G','A♭','B♭','C','D']],['B♭','2 ♭',['B♭','C','D','E♭','F','G','A']],['F','1 ♭',['F','G','A','B♭','C','D','E']]],minor:[['A','0 ♯ / 0 ♭',['A','B','C','D','E','F','G']],['E','1 ♯',['E','F♯','G','A','B','C','D']],['B','2 ♯',['B','C♯','D','E','F♯','G','A']],['F♯','3 ♯',['F♯','G♯','A','B','C♯','D','E']],['C♯','4 ♯',['C♯','D♯','E','F♯','G♯','A','B']],['G♯','5 ♯',['G♯','A♯','B','C♯','D♯','E','F♯']],['D♯','6 ♯',['D♯','E♯','F♯','G♯','A♯','B','C♯']],['B♭','5 ♭',['B♭','C','D♭','E♭','F','G♭','A♭']],['F','4 ♭',['F','G','A♭','B♭','C','D♭','E♭']],['C','3 ♭',['C','D','E♭','F','G','A♭','B♭']],['G','2 ♭',['G','A','B♭','C','D','E♭','F']],['D','1 ♭',['D','E','F','G','A','B♭','C']]]};
 const SIGDETAIL={major:[['0 ♯ / 0 ♭','No sharps or flats'],['1♯','F♯'],['2♯','F♯ · C♯'],['3♯','F♯ · C♯ · G♯'],['4♯','F♯ · C♯ · G♯ · D♯'],['5♯','F♯ · C♯ · G♯ · D♯ · A♯'],['6♯','F♯ · C♯ · G♯ · D♯ · A♯ · E♯'],['5♭','B♭ · E♭ · A♭ · D♭ · G♭'],['4♭','B♭ · E♭ · A♭ · D♭'],['3♭','B♭ · E♭ · A♭'],['2♭','B♭ · E♭'],['1♭','B♭']],minor:[['0 ♯ / 0 ♭','No sharps or flats'],['1♯','F♯'],['2♯','F♯ · C♯'],['3♯','F♯ · C♯ · G♯'],['4♯','F♯ · C♯ · G♯ · D♯'],['5♯','F♯ · C♯ · G♯ · D♯ · A♯'],['6♯','F♯ · C♯ · G♯ · D♯ · A♯ · E♯'],['5♭','B♭ · E♭ · A♭ · D♭ · G♭'],['4♭','B♭ · E♭ · A♭ · D♭'],['3♭','B♭ · E♭ · A♭'],['2♭','B♭ · E♭'],['1♭','B♭']]};
@@ -355,10 +350,12 @@ function chordPitch(root,formula){
  });
 }
 function chordVoice(tones){let bass=36+tones[0].pc;let top=tones.map((n,i)=>{let v=60+n.pc+12*Math.floor((parseInt(n.formula.replace(/[^0-9]/g,''),10)-1)/7);return v});return [bass,...top];}
-function playVoicing(tones,duration=1.2){const v=chordVoice(tones),strum=soundMode==='guitar',order=[...v].sort((a,b)=>a-b);v.forEach((m,i)=>toneMidi(m,duration,i===0?.15:.065,strum?order.indexOf(m)*.022:0))}
+function playVoicing(tones,duration=1.2){const v=chordVoice(tones),strum=activeSound()==='guitar',order=[...v].sort((a,b)=>a-b);v.forEach((m,i)=>toneMidi(m,duration,i===0?.15:.065,strum?order.indexOf(m)*.022:0))}
 // v0.9.28 sound engine: sampled piano (default) and sampled guitar. The original oscillator (classicTone) only plays while samples load.
-const SOUND_MODES={piano:'🎹 Piano',guitar:'🎸 Guitar'},SOUND_BANK={piano:'piano',guitar:'nylon'};
-let soundMode='piano';try{let s=localStorage.getItem('hmk-sound');if(SOUND_MODES[s])soundMode=s}catch(e){}
+const SOUND_MODES={piano:'Piano',guitar:'Guitar'},SOUND_BANK={piano:'piano',guitar:'nylon'};
+// soundMode is the Chords page Piano/Guitar tab. Guitar sound plays only on the Chords page; every other page (and every app start) uses piano.
+let soundMode='piano',currentPage='circle';try{localStorage.removeItem('hmk-sound')}catch(e){}
+function activeSound(){return currentPage==='chords'&&soundMode==='guitar'?'guitar':'piano'}
 const sampleBanks={};let sampleOut=null;
 function audioCtx(){audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended'&&audio.resume)audio.resume().catch(()=>{});return audio}
 function sampledOut(){if(!sampleOut){const c=audioCtx(),comp=c.createDynamicsCompressor();comp.threshold.value=-12;comp.knee.value=8;comp.ratio.value=4;comp.attack.value=.004;comp.release.value=.2;comp.connect(c.destination);sampleOut=comp}return sampleOut}
@@ -377,14 +374,14 @@ function loadBank(name){
 }
 function playBuffer(buf,rate,len,level,at,filters){try{const c=audioCtx(),src=c.createBufferSource(),g=c.createGain(),t=c.currentTime+(at||0),hold=Math.max(.06,len),rel=.28;src.buffer=buf;src.playbackRate.value=rate;g.gain.setValueAtTime(Math.min(1,level),t);g.gain.setValueAtTime(Math.min(1,level),t+hold);g.gain.exponentialRampToValueAtTime(.0001,t+hold+rel);let node=src;(filters||[]).forEach(f=>{node.connect(f);node=f});node.connect(g);g.connect(sampledOut());src.start(t);src.stop(t+hold+rel+.05)}catch(e){}}
 function toneMidi(m,len=2,vol=.075,at=0){
- const name=SOUND_BANK[soundMode],bank=sampleBanks[name];
+ const name=SOUND_BANK[activeSound()],bank=sampleBanks[name];
  if(!bank||bank.status!=='ready'){if(!bank)loadBank(name).catch(()=>{});return at?setTimeout(()=>classicTone(m,len,vol),at*1000):classicTone(m,len,vol)}
  const k=nearestKey(bank.keys,m);playBuffer(bank.buffers[k],Math.pow(2,(m-k)/12),len,vol*(name==='piano'?2.5:1.85),at);
 }
 function setSoundMode(next,preview){
- soundMode=SOUND_MODES[next]?next:'piano';try{localStorage.setItem('hmk-sound',soundMode)}catch(e){}
- const st=document.querySelector('#soundStatus');document.querySelectorAll('[data-sound]').forEach(b=>{const on=b.dataset.sound===soundMode;b.classList.toggle('active',on);b.setAttribute('aria-checked',on)});
- // The Chords page instrument view follows the sound: Guitar sound shows the fretboard, Piano the keyboard.
+ soundMode=SOUND_MODES[next]?next:'piano';
+ const st=document.querySelector('#soundStatus');
+ // The Chords page Piano/Guitar tab is the only sound control; it also switches the keyboard/fretboard view.
  inst=soundMode==='guitar'?'guitar':'piano';document.querySelectorAll('[data-inst]').forEach(x=>x.classList.toggle('active',x.dataset.inst===inst));try{renderInstrument()}catch(e){}
  const done=()=>{if(st)st.textContent='';if(preview){token++;playVoicing(chordPitch('C',['1','3','5','7']))}};
  const name=SOUND_BANK[soundMode];
@@ -573,7 +570,7 @@ document.querySelectorAll('[data-htopic]').forEach(b=>b.onclick=()=>{htopic=b.da
 document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;ki=0;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('active',x===b));buildCircle();selectKey(0)});
 document.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>b.dataset.play==='chord'?playChord():playArp(b.dataset.play));
 document.querySelectorAll('[data-iplay]').forEach(b=>b.onclick=()=>b.dataset.iplay==='chord'?playChord():playArp(b.dataset.iplay));
-document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{document.querySelector('#headerKey').classList.toggle('hide',b.dataset.nav!=='circle');hmkStop();token++;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));['circle','chords','progressions','modes','harmony'].forEach(x=>document.querySelector('#'+x+'Page').classList.toggle('hide',x!==b.dataset.nav));if(b.dataset.nav==='chords'){libraryBuild();renderInstrument()};if(b.dataset.nav==='modes')renderModesStandalone()});
+document.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{currentPage=b.dataset.nav;document.querySelector('#headerKey').classList.toggle('hide',b.dataset.nav!=='circle');hmkStop();token++;document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x===b));['circle','chords','progressions','modes','harmony'].forEach(x=>document.querySelector('#'+x+'Page').classList.toggle('hide',x!==b.dataset.nav));if(b.dataset.nav==='chords'){libraryBuild();renderInstrument()};if(b.dataset.nav==='modes')renderModesStandalone()});
 document.querySelectorAll('[data-inst]').forEach(b=>b.onclick=()=>{const want=b.dataset.inst==='guitar'?'guitar':'piano';if(want!==soundMode)setSoundMode(want,false)});
 
 const LIBTYPES=[
@@ -618,7 +615,7 @@ document.querySelector('#libraryArp').onclick=()=>{let my=++token;chordPitch(doc
 })();
 
 initHarmonyKeys();renderHarmony();renderModesStandalone();buildCircle();selectKey(0);
-(function initSound(){const host=document.querySelector('#soundMode');host.innerHTML=Object.keys(SOUND_MODES).map(k=>`<button type="button" role="radio" data-sound="${k}">${SOUND_MODES[k]}</button>`).join('');host.querySelectorAll('[data-sound]').forEach(b=>b.onclick=()=>{if(b.dataset.sound!==soundMode)setSoundMode(b.dataset.sound,true)});setSoundMode(soundMode,false)})();
+setSoundMode(soundMode,false);
 
 // Appearance preference; dark is the default for new visitors. No billing or account features.
 (function(){

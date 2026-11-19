@@ -1,6 +1,6 @@
 # Harmony Music Kit v0.9.28
 
-- Realistic sound: sampled piano (default) and sampled acoustic guitar, chosen with the Sound switch under the header; the choice is remembered
+- Realistic sound: sampled piano everywhere by default; the Chords page Guitar tab plays sampled acoustic guitar (and shows the fretboard) while you are on that page
 - Piano: Salamander Grand Piano samples (Alexander Holm, CC BY 3.0)
 - Guitar: FluidR3_GM acoustic nylon guitar samples (CC BY 3.0); chords are strummed low to high
 - Samples load from `web/sounds/` (~1.2 MB); the original oscillator plays only while they load
