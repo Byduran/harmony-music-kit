@@ -70,3 +70,6 @@ for(const k of Object.keys(vm.runInContext('HARMONY',ctx))){const h=vm.runInCont
 vm.runInContext("lang='en'",ctx);
 assert.equal(vm.runInContext("T('Major')",ctx),'Major');
 console.log('PASS Turkish: dictionary covers progressions, modes, harmony explanations; English unchanged');
+// v0.9.30: English by default
+assert.equal(vm.runInContext('lang',ctx),'en');
+console.log('PASS language: English by default');

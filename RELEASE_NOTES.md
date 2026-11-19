@@ -1,6 +1,13 @@
+# Harmony Music Kit v0.9.30
+
+- The app opens in English by default; Turkish is chosen from the new flag menu in the header (🇬🇧 English / 🇹🇷 Türkçe) and remembered
+- Flags are drawn as SVG so they look the same on Android, iPhone and Windows
+- Menu closes on outside tap or Escape; keyboard and screen-reader friendly
+- Logo no longer squeezes on narrow (360px) screens
+
 # Harmony Music Kit v0.9.29
 
-- Turkish language support: the app opens in Turkish when the phone/browser language is Turkish; the TR/EN button in the header switches anytime and is remembered
+- Turkish language support with a TR/EN switch in the header (default changed to English in 0.9.30)
 - Music terms use the forms Turkish musicians use: Majör/Minör, Beşliler Çemberi, Akor, Arpej, Dizi, Ton, Akor yürüyüşü, İkincil dominant, Triton ikamesi, Modal ödünç alma, Eksik/Artık akor; chord symbols, note letters and mode names stay as they are
 - All explanations (progressions, modes, harmony "Why?") are translated; the page language is declared, so browsers no longer auto-translate "Major" as "Ana"
 
