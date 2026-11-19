@@ -7,7 +7,11 @@ Circle of fifths, chord library, progressions with a practice player, modes lab 
 - **Android:** open the repository root in Android Studio and build the APK.
 - **Tests:** `node tests/music-theory.test.js`
 
-Current version: 0.9.28 (versionCode 31). See `RELEASE_NOTES.md`.
+Current version: 0.9.29 (versionCode 32). See `RELEASE_NOTES.md`.
+
+## Languages
+
+English and Turkish. English strings are the keys; Turkish lives in `I18N_TR` in `web/index.html`. Missing entries fall back to English. To add text, wrap it in `T('English text')` (or `data-i18n` in static HTML) and add the Turkish line.
 
 ## Sound credits
 

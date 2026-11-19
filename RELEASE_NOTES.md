@@ -1,3 +1,9 @@
+# Harmony Music Kit v0.9.29
+
+- Turkish language support: the app opens in Turkish when the phone/browser language is Turkish; the TR/EN button in the header switches anytime and is remembered
+- Music terms use the forms Turkish musicians use: Majör/Minör, Beşliler Çemberi, Akor, Arpej, Dizi, Ton, Akor yürüyüşü, İkincil dominant, Triton ikamesi, Modal ödünç alma, Eksik/Artık akor; chord symbols, note letters and mode names stay as they are
+- All explanations (progressions, modes, harmony "Why?") are translated; the page language is declared, so browsers no longer auto-translate "Major" as "Ana"
+
 # Harmony Music Kit v0.9.28
 
 - Realistic sound: sampled piano everywhere by default; the Chords page Guitar tab plays sampled acoustic guitar (and shows the fretboard) while you are on that page

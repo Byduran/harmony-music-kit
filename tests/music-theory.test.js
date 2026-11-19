@@ -53,3 +53,20 @@ const grid=[];for(let m=33;m<=96;m+=3)grid.push(m);
 for(let m=36;m<=96;m++){const k=vm.runInContext(`nearestKey(${JSON.stringify(grid)},${m})`,ctx);assert(Math.abs(k-m)<=1,`nearest sample within a semitone for ${m}`)}
 assert.equal(vm.runInContext('soundMode',ctx),'piano');
 console.log('PASS sound engine: sample grid covers every note within one semitone; Piano is the default');
+// v0.9.29 Turkish
+vm.runInContext("lang='tr'",ctx);
+assert.equal(vm.runInContext("T('Major')",ctx),'Majör');
+assert.equal(vm.runInContext("T('{roman} degree',{roman:'V'})",ctx),'V. derece');
+assert(/derece/.test(vm.runInContext("compareExplanation('dorian','aeolian')",ctx)));
+const TR=vm.runInContext('I18N_TR',ctx);
+for(const k of vm.runInContext('HKEYS',ctx))for(const topic of ['secondary','tritone','backdoor','modal']){
+ const tr=vm.runInContext(`harmonyExample(${JSON.stringify(topic)},${JSON.stringify(k.root)},${k.mode==='minor'}).why`,ctx);
+ vm.runInContext("lang='en'",ctx);const en=vm.runInContext(`harmonyExample(${JSON.stringify(topic)},${JSON.stringify(k.root)},${k.mode==='minor'}).why`,ctx);vm.runInContext("lang='tr'",ctx);
+ assert.notEqual(tr,en,`Turkish why text for ${k.root} ${k.mode} ${topic}`);assert(!/\{\w+\}/.test(tr),'no unfilled placeholders');
+}
+for(const m of ['major','minor']){vm.runInContext(`progMode=${JSON.stringify(m)}`,ctx);for(const x of vm.runInContext('progressions()',ctx))assert(TR[x[2]],`progression text: ${x[2]}`)}
+for(const k of vm.runInContext('MODELABORDER',ctx))assert(TR[vm.runInContext(`MODESLAB.${k}.d`,ctx)],`mode text ${k}`);
+for(const k of Object.keys(vm.runInContext('HARMONY',ctx))){const h=vm.runInContext(`HARMONY.${k}`,ctx);assert(TR[h.title]&&TR[h.sub],`harmony text ${k}`)}
+vm.runInContext("lang='en'",ctx);
+assert.equal(vm.runInContext("T('Major')",ctx),'Major');
+console.log('PASS Turkish: dictionary covers progressions, modes, harmony explanations; English unchanged');
