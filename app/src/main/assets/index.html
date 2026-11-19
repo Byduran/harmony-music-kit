@@ -320,11 +320,12 @@ html[data-theme="light"] .hmk-player input{accent-color:#B9743F}
 /* v0.9.28: sound selector and credits */
 header{flex-wrap:wrap}
 .soundbar{flex-basis:100%;display:flex;align-items:center;gap:8px;margin-top:8px}
-.soundbar label{font-size:12px;font-weight:700}
-.soundbar select{display:inline-block;width:auto;min-height:34px!important;padding:5px 10px!important;font-size:13px}
+.soundbar .soundlabel{font-size:12px;font-weight:700;color:var(--muted)}
+.soundbar .soundseg{margin:0!important;width:auto!important;min-width:210px}
+.soundbar .soundseg button{min-height:32px!important;font-size:13px;padding:0 12px}
 .soundbar #soundStatus{font-size:11px}
 .credits{font-size:10px;line-height:1.4;text-align:center;padding:4px 18px 0;opacity:.8}
-</style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div><div class="soundbar"><label for="soundMode">Sound</label><select id="soundMode" aria-label="Sound"></select><span id="soundStatus" class="muted" aria-live="polite"></span></div></header>
+</style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div><div class="soundbar"><span class="soundlabel">Sound</span><div id="soundMode" class="seg soundseg" role="radiogroup" aria-label="Sound"></div><span id="soundStatus" class="muted" aria-live="polite"></span></div></header>
 <section id="circlePage" class="page"><div class="hero"><h2>Circle of Fifths</h2><div class="muted">Explore keys and harmonic relationships</div></div><div class="seg"><button data-mode="major" class="active">Major</button><button data-mode="minor">Minor</button></div><div id="circle" class="circle"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small></div></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3>Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord">▶ Play Chord</button><button class="action action-secondary" data-play="up">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
 <section id="progressionsPage" class="page hide"><h2>Progressions</h2><div id="progSub" class="muted"></div><label class="muted">Progression Key <select id="progKey" aria-label="Progression Key - independent of Circle"></select> <small class="muted" style="display:block;font-weight:400;margin-bottom:12px">Independent of Circle · 12 Major + 12 Minor</small></label><div id="progs"></div><div id="progHint" class="muted" style="text-align:center;margin:10px 0">Tap a progression to play it instantly.</div></section>
 <section id="modesPage" class="page hide"><h2>Modes Lab</h2><div class="muted">Understand the character of every mode</div><div id="modesStandalone"></div></section><section id="harmonyPage" class="page hide">
@@ -354,11 +355,11 @@ function chordPitch(root,formula){
  });
 }
 function chordVoice(tones){let bass=36+tones[0].pc;let top=tones.map((n,i)=>{let v=60+n.pc+12*Math.floor((parseInt(n.formula.replace(/[^0-9]/g,''),10)-1)/7);return v});return [bass,...top];}
-function playVoicing(tones,duration=1.2){const v=chordVoice(tones),strum=soundMode==='guitar'||soundMode==='pluck',order=[...v].sort((a,b)=>a-b);v.forEach((m,i)=>toneMidi(m,duration,i===0?.15:.065,strum?order.indexOf(m)*.022:0))}
-// v0.9.28 sound engine: Classic (original oscillator, unchanged) + sampled piano, sampled guitar, synthesized guitar.
-const SOUND_MODES={classic:'♪ Classic',piano:'🎹 Piano',guitar:'🎸 Guitar',pluck:'🎸 Synth guitar'},SOUND_BANK={piano:'piano',guitar:'nylon'};
-let soundMode='classic';try{let s=localStorage.getItem('hmk-sound');if(SOUND_MODES[s])soundMode=s}catch(e){}
-const sampleBanks={},pluckCache={};let sampleOut=null;
+function playVoicing(tones,duration=1.2){const v=chordVoice(tones),strum=soundMode==='guitar',order=[...v].sort((a,b)=>a-b);v.forEach((m,i)=>toneMidi(m,duration,i===0?.15:.065,strum?order.indexOf(m)*.022:0))}
+// v0.9.28 sound engine: sampled piano (default) and sampled guitar. The original oscillator (classicTone) only plays while samples load.
+const SOUND_MODES={piano:'🎹 Piano',guitar:'🎸 Guitar'},SOUND_BANK={piano:'piano',guitar:'nylon'};
+let soundMode='piano';try{let s=localStorage.getItem('hmk-sound');if(SOUND_MODES[s])soundMode=s}catch(e){}
+const sampleBanks={};let sampleOut=null;
 function audioCtx(){audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended'&&audio.resume)audio.resume().catch(()=>{});return audio}
 function sampledOut(){if(!sampleOut){const c=audioCtx(),comp=c.createDynamicsCompressor();comp.threshold.value=-12;comp.knee.value=8;comp.ratio.value=4;comp.attack.value=.004;comp.release.value=.2;comp.connect(c.destination);sampleOut=comp}return sampleOut}
 function nearestKey(keys,m){return keys.reduce((a,b)=>Math.abs(b-m)<Math.abs(a-m)?b:a)}
@@ -375,31 +376,16 @@ function loadBank(name){
  return bank.promise;
 }
 function playBuffer(buf,rate,len,level,at,filters){try{const c=audioCtx(),src=c.createBufferSource(),g=c.createGain(),t=c.currentTime+(at||0),hold=Math.max(.06,len),rel=.28;src.buffer=buf;src.playbackRate.value=rate;g.gain.setValueAtTime(Math.min(1,level),t);g.gain.setValueAtTime(Math.min(1,level),t+hold);g.gain.exponentialRampToValueAtTime(.0001,t+hold+rel);let node=src;(filters||[]).forEach(f=>{node.connect(f);node=f});node.connect(g);g.connect(sampledOut());src.start(t);src.stop(t+hold+rel+.05)}catch(e){}}
-function pluckBuffer(m){
- if(pluckCache[m])return pluckCache[m];
- const c=audioCtx(),sr=c.sampleRate,f=440*Math.pow(2,(m-69)/12),dur=2.6,n=Math.floor(sr*dur),buf=c.createBuffer(1,n,sr),out=buf.getChannelData(0);
- // Karplus-Strong: noise burst in a delay line, averaged each pass; an allpass stage tunes the fractional delay.
- const P=sr/f;let N=Math.max(2,Math.floor(P-.6));const frac=P-N-.5,C=(1-frac)/(1+frac),line=new Float32Array(N);
- let lp=0;for(let i=0;i<N;i++){lp=lp*.55+(Math.random()*2-1)*.45;line[i]=lp}
- const t60=Math.max(1.1,Math.min(4.2,4.2-(m-40)*.07)),rho=Math.pow(.001,1/(f*t60));
- let idx=0,last=0,apX=0,apY=0,peak=0;
- for(let i=0;i<n;i++){const cur=line[idx],avg=.5*(cur+last);last=cur;const ap=C*avg+apX-C*apY;apX=avg;apY=ap;line[idx]=ap*rho;out[i]=cur;peak=Math.max(peak,Math.abs(cur));idx=(idx+1)%N}
- if(peak>0)for(let i=0;i<n;i++)out[i]*=.9/peak;
- return pluckCache[m]=buf;
-}
 function toneMidi(m,len=2,vol=.075,at=0){
- if(soundMode==='classic')return at?setTimeout(()=>classicTone(m,len,vol),at*1000):classicTone(m,len,vol);
- if(soundMode==='pluck'){try{const c=audioCtx(),lpf=c.createBiquadFilter(),body=c.createBiquadFilter();lpf.type='lowpass';lpf.frequency.value=4200;body.type='peaking';body.frequency.value=180;body.gain.value=4;body.Q.value=.9;playBuffer(pluckBuffer(m),1,len,vol*3.9,at,[lpf,body])}catch(e){}return}
  const name=SOUND_BANK[soundMode],bank=sampleBanks[name];
- if(!bank||bank.status!=='ready'){if(!bank)loadBank(name).catch(()=>{});return classicTone(m,len,vol)}
+ if(!bank||bank.status!=='ready'){if(!bank)loadBank(name).catch(()=>{});return at?setTimeout(()=>classicTone(m,len,vol),at*1000):classicTone(m,len,vol)}
  const k=nearestKey(bank.keys,m);playBuffer(bank.buffers[k],Math.pow(2,(m-k)/12),len,vol*(name==='piano'?2.5:1.85),at);
 }
 function setSoundMode(next,preview){
- soundMode=SOUND_MODES[next]?next:'classic';try{localStorage.setItem('hmk-sound',soundMode)}catch(e){}
- const sel=document.querySelector('#soundMode'),st=document.querySelector('#soundStatus');if(sel)sel.value=soundMode;
+ soundMode=SOUND_MODES[next]?next:'piano';try{localStorage.setItem('hmk-sound',soundMode)}catch(e){}
+ const st=document.querySelector('#soundStatus');document.querySelectorAll('[data-sound]').forEach(b=>{const on=b.dataset.sound===soundMode;b.classList.toggle('active',on);b.setAttribute('aria-checked',on)});
  const done=()=>{if(st)st.textContent='';if(preview){token++;playVoicing(chordPitch('C',['1','3','5','7']))}};
  const name=SOUND_BANK[soundMode];
- if(!name)return done();
  if(st)st.textContent='Loading…';
  loadBank(name).then(done,()=>{if(st)st.textContent='Could not load sounds'});
 }
@@ -630,7 +616,7 @@ document.querySelector('#libraryArp').onclick=()=>{let my=++token;chordPitch(doc
 })();
 
 initHarmonyKeys();renderHarmony();renderModesStandalone();buildCircle();selectKey(0);
-(function initSound(){const sel=document.querySelector('#soundMode');sel.innerHTML=Object.keys(SOUND_MODES).map(k=>`<option value="${k}">${SOUND_MODES[k]}</option>`).join('');sel.value=soundMode;sel.onchange=()=>setSoundMode(sel.value,true);if(SOUND_BANK[soundMode])setSoundMode(soundMode,false)})();
+(function initSound(){const host=document.querySelector('#soundMode');host.innerHTML=Object.keys(SOUND_MODES).map(k=>`<button type="button" role="radio" data-sound="${k}">${SOUND_MODES[k]}</button>`).join('');host.querySelectorAll('[data-sound]').forEach(b=>b.onclick=()=>{if(b.dataset.sound!==soundMode)setSoundMode(b.dataset.sound,true)});setSoundMode(soundMode,false)})();
 
 // Appearance preference; dark is the default for new visitors. No billing or account features.
 (function(){

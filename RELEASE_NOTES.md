@@ -1,11 +1,10 @@
-# Harmony Music Kit v0.9.28 (sound prototype)
+# Harmony Music Kit v0.9.28
 
-- New Sound selector under the header: Classic (original, unchanged), Piano, Guitar, Synth guitar. The choice is remembered
+- Realistic sound: sampled piano (default) and sampled acoustic guitar, chosen with the Sound switch under the header; the choice is remembered
 - Piano: Salamander Grand Piano samples (Alexander Holm, CC BY 3.0)
 - Guitar: FluidR3_GM acoustic nylon guitar samples (CC BY 3.0); chords are strummed low to high
-- Synth guitar: Karplus-Strong plucked-string synthesis, no sample files
-- Samples load on demand from `web/sounds/` (~1.2 MB); Classic plays until they are ready
-- Levels balanced so switching modes does not jump in volume
+- Samples load from `web/sounds/` (~1.2 MB); the original oscillator plays only while they load
+- Netlify deploy now needs the `sounds/` folder next to index.html
 
 # Harmony Music Kit v0.9.27
 
