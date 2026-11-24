@@ -18,3 +18,9 @@ English and Turkish. English strings are the keys; Turkish lives in `I18N_TR` in
 - Piano: Salamander Grand Piano by Alexander Holm, CC BY 3.0 — https://creativecommons.org/licenses/by/3.0/
 - Guitar: FluidR3_GM acoustic nylon guitar, pre-rendered by gleitz/midi-js-soundfonts, CC BY 3.0
 - Samples in `web/sounds/` were trimmed, converted to mono and normalized.
+
+## Website
+
+The public website is generated from this repo: `node site/build.js` writes `dist/` with the site at `/` and the app at `/app/` (copied from `web/`). The site reads the app's music code (chord spelling, shapes, inversions) from `web/index.html`, so both always agree.
+
+Cloudflare Pages settings: build command `node site/build.js`, output directory `dist`, environment variable `SITE_URL` = the site's address (used in canonical links and the sitemap).
