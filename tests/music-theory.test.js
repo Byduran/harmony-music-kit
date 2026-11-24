@@ -79,3 +79,29 @@ console.log('PASS language: English by default');
   const idx=(k+off+12)%12,slotRoot=(ring==='o'?KD.major:KD.minor)[idx][0],chordRoot=KD[m][k][2][d];
   assert.equal(pcOf(slotRoot),pcOf(chordRoot),`${m} ${KD[m][k][0]} degree ${rom}: slot ${slotRoot} vs chord ${chordRoot}`)})}
 console.log('PASS circle: diatonic wedge covers the right seven chords in all 24 keys');
+// v0.9.32 chord shapes: every library chord has playable guitar shapes whose notes match the chord, and piano inversions.
+{let shapeTotal=0;const stats={};
+ for(const root of roots)for(let ti=0;ti<types.length;ti++){const t=types[ti];
+  const shapes=vm.runInContext(`guitarShapes(${JSON.stringify(root)},LIBTYPES[${ti}])`,ctx),pitches=vm.runInContext(`chordPitch(${JSON.stringify(root)},${JSON.stringify(t[2].split(' '))})`,ctx);
+  const rules=vm.runInContext(`chordRules(${JSON.stringify(t[2].split(' '))})`,ctx);
+  assert(shapes.length>=1,`no guitar shape for ${root}${t[1]}`);stats[shapes.length]=(stats[shapes.length]||0)+1;
+  const allowed=new Set(rules.allowed.map(f=>pitches.find(p=>p.formula===f).pc)),required=rules.required.map(f=>pitches.find(p=>p.formula===f).pc);
+  for(const s of shapes){const tag=`${root}${t[1]} ${s.frets.map(f=>f==null?'x':f).join('')}`;
+   const ms=s.frets.map((f,i)=>f==null?null:[40,45,50,55,59,64][i]+f).filter(x=>x!=null);
+   assert(ms.every(m=>allowed.has(m%12)),'foreign note '+tag);
+   assert.equal(Math.min(...ms)%12,pitches[0].pc,'root not in bass '+tag);
+   assert(required.every(p=>ms.some(m=>m%12===p)),'missing tone '+tag);
+   const fr=s.frets.filter(f=>f>0);if(fr.length)assert(Math.max(...fr)-Math.min(...fr)<=3,'span '+tag);
+   assert(Math.max(...s.fingers)<=4,'fingers '+tag);
+   s.frets.forEach((f,i)=>{if(f>0)assert(s.fingers[i]>=1,'unfingered '+tag);else assert.equal(s.fingers[i],0)});
+   shapeTotal++}
+  const invs=vm.runInContext(`pianoInversions(chordPitch(${JSON.stringify(root)},${JSON.stringify(t[2].split(' '))}))`,ctx);
+  assert.equal(invs.length,pitches.length<=4?pitches.length:2);
+  invs.forEach((iv,k)=>{assert.equal(iv.midis[0]%12,pitches[k].pc);for(let j=1;j<iv.midis.length;j++)assert(iv.midis[j]>iv.midis[j-1]);assert(iv.midis.every(m=>m>=48&&m<=96))});
+ }
+ // standard shapes come out with standard fingers
+ const c=vm.runInContext("guitarShapes('C',LIBTYPES[0])",ctx);
+ assert.equal(c[0].frets.map(f=>f==null?'x':f).join(''),'x32010');assert.deepEqual(Array.from(c[0].fingers),[0,3,2,0,1,0]);
+ const f=vm.runInContext("guitarShapes('F',LIBTYPES[0])",ctx).find(s=>s.lowFret===1&&s.rootString===0);
+ assert.deepEqual(Array.from(f.fingers),[1,3,4,2,1,1]);assert(f.barre&&f.barre.from===0&&f.barre.to===5);
+ console.log('PASS guitar shapes:',shapeTotal,'shapes for',roots.length*types.length,'chords; shapes per chord',JSON.stringify(stats));}

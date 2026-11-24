@@ -1,3 +1,11 @@
+# Harmony Music Kit v0.9.32
+
+- Chords page, Guitar: new "Chord shape" view with chord diagrams (finger numbers, barre, root in copper, open/muted strings); the 12-fret fretboard stays as the second tab
+- Every chord has 2–5 positions: open and CAGED barre shapes for common chords, a search for rarer ones (max. 4 frets, root in the bass); switch with the arrows or by swiping
+- Chords page, Piano: one-hand inversions (root position, 1st/2nd/3rd inversion) with the bass note marked and right-hand finger numbers; chords with more than four notes show root position and 1st inversion
+- Play Chord / Play Arpeggio play the shape or inversion on screen
+- Tests check all 420 chords: shape notes match the chord, root in the bass, required tones present, playable with four fingers
+
 # Harmony Music Kit v0.9.31
 
 - Circle of Fifths redesigned: majors outside, their relative minors inside; tap either ring to pick a key (the Major/Minor toggle is gone)
