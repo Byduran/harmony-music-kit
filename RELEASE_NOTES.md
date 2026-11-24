@@ -1,3 +1,13 @@
+# Harmony Music Kit v0.9.31
+
+- Circle of Fifths redesigned: majors outside, their relative minors inside; tap either ring to pick a key (the Major/Minor toggle is gone)
+- A shaded wedge shows the selected key's seven chords and turns with the key; "Show degrees (I–VII)" adds roman-numeral badges for those who want them
+- Sharps/flats: a count under every major, the selected key's notes in the centre, altered notes outlined in the scale
+- Soft colour wheel: a key and its relative minor share a colour; copper marks only the selected key
+- The circle scales to the screen (inner keys 42px on a typical phone)
+- The app remembers the last page, key and chord-library chord
+- Android: status and navigation bars follow the light/dark theme
+
 # Harmony Music Kit v0.9.30
 
 - The app opens in English by default; the EN/TR button in the header switches to Turkish and the choice is remembered
