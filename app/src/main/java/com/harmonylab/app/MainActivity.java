@@ -23,10 +23,11 @@ public class MainActivity extends Activity {
         // Put safe-area padding on the native ROOT, not inside the WebView.
         // Android 15 (target SDK 35) enforces edge-to-edge windows.
         root = new FrameLayout(this);
-        applyBars(Color.rgb(16,24,39), Color.rgb(20,31,48), false); // Midnight Jazz dark until the page reports its theme
         webView = new WebView(this);
         root.addView(webView, new FrameLayout.LayoutParams(-1,-1));
         setContentView(root);
+        // Only after setContentView: on Android 15 the window's insets controller needs the decor view.
+        applyBars(Color.rgb(16,24,39), Color.rgb(20,31,48), false); // Midnight Jazz dark until the page reports its theme
         root.setOnApplyWindowInsetsListener((view, insets) -> {
             if (android.os.Build.VERSION.SDK_INT >= 30) {
                 android.graphics.Insets bars = insets.getInsets(
@@ -61,12 +62,13 @@ public class MainActivity extends Activity {
     }
     @SuppressWarnings("deprecation")
     private void applyBars(int top, int bottom, boolean light) {
+        if (root == null) return;
         // The WebView covers the middle; the root's top and bottom padding show behind the system bars.
         root.setBackground(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{top, top, bottom, bottom}));
         getWindow().setStatusBarColor(top);       // ignored on Android 15+ (edge-to-edge), used on older versions
         getWindow().setNavigationBarColor(bottom);
         if (android.os.Build.VERSION.SDK_INT >= 30) {
-            WindowInsetsController c = getWindow().getInsetsController();
+            WindowInsetsController c = getWindow().getDecorView().getWindowInsetsController();
             if (c != null) {
                 int mask = WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS | WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS;
                 c.setSystemBarsAppearance(light ? mask : 0, mask);
