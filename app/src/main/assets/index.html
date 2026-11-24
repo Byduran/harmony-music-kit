@@ -359,8 +359,19 @@ html[data-theme="dark"] .keybtn.dim-slot:nth-of-type(n){border:1.5px dashed #D89
 html[data-theme="light"] .keybtn.dim-slot:nth-of-type(n){border:1.5px dashed #B9743F!important}
 html[data-theme="dark"] .keybtn.degsel:not(.active):nth-of-type(n){box-shadow:0 0 0 3px #D89B6266!important}
 html[data-theme="light"] .keybtn.degsel:not(.active):nth-of-type(n){box-shadow:0 0 0 3px #B9743F55!important}
+
+/* v0.9.31: circle legend + degrees switch */
+.circle-legend{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:4px 2px 2px;font-size:13px}
+.deg-toggle{display:inline-flex;align-items:center;gap:8px;font-weight:700;cursor:pointer;min-height:36px}
+.deg-toggle input{appearance:none;-webkit-appearance:none;width:38px;height:22px;border-radius:11px;position:relative;margin:0;cursor:pointer;transition:background .2s;flex:none}
+.deg-toggle input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px #0004}
+.deg-toggle input:checked::after{transform:translateX(16px)}
+.deg-toggle input:focus-visible{outline:2px solid currentColor;outline-offset:2px}
+html[data-theme="dark"] .deg-toggle input{background:#3A4E6A}html[data-theme="dark"] .deg-toggle input:checked{background:#D89B62}
+html[data-theme="light"] .deg-toggle input{background:#C9D4E2}html[data-theme="light"] .deg-toggle input:checked{background:#B9743F}
+@media(prefers-reduced-motion:reduce){.deg-toggle input,.deg-toggle input::after{transition:none}}
 </style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="langToggle" type="button" class="lang-toggle">EN</button><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div></header>
-<section id="circlePage" class="page"><div class="hero"><h2 data-i18n="Circle of Fifths">Circle of Fifths</h2><div class="muted" data-i18n="Explore keys and harmonic relationships">Explore keys and harmonic relationships</div></div><div id="circle" class="circle" role="group" aria-label="Circle of Fifths" data-i18n-aria="Circle of Fifths"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small></div></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3 data-i18n="Diatonic 7th Chords">Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord" data-i18n="▶ Play Chord">▶ Play Chord</button><button class="action action-secondary" data-play="up" data-i18n="♪ Play Arpeggio">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
+<section id="circlePage" class="page"><div class="hero"><h2 data-i18n="Circle of Fifths">Circle of Fifths</h2><div class="muted" data-i18n="Explore keys and harmonic relationships">Explore keys and harmonic relationships</div></div><div id="circle" class="circle" role="group" aria-label="Circle of Fifths" data-i18n-aria="Circle of Fifths"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small></div></div><div class="circle-legend"><span class="muted" data-i18n="Shaded area: the chords of this key">Shaded area: the chords of this key</span><label class="deg-toggle"><input type="checkbox" id="degToggle"><span data-i18n="Show degrees (I–VII)">Show degrees (I–VII)</span></label></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3 data-i18n="Diatonic 7th Chords">Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord" data-i18n="▶ Play Chord">▶ Play Chord</button><button class="action action-secondary" data-play="up" data-i18n="♪ Play Arpeggio">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
 <section id="progressionsPage" class="page hide"><h2 data-i18n="Progressions">Progressions</h2><div id="progSub" class="muted"></div><label class="muted"><span data-i18n="Progression Key">Progression Key</span> <select id="progKey" aria-label="Progression Key - independent of Circle" data-i18n-aria="Progression Key - independent of Circle"></select> <small class="muted" style="display:block;font-weight:400;margin-bottom:12px" data-i18n="Independent of Circle · 12 Major + 12 Minor">Independent of Circle · 12 Major + 12 Minor</small></label><div id="progs"></div><div id="progHint" class="muted" style="text-align:center;margin:10px 0" data-i18n="Tap a progression to play it instantly.">Tap a progression to play it instantly.</div></section>
 <section id="modesPage" class="page hide"><h2 data-i18n="Modes Lab">Modes Lab</h2><div class="muted" data-i18n="Understand the character of every mode">Understand the character of every mode</div><div id="modesStandalone"></div></section><section id="harmonyPage" class="page hide">
 <h2 data-i18n="Harmony Lab">Harmony Lab</h2><div class="muted" data-i18n="Explore the language of harmony">Explore the language of harmony</div><div class="harmony-key-controls"><label for="harmonyKey" data-i18n="Harmony Key">Harmony Key</label><select id="harmonyKey" aria-label="Harmony key" data-i18n-aria="Harmony key"></select><span class="muted" data-i18n="Independent of Circle">Independent of Circle</span></div>
@@ -426,7 +437,7 @@ const I18N_TR={
 'Diminished':'Eksik','Diminished 7':'Eksik 7','Augmented':'Artık',
 'Piano samples: Salamander Grand Piano by Alexander Holm (CC BY 3.0). Guitar samples: FluidR3_GM acoustic nylon guitar (CC BY 3.0).':'Piyano sesleri: Alexander Holm\'un Salamander Grand Piano kaydı (CC BY 3.0). Gitar sesleri: FluidR3_GM naylon telli akustik gitar (CC BY 3.0).',
 'Circle':'Çember','Chords':'Akorlar','Progress':'Yürüyüş','Modes':'Modlar','Harmony':'Armoni',
-'Sound credits':'Ses kaynakları','Loading…':'Yükleniyor…','Could not load sounds':'Sesler yüklenemedi',
+'Sound credits':'Ses kaynakları','Shaded area: the chords of this key':'Gölgeli alan: bu tonun akorları','Show degrees (I–VII)':'Dereceleri göster (I–VII)','Loading…':'Yükleniyor…','Could not load sounds':'Sesler yüklenemedi',
 'dark':'koyu','light':'açık','system':'sistem','Appearance: {p} (tap to change)':'Görünüm: {p} (değiştirmek için dokun)','Appearance: {p}. Tap to change':'Görünüm: {p}. Değiştirmek için dokun',
 'Language: {name}':'Dil: {name}','Progression Key - independent of Circle':'Yürüyüş tonu - çemberden bağımsız','Harmony key':'Armoni tonu','Compare with mode':'Karşılaştırılacak mod',
 };
@@ -496,6 +507,7 @@ function playArp(m){let seq=arpSequence(m),a=seq.map(x=>x.name);let beat=60000/b
 // Diatonic wedge: the key's seven chords sit in three neighbouring slots of both rings, plus vii°/ii° one slot further.
 const WEDGE={major:[['o',0,'I'],['i',-1,'ii'],['i',1,'iii'],['o',-1,'IV'],['o',1,'V'],['i',0,'vi'],['i',2,'vii°']],
              minor:[['i',0,'i'],['i',2,'ii°'],['o',0,'III'],['i',-1,'iv'],['i',1,'v'],['o',-1,'VI'],['o',1,'VII']]};
+let showDegrees=false;try{showDegrees=localStorage.getItem('hmk-degrees')==='1'}catch(e){}
 function renderWedge(){
  let svg=circle.querySelector('.wedge');
  if(!svg){circle.insertAdjacentHTML('afterbegin','<svg class="wedge" viewBox="-180 -180 360 360" aria-hidden="true"><g class="wedge-rot"><path class="wedge-fill" d=""/></g></svg>');svg=circle.querySelector('.wedge')}
@@ -504,7 +516,8 @@ function renderWedge(){
  svg.querySelector('.wedge-rot').style.transform=`rotate(${ki*30}deg)`;
  circle.querySelectorAll('.keybtn').forEach(b=>{b.classList.remove('in-key','dim-slot','degsel');const old=b.querySelector('.deg');if(old)old.remove()});
  WEDGE[mode].forEach(([ring,off,rom],d)=>{const idx=(ki+off+12)%12,b=circle.querySelector(`.keybtn[data-mode="${ring==='o'?'major':'minor'}"][data-i="${idx}"]`);if(!b)return;
-  b.classList.add('in-key');if(off===2)b.classList.add('dim-slot');if(d===degree)b.classList.add('degsel');
+  b.classList.add('in-key');if(d===degree)b.classList.add('degsel');
+  if(!showDegrees)return;if(off===2)b.classList.add('dim-slot');
   const ang=(idx*30-90)*Math.PI/180,dist=ring==='o'?36:-25;
   b.insertAdjacentHTML('beforeend',`<span class="deg" style="left:calc(50% + ${(Math.cos(ang)*dist).toFixed(1)}px);top:calc(50% + ${(Math.sin(ang)*dist).toFixed(1)}px)">${rom}</span>`)});
 }
@@ -758,6 +771,7 @@ applyLanguage();
 initHarmonyKeys();renderHarmony();renderModesStandalone();buildCircle();selectKey(0);
 setSoundMode(soundMode,false);
 restoreState();
+{const dt=document.querySelector('#degToggle');if(dt){dt.checked=showDegrees;dt.onchange=()=>{showDegrees=dt.checked;try{localStorage.setItem('hmk-degrees',showDegrees?'1':'0')}catch(e){}renderWedge()}}}
 
 function syncAndroidBars(theme){try{const a=window.AndroidAppearance;if(!a||!a.setBars)return;const hex=c=>{const m=(c||'').match(/\d+/g);return m?'#'+m.slice(0,3).map(x=>(+x).toString(16).padStart(2,'0')).join(''):null};const top=hex(getComputedStyle(document.body).backgroundColor),nav=document.querySelector('nav'),bottom=nav?hex(getComputedStyle(nav).backgroundColor):top;if(top)a.setBars(top,bottom||top,theme==='light')}catch(e){}}
 // Appearance preference; dark is the default for new visitors. No billing or account features.
