@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        api: [35, 29]
+        api: [35]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -38,8 +38,10 @@ jobs:
             adb pull /sdcard/ui.xml ui.xml || true
             python3 -c "import re;x=open('ui.xml',encoding='utf-8',errors='ignore').read() if __import__('os').path.exists('ui.xml') else '';m=re.search(r'(?:content-desc|text)=\"Appearance[^\"]*\"[^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"',x);print('%d %d'%(((int(m[1])+int(m[3]))//2),((int(m[2])+int(m[4]))//2)) if m else 'none')" > tap.txt
             cat tap.txt
-            if [ "$(cat tap.txt)" != "none" ]; then adb shell input tap $(cat tap.txt); sleep 4; fi
+            adb shell input tap 237 60; sleep 4
             adb exec-out screencap -p > light.png
+            adb shell input tap 237 60; sleep 4
+            adb exec-out screencap -p > third.png
             adb logcat -d -b crash > crash.txt || true
             (adb shell pidof com.harmonylab.app >/dev/null && echo RUNNING || echo NOT_RUNNING) > state.txt
       - name: Report as annotation
@@ -52,7 +54,7 @@ jobs:
           print('theme tap at:', open('tap.txt').read().strip() if os.path.exists('tap.txt') else 'n/a')
           try:
               from PIL import Image
-              for n in ['dark.png','light.png']:
+              for n in ['dark.png','light.png','third.png']:
                   if os.path.exists(n):
                       im=Image.open(n).convert('RGB');w,h=im.size
                       print(n, im.size, 'status bar px', im.getpixel((w//2,10)), '| page top', im.getpixel((w//2,int(h*0.12))), '| nav bar px', im.getpixel((w//2,h-8)))
