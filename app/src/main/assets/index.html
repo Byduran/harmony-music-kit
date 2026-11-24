@@ -333,8 +333,8 @@ html[data-theme="dark"] .lang-toggle{background:#263B57!important;color:#F5EFE6!
 /* v0.9.31: two-ring circle (majors outside, relative minors inside) */
 .keybtn{font-size:15px}
 .keybtn.minkey{width:36px!important;height:36px!important;margin:-18px!important;padding:0!important;font-size:11px!important;font-weight:800!important;letter-spacing:-.02em;border-radius:50%}
-html[data-theme="dark"] .keybtn.minkey:nth-of-type(n){background:#1A2A42!important;color:#C9D4E2!important;border-color:#3A4E6A!important}
-html[data-theme="light"] .keybtn.minkey:nth-of-type(n){background:#F4F7FB!important;color:#3A4A5E!important;border-color:#D3DEEA!important}
+html[data-theme="dark"] .keybtn.minkey:nth-of-type(n){background:hsl(var(--h) 26% 21%)!important;color:hsl(var(--h) 30% 88%)!important;border-color:hsl(var(--h) 30% 36%)!important}
+html[data-theme="light"] .keybtn.minkey:nth-of-type(n){background:hsl(var(--h) 60% 96%)!important;color:hsl(var(--h) 35% 26%)!important;border-color:hsl(var(--h) 38% 84%)!important}
 html[data-theme="dark"] .keybtn.active:nth-of-type(n),html[data-theme="dark"] .keybtn.minkey.active:nth-of-type(n){background:#D89B62!important;color:#101827!important;border-color:#F4C28F!important}
 html[data-theme="light"] .keybtn.active:nth-of-type(n),html[data-theme="light"] .keybtn.minkey.active:nth-of-type(n){background:#D99054!important;color:#182231!important;border-color:#B9743F!important}
 html[data-theme="dark"] .keybtn.related:nth-of-type(n){border:2px solid #D89B62!important;color:#F4C28F!important}
@@ -380,6 +380,13 @@ html[data-theme="dark"] .center-sig{color:#F4C28F!important}
 html[data-theme="light"] .center-sig{color:#8B4C26!important}
 html[data-theme="dark"] .pill.acc{color:#F4C28F!important;border-color:#D89B62!important;font-weight:800}
 html[data-theme="light"] .pill.acc{color:#8B4C26!important;border-color:#B9743F!important;font-weight:800}
+
+/* v0.9.31: circle sized to the screen; soft colour wheel (a key and its relative minor share a hue) */
+.circle{width:330px!important;height:330px!important;max-width:none!important;max-height:none!important;transform:none!important;zoom:var(--cz,.91);margin:8px auto 0!important}
+html[data-theme="dark"] .keybtn:nth-of-type(n){background:hsl(var(--h) 30% 29%)!important;border-color:hsl(var(--h) 34% 44%)!important;color:#F5EFE6!important}
+html[data-theme="light"] .keybtn:nth-of-type(n){background:hsl(var(--h) 62% 91%)!important;border-color:hsl(var(--h) 38% 78%)!important;color:hsl(var(--h) 42% 22%)!important}
+html[data-theme="dark"] .keybtn:not(.active):nth-of-type(n) small.sigc{color:hsl(var(--h) 32% 82%)!important}
+html[data-theme="light"] .keybtn:not(.active):nth-of-type(n) small.sigc{color:hsl(var(--h) 30% 34%)!important}
 </style></head><body><div class="app"><header><div class="brand"><span class="logo">♫</span>HARMONY&nbsp;<span>MUSIC KIT</span></div><div class="header-right"><button id="langToggle" type="button" class="lang-toggle">EN</button><button id="themeToggle" type="button" aria-label="Change appearance" title="Appearance">☼</button><div id="headerKey" class="headkey">C Major<br>Explore · Listen · Understand</div></div></header>
 <section id="circlePage" class="page"><div class="hero"><h2 data-i18n="Circle of Fifths">Circle of Fifths</h2><div class="muted" data-i18n="Explore keys and harmonic relationships">Explore keys and harmonic relationships</div></div><div id="circle" class="circle" role="group" aria-label="Circle of Fifths" data-i18n-aria="Circle of Fifths"><div class="center"><b id="centerKey">C</b><small id="centerMode">Major</small><small id="centerSig" class="center-sig"></small></div></div><div class="circle-legend"><span class="muted" data-i18n="Shaded area: the chords of this key">Shaded area: the chords of this key</span><label class="deg-toggle"><input type="checkbox" id="degToggle"><span data-i18n="Show degrees (I–VII)">Show degrees (I–VII)</span></label></div><div class="card"><div class="speed"><b id="keyName">C Major</b><span id="signature" class="muted"></span></div><div id="scaleNotes" class="row" style="margin-top:10px"></div></div><h3 data-i18n="Diatonic 7th Chords">Diatonic 7th Chords</h3><div id="chords" class="grid"></div><div class="card"><div id="detail"></div><div class="play-actions"><button class="action action-primary" data-play="chord" data-i18n="▶ Play Chord">▶ Play Chord</button><button class="action action-secondary" data-play="up" data-i18n="♪ Play Arpeggio">♪ Play Arpeggio</button></div><div id="arpNotes" class="notes"></div></div></section>
 <section id="progressionsPage" class="page hide"><h2 data-i18n="Progressions">Progressions</h2><div id="progSub" class="muted"></div><label class="muted"><span data-i18n="Progression Key">Progression Key</span> <select id="progKey" aria-label="Progression Key - independent of Circle" data-i18n-aria="Progression Key - independent of Circle"></select> <small class="muted" style="display:block;font-weight:400;margin-bottom:12px" data-i18n="Independent of Circle · 12 Major + 12 Minor">Independent of Circle · 12 Major + 12 Minor</small></label><div id="progs"></div><div id="progHint" class="muted" style="text-align:center;margin:10px 0" data-i18n="Tap a progression to play it instantly.">Tap a progression to play it instantly.</div></section>
@@ -511,17 +518,18 @@ function classicTone(m,len=2,vol=.075){try{audio=audio||new(window.AudioContext|
 function tone(n,len=.6){toneMidi(60+pc(n),len)}
 function circleTones(d){let root=data()[ki][2][d],quality=QUAL[mode][d],f=quality==='maj7'?['1','3','5','7']:quality==='m7'?['1','♭3','5','♭7']:quality==='7'?['1','3','5','♭7']:['1','♭3','♭5','♭7'];return chordPitch(root,f)}
 // Outer ring: 12 major keys. Inner ring: the relative minor of each (same index = same key signature).
-function buildCircle(){circle.querySelectorAll('.keybtn').forEach(x=>x.remove());['major','minor'].forEach(m=>KEYDATA[m].forEach((k,i)=>{let b=document.createElement('button');b.type='button';b.className='keybtn'+(m==='minor'?' minkey':'');b.dataset.mode=m;b.dataset.i=i;const sg=SIGDETAIL[m][i][0];b.innerHTML=`<span>${k[0]}${m==='minor'?'m':''}</span>`+(m==='major'?`<small class="sigc">${sg.startsWith('0')?'0':sg}</small>`:'');b.setAttribute('aria-label',k[0]+' '+modeWord(m));let a=i*30-90,r=m==='minor'?82:140;b.style.transform=`rotate(${a}deg) translate(${r}px) rotate(${-a}deg)`;b.onclick=()=>{mode=m;selectKey(i)};circle.appendChild(b)}))}
+function buildCircle(){circle.querySelectorAll('.keybtn').forEach(x=>x.remove());['major','minor'].forEach(m=>KEYDATA[m].forEach((k,i)=>{let b=document.createElement('button');b.type='button';b.className='keybtn'+(m==='minor'?' minkey':'');b.dataset.mode=m;b.dataset.i=i;const sg=SIGDETAIL[m][i][0];b.innerHTML=`<span>${k[0]}${m==='minor'?'m':''}</span>`+(m==='major'?`<small class="sigc">${sg.startsWith('0')?'0':sg}</small>`:'');b.setAttribute('aria-label',k[0]+' '+modeWord(m));b.style.setProperty('--h',(210+i*30)%360);let a=i*30-90,r=m==='minor'?82:140;b.style.transform=`rotate(${a}deg) translate(${r}px) rotate(${-a}deg)`;b.onclick=()=>{mode=m;selectKey(i)};circle.appendChild(b)}))}
 function light(n){activePc=n==null?null:pc(n);document.querySelectorAll('.note').forEach(x=>x.classList.toggle('on',x.dataset.pc==activePc));renderInstrument()}function playChord(cancelSequence=true){if(cancelSequence)token++;activePc=null;playVoicing(circleTones(degree));renderInstrument()}function renderNotes(a){document.querySelector('#arpNotes').innerHTML=a.map((n,i)=>`<span class="note" data-note="${i}" data-pc="${pc(n)}">${n}</span>${i<a.length-1?'→':''}`).join('')}function arpSequence(m){let t=circleTones(degree).map(n=>({name:n.name,midi:n.midi+12}));return m==='ud'?[...t,...t.slice(0,-1).reverse()]:t}
 function playArp(m){let seq=arpSequence(m),a=seq.map(x=>x.name);let beat=60000/bpm,my=++token;renderNotes(a);seq.forEach(({name:n,midi},i)=>setTimeout(()=>{if(my!==token)return;light(n);toneMidi(midi,Math.min(.6,beat/1000*.82));if(i===a.length-1)setTimeout(()=>{if(my===token){activePc=null;renderInstrument()}},beat*.8)},i*beat))}
 // Diatonic wedge: the key's seven chords sit in three neighbouring slots of both rings, plus vii°/ii° one slot further.
 const WEDGE={major:[['o',0,'I'],['i',-1,'ii'],['i',1,'iii'],['o',-1,'IV'],['o',1,'V'],['i',0,'vi'],['i',2,'vii°']],
              minor:[['i',0,'i'],['i',2,'ii°'],['o',0,'III'],['i',-1,'iv'],['i',1,'v'],['o',-1,'VI'],['o',1,'VII']]};
 let showDegrees=false;try{showDegrees=localStorage.getItem('hmk-degrees')==='1'}catch(e){}
+function fitCircle(){const host=circle&&circle.parentElement;if(!host||!host.clientWidth)return;const z=Math.max(.78,Math.min(1.25,host.clientWidth/352));circle.style.setProperty('--cz',z.toFixed(3))}
 function renderWedge(){
  let svg=circle.querySelector('.wedge');
  if(!svg){circle.insertAdjacentHTML('afterbegin','<svg class="wedge" viewBox="-180 -180 360 360" aria-hidden="true"><g class="wedge-rot"><path class="wedge-fill" d=""/></g></svg>');svg=circle.querySelector('.wedge')}
- {const R2=Math.min(176,Math.max(120,(circle.offsetWidth||330)/2-1)),R1=58,a1=-135*Math.PI/180,a2=-45*Math.PI/180,pt=(r,a)=>`${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}`;
+ {const R2=164,R1=58,a1=-135*Math.PI/180,a2=-45*Math.PI/180,pt=(r,a)=>`${(r*Math.cos(a)).toFixed(2)} ${(r*Math.sin(a)).toFixed(2)}`;
   const path=svg.querySelector('path');if(path&&path.setAttribute)path.setAttribute('d',`M ${pt(R2,a1)} A ${R2} ${R2} 0 0 1 ${pt(R2,a2)} L ${pt(R1,a2)} A ${R1} ${R1} 0 0 0 ${pt(R1,a1)} Z`)}
  svg.querySelector('.wedge-rot').style.transform=`rotate(${ki*30}deg)`;
  circle.querySelectorAll('.keybtn').forEach(b=>{b.classList.remove('in-key','dim-slot','degsel');const old=b.querySelector('.deg');if(old)old.remove()});
@@ -782,6 +790,7 @@ applyLanguage();
 initHarmonyKeys();renderHarmony();renderModesStandalone();buildCircle();selectKey(0);
 setSoundMode(soundMode,false);
 restoreState();
+fitCircle();if(window.ResizeObserver){try{new ResizeObserver(fitCircle).observe(circle.parentElement)}catch(e){}}else if(window.addEventListener)window.addEventListener('resize',fitCircle);
 {const dt=document.querySelector('#degToggle');if(dt){dt.checked=showDegrees;dt.onchange=()=>{showDegrees=dt.checked;try{localStorage.setItem('hmk-degrees',showDegrees?'1':'0')}catch(e){}renderWedge()}}}
 
 function syncAndroidBars(theme){try{const a=window.AndroidAppearance;if(!a||!a.setBars)return;const hex=c=>{const m=(c||'').match(/\d+/g);return m?'#'+m.slice(0,3).map(x=>(+x).toString(16).padStart(2,'0')).join(''):null};const top=hex(getComputedStyle(document.body).backgroundColor),nav=document.querySelector('nav'),bottom=nav?hex(getComputedStyle(nav).backgroundColor):top;if(top)a.setBars(top,bottom||top,theme==='light')}catch(e){}}
