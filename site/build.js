@@ -14,7 +14,8 @@ const SIG=['No sharps or flats','1 sharp','2 sharps','3 sharps','4 sharps','5 sh
 const QUAL=['','m','m','','','m','°'],ROMAN=['I','ii','iii','IV','V','vi','vii°'];
 const circle=KEYS.map((k,i)=>({key:k,sig:SIG[i],chords:Array.from(core.run(`chordPitch(${JSON.stringify(k)},['1','2','3','4','5','6','7'])`),(n,j)=>({name:n.name+QUAL[j],roman:ROMAN[j]}))}));
 
-function page({title,description,canonical,body}){return `<!doctype html>
+// base: relative path to the site root ('./' on the home page, '../../' two folders down); the 404 page uses '/'.
+function page({title,description,canonical,body,base='./'}){return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -26,26 +27,26 @@ function page({title,description,canonical,body}){return `<!doctype html>
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#101827">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="${base}assets/site.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <div class="wrap">
 <header class="top">
-<a class="brand" href="/"><span class="logo" aria-hidden="true">♫</span>HARMONY <span>MUSIC KIT</span></a>
-<nav aria-label="Main"><a href="/app/">Chords</a><a href="/app/">Keys</a><a href="/#learn">Learn</a><a class="quiet" href="#app">App</a></nav>
+<a class="brand" href="${base}"><span class="logo" aria-hidden="true">♫</span>HARMONY <span>MUSIC KIT</span></a>
+<nav aria-label="Main"><a href="${base}app/">Chords</a><a href="${base}app/">Keys</a><a href="${base}#learn">Learn</a><a class="quiet" href="#app">App</a></nav>
 </header>
 <main id="main">
 ${body}
 </main>
 <section id="app" class="appbox" aria-labelledby="app-title">
 <div><h2 id="app-title">Practise with the app</h2><p>The free Harmony Music Kit app adds a practice player with loop and tempo, mode comparison by ear and the harmony explorer. In the browser or on Android.</p></div>
-<div class="row"><a class="btn ghost" href="/app/">Open in browser</a></div>
+<div class="row"><a class="btn ghost" href="${base}app/">Open in browser</a></div>
 </section>
-<footer class="foot"><span>Made by a guitarist, for musicians.</span><span class="row"><a href="https://github.com/Byduran/harmony-music-kit">GitHub</a><a href="/app/">Sound credits</a></span></footer>
+<footer class="foot"><span>Made by a guitarist, for musicians.</span><span class="row"><a href="https://github.com/Byduran/harmony-music-kit">GitHub</a><a href="${base}app/">Sound credits</a></span></footer>
 </div>
-<script src="/assets/site.js" defer></script>
+<script src="${base}assets/site.js" defer></script>
 </body>
 </html>
 `}
@@ -59,7 +60,7 @@ const home=page({title:'Harmony Music Kit — chords, keys and music theory you 
 <span class="eyebrow">Free interactive music theory</span>
 <h1 id="hero-title">See harmony.<br>Hear it. Play it.</h1>
 <p class="lead">Guitar shapes and piano voicings for 420 chords, every key with its chords, and short interactive lessons — all with real piano and guitar sound. Made for guitarists and pianists who want to understand what they play.</p>
-<div class="row"><a class="btn" href="#lookup">Find a chord</a><a class="btn ghost" href="/app/">Browse keys</a></div>
+<div class="row"><a class="btn" href="#lookup">Find a chord</a><a class="btn ghost" href="app/">Browse keys</a></div>
 <span class="muted small">Free, no sign-up. Listen to every chord right on the page.</span>
 </div>
 <div class="card circle-card">
@@ -74,8 +75,8 @@ ${KEYS.map((k,i)=>{const a=(i*30-90)*Math.PI/180;return `<button type="button" c
 <section id="lookup" class="block" aria-labelledby="lookup-t">
 <h2 id="lookup-t">Look up any chord</h2>
 <p class="muted">Guitar shapes in every position, piano inversions, and how it sounds. 420 chords, 12 roots.</p>
-<form class="search" role="search" action="/app/"><label class="sr" for="q">Chord name</label><input id="q" name="q" type="search" placeholder="Try C#m7, Fmaj7 or Bb7"><button class="btn" type="submit">Find chord</button></form>
-<div class="chips">${popular.map(p=>`<a class="chip" href="/app/">${p}</a>`).join('')}</div>
+<form class="search" role="search" action="app/"><label class="sr" for="q">Chord name</label><input id="q" name="q" type="search" placeholder="Try C#m7, Fmaj7 or Bb7"><button class="btn" type="submit">Find chord</button></form>
+<div class="chips">${popular.map(p=>`<a class="chip" href="app/">${p}</a>`).join('')}</div>
 </section>
 <section id="learn" class="block" aria-labelledby="learn-t">
 <h2 id="learn-t">Learn by doing</h2>
@@ -105,5 +106,5 @@ const urls=['/','/app/'];
 write('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u=>`<url><loc>${SITE}${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 write('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 write('_headers',`/assets/*\n  Cache-Control: public, max-age=86400\n/app/sounds/*\n  Cache-Control: public, max-age=604800\n`);
-write('404.html',page({title:'Page not found — Harmony Music Kit',description:'This page does not exist.',canonical:'/404',body:`<section class="block"><h1>Page not found</h1><p class="muted">Try the <a href="/">home page</a> or <a href="/app/">open the app</a>.</p></section>`}));
+write('404.html',page({title:'Page not found — Harmony Music Kit',description:'This page does not exist.',canonical:'/404',base:'/',body:`<section class="block"><h1>Page not found</h1><p class="muted">Try the <a href="/">home page</a> or <a href="/app/">open the app</a>.</p></section>`}));
 console.log('Built',fs.readdirSync(OUT).join(', '),'→',OUT);
