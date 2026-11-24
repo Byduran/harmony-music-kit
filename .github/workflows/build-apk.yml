@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: 20
       - run: node tests/music-theory.test.js
+      - name: Build website (site at /, app at /app)
+        run: node site/build.js
 
       - uses: actions/setup-java@v4
         with:
