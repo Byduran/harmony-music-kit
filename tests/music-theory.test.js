@@ -73,3 +73,9 @@ console.log('PASS Turkish: dictionary covers progressions, modes, harmony explan
 // v0.9.30: English by default
 assert.equal(vm.runInContext('lang',ctx),'en');
 console.log('PASS language: English by default');
+// v0.9.31: diatonic wedge slots match each key's diatonic chord roots
+{const KD=vm.runInContext('KEYDATA',ctx),W=vm.runInContext('WEDGE',ctx),pcOf=n=>vm.runInContext(`pc(${JSON.stringify(n)})`,ctx);
+ for(const m of ['major','minor'])for(let k=0;k<12;k++)W[m].forEach(([ring,off,rom],d)=>{
+  const idx=(k+off+12)%12,slotRoot=(ring==='o'?KD.major:KD.minor)[idx][0],chordRoot=KD[m][k][2][d];
+  assert.equal(pcOf(slotRoot),pcOf(chordRoot),`${m} ${KD[m][k][0]} degree ${rom}: slot ${slotRoot} vs chord ${chordRoot}`)})}
+console.log('PASS circle: diatonic wedge covers the right seven chords in all 24 keys');
