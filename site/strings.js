@@ -15,7 +15,7 @@ module.exports={en:{
 'Tap a key — its chords appear below':'Tap a key — its chords appear below','Circle of fifths':'Circle of fifths','Everything about {key}':'Everything about {key}',
 'Look up any chord':'Look up any chord','lookup lead':'Guitar shapes in every position, piano inversions, and how it sounds. 420 chords, 12 roots.',
 'Chord name':'Chord name','Try C#m7, Fmaj7 or Bb7':'Try C#m7, Fmaj7 or Bb7','Find chord':'Find chord','All chords':'All chords',
-'Learn by doing':'Learn by doing','learn lead':'Short lessons where you tap, listen and see each idea.','Lesson {n} · coming soon':'Lesson {n} · coming soon',
+'Learn by doing':'Learn by doing','learn lead':'Short lessons where you tap, listen and see each idea.','Lesson {n}':'Lesson {n}','Step-by-step lesson coming soon':'Step-by-step lesson coming soon','lesson1 go':'Explore the circle','lesson2 go':'See the chords of C major','lesson3 go':'Play ii–V–I in C major',
 'lesson1 title':'The circle of fifths','lesson1 text':"Why keys sit in this order, how sharps and flats add up, and how to find any key's chords at a glance.",
 'lesson2 title':'Diatonic chords','lesson2 text':'Build the seven chords of a key from its scale, hear their roles, and read roman numerals.',
 'lesson3 title':'The ii–V–I','lesson3 text':'The most common progression in jazz: hear the pull to home, follow the voice leading, play it in every key.',

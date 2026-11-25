@@ -285,7 +285,7 @@ ${circleMarkup(['major','minor'],340)}
 <h2 id="learn-t">${t('Learn by doing')}</h2>
 <p class="muted">${t('learn lead')}</p>
 <div class="grid3">
-${[1,2,3].map(n=>`<article class="card lesson"><span class="eyebrow">${t('Lesson {n} · coming soon',{n})}</span><h3>${t('lesson'+n+' title')}</h3><p>${t('lesson'+n+' text')}</p></article>`).join('')}
+${[[1,'keys/'],[2,'keys/c-major/#kc'],[3,'keys/c-major/#kp']].map(([n,u])=>`<a class="card lesson" href="${u}"><span class="eyebrow">${t('Lesson {n}',{n})}</span><h3>${t('lesson'+n+' title')}</h3><p>${t('lesson'+n+' text')}</p><span class="go">${t('lesson'+n+' go')} →</span><small class="soon">${t('Step-by-step lesson coming soon')}</small></a>`).join('')}
 </div>
 </section>
 <section class="block" aria-labelledby="feat-t">

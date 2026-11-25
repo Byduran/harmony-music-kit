@@ -129,3 +129,6 @@ rect[data-m].lit{fill:#FFC58F;filter:drop-shadow(0 0 6px rgba(244,194,143,.8))}
 .all{margin-top:36px;padding:16px 20px}.all summary{cursor:pointer;font-weight:700;min-height:28px}.all .label{margin-top:16px}
 .quietlink{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+a.lesson{text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s}a.lesson:hover{border-color:var(--cu);transform:translateY(-2px)}
+a.lesson .go{margin-top:auto;font-weight:700;color:var(--cu2)}a.lesson .soon{font-size:12px;color:var(--muted)}
+h2[id]{scroll-margin-top:16px}
