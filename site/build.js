@@ -268,9 +268,9 @@ function home(){
 <div class="row"><a class="btn" href="#lookup">${t('Find a chord')}</a><a class="btn ghost" href="keys/">${t('Browse keys')}</a></div>
 <span class="muted small">${t('Free, no sign-up. Listen to every chord right on the page.')}</span>
 </div>
-<div class="card circle-card explorer mini" data-circle='${esc(J(circleData(['major'])))}' data-base="${base}">
+<div class="card circle-card explorer mini" data-circle='${esc(J(circleData(['major','minor'])))}' data-base="${base}">
 <span class="muted small">${t('Tap a key — its chords appear below')}</span>
-${circleMarkup(['major'],300)}
+${circleMarkup(['major','minor'],340)}
 <div class="diatonic" data-c="chords" data-links="1"></div>
 <a class="more" data-c="link" href="keys/c-major/">${t('Everything about {key}',{key:'C major'})} →</a>
 </div>

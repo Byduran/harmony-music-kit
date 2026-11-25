@@ -89,7 +89,7 @@ a.feat{text-decoration:none;color:var(--ink)}a.feat small{color:var(--cu2);font-
 /* v0.9.33 circle of fifths colour wheel (same hues as the app) */
 .cof{position:relative;width:min(var(--size),100%);aspect-ratio:1;margin:0 auto}
 .cof-disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:var(--deep);border:1px solid var(--line)}
-.cof-wedge{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -45deg,rgba(216,155,98,.22) 0deg 90deg,transparent 90deg 360deg);transition:transform .45s cubic-bezier(.3,.7,.2,1)}
+.cof-wedge{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -45deg,rgba(244,194,143,.16) 0deg 90deg,transparent 90deg 360deg);transition:transform .45s cubic-bezier(.3,.7,.2,1)}
 .cof-hole{position:absolute;left:50%;top:50%;width:36%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--bg);border:1px solid var(--line)}
 .cof.one .cof-hole{width:46%}
 .rk{position:absolute;transform:translate(-50%,-50%);width:13.5%;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font:inherit;font-weight:800;font-size:clamp(11px,3.6vw,14px);cursor:pointer;color:#F5EFE6;
