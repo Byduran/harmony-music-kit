@@ -8,12 +8,12 @@
   box.querySelectorAll('[data-type]').forEach(function(b){var on=b.getAttribute('data-type')===suf;b.setAttribute('aria-checked',String(on));if(on)showGroup(b.parentNode.id)})}
  function showGroup(id){box.querySelectorAll('[role=tab]').forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',String(on));document.getElementById(t.getAttribute('aria-controls')).hidden=!on})}
  function load(push){var c=find(root,suf);if(!c)return;mark();var my=++busy;
-  pageLink.href=c[2];pageLink.textContent='Everything about '+c[3]+' — all positions, inversions, where it is used →';appLink.href=base+'app/?page=chords&chord='+encodeURIComponent(c[0]+c[1]);
+  pageLink.href=base+c[2];pageLink.textContent=window.HMK.t('js builder page',{sym:c[3]});appLink.href=base+'app/?'+(window.HMK.lang==='tr'?'lang=tr&':'')+'page=chords&chord='+encodeURIComponent(c[0]+c[1]);
   if(push&&history.replaceState)history.replaceState(null,'','?c='+encodeURIComponent(c[0]+c[1]));
-  var got=cache[c[2]]||(cache[c[2]]=fetch(c[2]).then(function(r){if(!r.ok)throw Error(r.status);return r.text()}));
+  var got=cache[c[2]]||(cache[c[2]]=fetch(base+c[2]).then(function(r){if(!r.ok)throw Error(r.status);return r.text()}));
   got.then(function(html){if(my!==busy)return;var doc=new DOMParser().parseFromString(html,'text/html');
    ['head','inst'].forEach(function(n){var nw=doc.querySelector('[data-frag="'+n+'"]'),old=out.querySelector('[data-frag="'+n+'"]');if(nw&&old){nw.classList.add('fresh');old.replaceWith(document.importNode(nw,true))}});
-   window.HMK.initSteppers(out)}).catch(function(){delete cache[c[2]];location.href=c[2]})}
+   window.HMK.initSteppers(out)}).catch(function(){delete cache[c[2]];location.href=base+c[2]})}
  box.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
   if(b.hasAttribute('data-root')){root=b.getAttribute('data-root');load(true)}
   else if(b.hasAttribute('data-type')){suf=b.getAttribute('data-type');load(true)}

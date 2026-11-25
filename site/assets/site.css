@@ -184,3 +184,9 @@ a.opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);co
 .kbk{position:absolute;top:0;height:60%;width:calc(100% / 14 * .62);border-radius:0 0 4px 4px;background:#0B111C;transition:background .2s}
 .kw.on{background:#F7D9B8}.kbk.on{background:#B98A5E}.kw.alt,.kbk.alt{background:var(--cu)}.kw.dim{background:#C9CFD8}
 .kw.lit{background:#FFC58F;transform:translateY(3px)}.kbk.lit{background:#E0A46A}
+/* language switch and Turkish hint */
+.langsw{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:700;font-size:14px;padding-left:6px}
+.langsw a{color:var(--muted);text-decoration:none;padding:8px 2px}.langsw a[aria-current="true"]{color:var(--cu2)}.langsw span{opacity:.5}
+.langhint{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:#22324C;border-bottom:1px solid var(--line);font-size:14px}
+.langhint a{font-weight:800}.langhint button{border:0;background:transparent;color:var(--muted);font-size:20px;cursor:pointer;min-width:36px;min-height:36px}
+.solf{color:var(--muted);font-weight:600;font-size:.5em;letter-spacing:0}
