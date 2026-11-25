@@ -6,6 +6,7 @@ const {loadCore}=require('./core');
 const STR=require('./strings');
 const ROOT=path.join(__dirname,'..'),OUT=path.join(ROOT,'dist'),SITE=process.env.SITE_URL||'https://harmony-music-kit.pages.dev';
 const core=loadCore(),run=c=>core.run(c),J=x=>JSON.stringify(x);
+const crypto=require('crypto'),V=crypto.createHash('sha1').update(fs.readdirSync(path.join(__dirname,'assets')).sort().map(f=>fs.readFileSync(path.join(__dirname,'assets',f))).join('')).digest('hex').slice(0,8);
 const S=STR.en,t=(k,v)=>{let s=S[k]??k;for(const [a,b] of Object.entries(v||{}))s=s.split('{'+a+'}').join(b);return s};
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 function write(rel,content){const f=path.join(OUT,rel);fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,content)}
@@ -59,8 +60,8 @@ function page({title,description,canonical,body,base='./',lang='en',scripts=[]})
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#101827">
-<link rel="icon" href="${base}assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="${base}assets/site.css">
+<link rel="icon" href="${base}assets/favicon.svg?v=${V}" type="image/svg+xml">
+<link rel="stylesheet" href="${base}assets/site.css?v=${V}">
 </head>
 <body data-base="${base}">
 <a class="skip" href="#main">${t('Skip to content')}</a>
@@ -79,7 +80,7 @@ ${body}
 <footer class="foot"><span>${t('Made by a guitarist, for musicians.')}</span><span class="row"><a href="https://github.com/Byduran/harmony-music-kit">GitHub</a></span>
 <small class="credits">${t('credits')}</small></footer>
 </div>
-${['site.js',...scripts].map(s=>`<script src="${base}assets/${s}" defer></script>`).join('\n')}
+${['site.js',...scripts].map(s=>`<script src="${base}assets/${s}?v=${V}" defer></script>`).join('\n')}
 </body>
 </html>
 `}
@@ -306,7 +307,7 @@ copyDir(path.join(ROOT,'web'),path.join(OUT,'app'));
 const urls=['','chords/','keys/',...KEYS.map(k=>k.url),...CHORDS.map(c=>c.url),'app/'];
 write('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u=>`<url><loc>${SITE}/${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 write('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
-write('_headers',`/assets/*\n  Cache-Control: public, max-age=86400\n/app/sounds/*\n  Cache-Control: public, max-age=604800\n`);
+write('_headers',`/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/app/sounds/*\n  Cache-Control: public, max-age=604800\n`);
 write('404.html',page({title:t('Page not found')+' — Harmony Music Kit',description:t('This page does not exist.'),canonical:'/404',base:'/',body:`<section class="block"><h1>${t('Page not found')}</h1><p class="muted">${t('404 text')}</p></section>`}));
 console.log(`Built ${CHORDS.length} chord pages, ${KEYS.length} key pages, ${urls.length} URLs → ${OUT}`);
 module.exports={CHORDS,KEYS,appearances};
