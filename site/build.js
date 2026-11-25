@@ -4,6 +4,7 @@
 const fs=require('fs'),path=require('path');
 const {loadCore}=require('./core');
 const STR=require('./strings');
+const LESSONS=require('./lessons');
 const ROOT=path.join(__dirname,'..'),OUT=path.join(ROOT,'dist'),SITE=process.env.SITE_URL||'https://harmony-music-kit.pages.dev';
 const core=loadCore(),run=c=>core.run(c),J=x=>JSON.stringify(x);
 const crypto=require('crypto'),V=crypto.createHash('sha1').update(fs.readdirSync(path.join(__dirname,'assets')).sort().map(f=>fs.readFileSync(path.join(__dirname,'assets',f))).join('')).digest('hex').slice(0,8);
@@ -72,7 +73,7 @@ function page({title,description,canonical,body,base='./',lang='en',scripts=[]})
 <div class="wrap">
 <header class="top">
 <a class="brand" href="${base}"><span class="logo" aria-hidden="true">♫</span>HARMONY <span>MUSIC KIT</span></a>
-<nav aria-label="Main"><a href="${base}chords/">${t('Chords')}</a><a href="${base}keys/">${t('Keys')}</a><a href="${base}#learn">${t('Learn')}</a><a class="quiet" href="#app">${t('App')}</a></nav>
+<nav aria-label="Main"><a href="${base}chords/">${t('Chords')}</a><a href="${base}keys/">${t('Keys')}</a><a href="${base}learn/">${t('Learn')}</a><a class="quiet" href="#app">${t('App')}</a></nav>
 </header>
 <main id="main">
 ${body}
@@ -281,6 +282,37 @@ function keysIndex(){const base='../';
  return page({title:t('keys index title'),description:t('keys index description'),canonical:'/keys/',base,body,scripts:['audio.js','circle.js']});
 }
 
+
+// ---------- lessons (HMK-25) ----------
+function keyboardMarkup(){const WH=[0,2,4,5,7,9,11],whites=[],blacks=[];for(let m=60;m<84;m++)(WH.includes(m%12)?whites:blacks).push(m);
+ return `<div class="kb" role="img" aria-label="${t('Piano keyboard')}"><div class="kb-w">${whites.map(m=>`<div class="kw" data-m="${m}"><span></span></div>`).join('')}</div>${blacks.map(m=>{const j=whites.indexOf(m-1)+1;return `<div class="kbk" data-m="${m}" style="left:calc(100% / 14 * ${j} - 100% / 14 * .31)"><span></span></div>`}).join('')}</div>`}
+function lessonPage(L){const base='../../',N=L.steps.length,usesCircle=L.steps.some(x=>x.circle||(x.quiz&&x.quiz.then&&x.quiz.then.circle));
+ const visual=L.steps.map(x=>({circle:x.circle||null,kb:x.kb||null,row:x.row||null,play:x.play||null,quiz:x.quiz?{on:x.quiz.on,answer:x.quiz.answer,ok:x.quiz.ok,hint:x.quiz.hint,then:x.quiz.then||null}:null,chips:x.chips||null}));
+ const body=`${crumbs(base,[[t('Home'),''],[t('Learn'),'learn/'],[L.title,'']])}
+<article class="lessonpage" data-lesson='${esc(J({steps:visual,next:L.next}))}' data-base="${base}">
+<header class="stack"><span class="eyebrow">${t('Lesson {n}',{n:L.n})} · ${t('about {m} minutes',{m:L.minutes})}</span><h1>${L.title}</h1>
+<div class="lbar" role="progressbar" aria-label="${t('Lesson progress')}" aria-valuemin="1" aria-valuemax="${N}" aria-valuenow="1"><i style="width:${100/N}%"></i></div></header>
+<div class="lwrap">
+<section class="card ltext" aria-live="polite">
+${L.steps.map((x,i)=>`<div class="lstep" data-i="${i}"${i?' hidden':''}><span class="stepno">${t('Step {i} / {n}',{i:i+1,n:N})}</span><h2>${x.t}</h2><p>${x.x}</p>${x.play&&x.play.label?`<button type="button" class="btn lplay">▶ ${x.play.label}</button>`:''}${x.chips?`<div class="chips">${x.chips.map(c=>`<span class="pill alt"><b>${c}</b></span>`).join('')}</div>`:''}<p class="lmsg" hidden></p></div>`).join('')}
+<div class="lnav"><button type="button" class="btn ghost" data-lback>‹ ${t('Back')}</button><button type="button" class="btn" data-lnext>${t('Next')} ›</button><a class="btn" data-ldone href="${base}${L.next.url}" hidden>${L.next.label} →</a></div>
+</section>
+<section class="card lpic" aria-label="${t('Interactive picture')}" data-light-root>
+${usesCircle?`<div class="lcircle">${circleMarkup(['major','minor'],340)}</div>`:''}
+<div class="diatonic lrow" data-lrow hidden></div>
+${keyboardMarkup()}
+</section>
+</div>
+</article>
+<section class="block"><h2>${t('More lessons')}</h2><div class="grid3">${LESSONS.filter(x=>x!==L).map(x=>`<a class="card lesson" href="${base}learn/${x.slug}/"><span class="eyebrow">${t('Lesson {n}',{n:x.n})}</span><h3>${x.title}</h3><p>${x.description.split(':')[0]}.</p><span class="go">${t('Start lesson')} →</span></a>`).join('')}</div></section>`;
+ return page({title:`${L.title} – ${t('interactive lesson')} | Harmony Music Kit`,description:L.description,canonical:`/learn/${L.slug}/`,base,body,scripts:['audio.js','lesson.js']});
+}
+function learnIndex(){const base='../';
+ const body=`${crumbs(base,[[t('Home'),''],[t('Learn'),'']])}<section class="stack"><h1>${t('Learn by doing')}</h1><p class="lead">${t('learn index lead')}</p></section>
+<div class="grid3" style="margin-top:18px">${LESSONS.map(x=>`<a class="card lesson" href="${base}learn/${x.slug}/"><span class="eyebrow">${t('Lesson {n}',{n:x.n})} · ${t('about {m} minutes',{m:x.minutes})}</span><h3>${x.title}</h3><p>${x.description.split(':')[0]}.</p><span class="go">${t('Start lesson')} →</span></a>`).join('')}</div>`;
+ return page({title:t('learn index title'),description:t('learn index description'),canonical:'/learn/',base,body});
+}
+
 // ---------- home ----------
 function home(){
  const base='./';
@@ -312,7 +344,7 @@ ${circleMarkup(['major','minor'],340)}
 <h2 id="learn-t">${t('Learn by doing')}</h2>
 <p class="muted">${t('learn lead')}</p>
 <div class="grid3">
-${[[1,'keys/'],[2,'keys/c-major/#kc'],[3,'keys/c-major/#kp']].map(([n,u])=>`<a class="card lesson" href="${u}"><span class="eyebrow">${t('Lesson {n}',{n})}</span><h3>${t('lesson'+n+' title')}</h3><p>${t('lesson'+n+' text')}</p><span class="go">${t('lesson'+n+' go')} →</span><small class="soon">${t('Step-by-step lesson coming soon')}</small></a>`).join('')}
+${LESSONS.map(x=>`<a class="card lesson" href="learn/${x.slug}/"><span class="eyebrow">${t('Lesson {n}',{n:x.n})} · ${t('about {m} minutes',{m:x.minutes})}</span><h3>${t('lesson'+x.n+' title')}</h3><p>${t('lesson'+x.n+' text')}</p><span class="go">${t('Start lesson')} →</span></a>`).join('')}
 </div>
 </section>
 <section class="block" aria-labelledby="feat-t">
@@ -327,11 +359,13 @@ fs.rmSync(OUT,{recursive:true,force:true});
 write('index.html',home());
 write('chords/index.html',chordsIndex());
 write('keys/index.html',keysIndex());
+write('learn/index.html',learnIndex());
+for(const L of LESSONS)write(`learn/${L.slug}/index.html`,lessonPage(L));
 for(const c of CHORDS)write(c.url+'index.html',chordPage(c));
 for(const k of KEYS)write(k.url+'index.html',keyPage(k));
 copyDir(path.join(__dirname,'assets'),path.join(OUT,'assets'));
 copyDir(path.join(ROOT,'web'),path.join(OUT,'app'));
-const urls=['','chords/','keys/',...KEYS.map(k=>k.url),...CHORDS.map(c=>c.url),'app/'];
+const urls=['','chords/','keys/','learn/',...LESSONS.map(L=>`learn/${L.slug}/`),...KEYS.map(k=>k.url),...CHORDS.map(c=>c.url),'app/'];
 write('sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u=>`<url><loc>${SITE}/${u}</loc></url>`).join('\n')}\n</urlset>\n`);
 write('robots.txt',`User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 write('_headers',`/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n/app/sounds/*\n  Cache-Control: public, max-age=604800\n`);

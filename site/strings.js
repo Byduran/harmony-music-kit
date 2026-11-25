@@ -67,7 +67,12 @@ module.exports={en:{
 'explorer lead':'Tap a key. Its sharps or flats, its scale and its seven chords appear — and you can hear them.','Major or minor':'Major or minor',
 'Scale':'Scale','scale note':'Copper notes are the sharps or flats of this key.','The seven chords — tap to hear':'The seven chords — tap to hear',
 'wedge note':'The shaded wedge on the circle holds the same chords.','All 24 keys':'All 24 keys',
-'Change chord':'Change chord','Change key':'Change key','change':'change','tap a chord':'Tap a chord to hear it · → opens its page','{sym} chord page':'{sym} chord page','Progression':'Progression','Loop':'Loop','Click':'Click','Tempo':'Tempo','Tempo in BPM':'Tempo in BPM','Sound':'Sound','Piano':'Piano','Guitar':'Guitar',
+'about {m} minutes':'about {m} minutes','Lesson progress':'Lesson progress','Step {i} / {n}':'Step {i} / {n}','Back':'Back','Next':'Next','Interactive picture':'Interactive picture',
+'More lessons':'More lessons','Start lesson':'Start lesson','interactive lesson':'interactive lesson',
+'learn index lead':'Short lessons where you tap, listen and see each idea. Each takes a few minutes.',
+'learn index title':'Learn music theory by doing – interactive lessons | Harmony Music Kit',
+'learn index description':'Interactive music theory lessons with sound: the circle of fifths, diatonic chords and the ii–V–I progression.',
+'Piano keyboard':'Piano keyboard','Change chord':'Change chord','Change key':'Change key','change':'change','tap a chord':'Tap a chord to hear it · → opens its page','{sym} chord page':'{sym} chord page','Progression':'Progression','Loop':'Loop','Click':'Click','Tempo':'Tempo','Tempo in BPM':'Tempo in BPM','Sound':'Sound','Piano':'Piano','Guitar':'Guitar',
 'player note':'2 beats per chord, like the app’s practice player. The chord playing lights up above.',
 // search (also used by site.js)
 'No chord found':'No chord found — try a name like C#m7, Fmaj7 or Bb7.'
