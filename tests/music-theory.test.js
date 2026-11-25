@@ -105,3 +105,10 @@ console.log('PASS circle: diatonic wedge covers the right seven chords in all 24
  const f=vm.runInContext("guitarShapes('F',LIBTYPES[0])",ctx).find(s=>s.lowFret===1&&s.rootString===0);
  assert.deepEqual(Array.from(f.fingers),[1,3,4,2,1,1]);assert(f.barre&&f.barre.from===0&&f.barre.to===5);
  console.log('PASS guitar shapes:',shapeTotal,'shapes for',roots.length*types.length,'chords; shapes per chord',JSON.stringify(stats));}
+// v0.9.33 deep links: every library chord name, and common spellings, parse back to the same chord.
+{const roots=vm.runInContext('LIBROOTS',ctx),types=vm.runInContext('LIBTYPES',ctx);
+ for(const r of roots)for(let i=0;i<types.length;i++){const got=vm.runInContext(`parseChordName(${JSON.stringify(r+types[i][1])})`,ctx);assert(got&&got.root===r&&got.type===i,'parse '+r+types[i][1])}
+ const ex={'C#m7':['C♯','m7'],'Dbm7':['C♯','m7'],'Bb7':['B♭','7'],'Bm7b5':['B','m7♭5'],'Cmin7':['C','m7'],'F#':['F♯',''],'Gmaj7':['G','maj7'],'A-7':['A','m7'],'Edim7':['E','dim7'],'c':['C','']};
+ for(const [k,[r,suf]] of Object.entries(ex)){const got=vm.runInContext(`parseChordName(${JSON.stringify(k)})`,ctx);assert(got&&got.root===r&&types[got.type][1]===suf,'parse '+k)}
+ assert.equal(vm.runInContext('parseChordName("H7")',ctx),null);
+ console.log('PASS deep-link chord names');}
