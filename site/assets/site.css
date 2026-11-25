@@ -158,3 +158,11 @@ a.opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);co
 .seg a{display:grid;place-items:center;border-radius:9px;min-height:40px;padding:0 14px;font-weight:700;font-size:14px;color:var(--muted);text-decoration:none}.seg a[aria-current="page"]{background:var(--cu);color:var(--bg)}
 .opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);color:#F5EFE6}.opt.hue:hover{border-color:#F4C28F}
 .opt.hue[aria-checked="true"],a.opt.hue[aria-current="page"]{background:var(--cu);border-color:#F4C28F;color:var(--bg)}
+/* palette C: dark glass with a coloured rim and tinted text (OKLCH keeps every hue equally bright) */
+.rk{background:oklch(.27 .04 var(--h));border:1.5px solid oklch(.72 .14 var(--h));color:oklch(.88 .07 var(--h))}
+.rk.minor{background:oklch(.27 .04 var(--h));border:1.5px solid oklch(.80 .14 var(--h));color:oklch(.92 .07 var(--h))}
+.rk.inw{background:oklch(.34 .07 var(--h));border:2px solid #F4C28F}
+.rk.on{background:var(--cu);border:2px solid #F4C28F;color:var(--bg)}
+.opt.hue,a.opt.hue{background:oklch(.27 .04 var(--h));border:1.5px solid oklch(.72 .14 var(--h));color:oklch(.90 .07 var(--h))}
+.opt.hue:hover,a.opt.hue:hover{background:oklch(.33 .06 var(--h))}
+.opt.hue[aria-checked="true"],a.opt.hue[aria-current="page"]{background:var(--cu);border-color:#F4C28F;color:var(--bg)}
