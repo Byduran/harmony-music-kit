@@ -41,6 +41,9 @@ for(const mode of ['major','minor'])KEYDATA[mode].forEach((k,i)=>{const tonic=k[
 });
 const keyBy=(mode,pc)=>KEYS.find(k=>k.mode===mode&&pcOf(k.tonic)===pc);
 const parallelMajor=k=>keyBy('major',pcOf(k.tonic));
+const hueOf=root=>{const k=keyBy('major',pcOf(root));return hueAt(k.i)};
+// Colour wheel hue per circle position (OKLCH hue, palette C: dark glass with a coloured rim).
+const hueAt=i=>(250+i*30)%360;
 const sigText=k=>k.acc.length?t(k.acc[0].includes('♯')?'{n} sharps':'{n} flats',{n:k.acc.length}).replace(/^1 (sharp|flat)s/,'1 $1'):t('No sharps or flats');
 
 // Where each chord appears: degree in major and natural minor keys (triads and seventh chords).
@@ -124,7 +127,7 @@ function chordPage(c){
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Chords'),'chords/'],[c.root,`chords/#root-${ROOTSLUG(c.root)}`],[sym,'']])}
 <nav class="switcher card" aria-label="${t('Change chord')}">
-<div class="opts roots">${ROOTS.map(r=>{const x=CHORDS.find(y=>y.root===r&&y.suf===c.suf);return `<a class="opt" href="${base}${x.url}"${r===c.root?' aria-current="page"':''}>${r}</a>`}).join('')}</div>
+<div class="opts roots">${ROOTS.map(r=>{const x=CHORDS.find(y=>y.root===r&&y.suf===c.suf);return `<a class="opt hue" style="--h:${hueOf(r)}" href="${base}${x.url}"${r===c.root?' aria-current="page"':''}>${r}</a>`}).join('')}</div>
 <details class="typesw"><summary>${t('Chord type')}: <b>${typeChip(c.suf)}</b> <span class="muted">· ${t('change')}</span></summary>
 ${GROUPS.map(([g,sufs])=>`<div class="group"><small>${t(g)}</small><div class="opts">${sufs.map(su=>{const x=CHORDS.find(y=>y.root===c.root&&y.suf===su);return `<a class="opt" href="${base}${x.url}"${su===c.suf?' aria-current="page"':''}>${typeChip(su)}</a>`}).join('')}</div></div>`).join('')}
 </details></nav>
@@ -200,7 +203,7 @@ function keyPage(k){
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
 <nav class="switcher card keysw" aria-label="${t('Change key')}">
-<div class="opts roots">${KEYS.filter(x=>x.mode===k.mode).map(x=>`<a class="opt hue" style="--h:${(210+x.i*30)%360}" href="${base}${x.url}" data-keep-section${x===k?' aria-current="page"':''}>${x.tonic}${k.mode==='minor'?'m':''}</a>`).join('')}</div>
+<div class="opts roots">${KEYS.filter(x=>x.mode===k.mode).map(x=>`<a class="opt hue" style="--h:${hueAt(x.i)}" href="${base}${x.url}" data-keep-section${x===k?' aria-current="page"':''}>${x.tonic}${k.mode==='minor'?'m':''}</a>`).join('')}</div>
 <div class="seg"><a role="button" href="${base}${(k.mode==='major'?k:parallelMajor(k)).url}" data-keep-section aria-current="${k.mode==='major'?'page':'false'}">${t('Major')}</a><a role="button" href="${base}${(k.mode==='minor'?k:keyBy('minor',pcOf(k.tonic))).url}" data-keep-section aria-current="${k.mode==='minor'?'page':'false'}">${t('Minor')}</a></div>
 </nav>
 <section class="chordhead" data-light-root>
@@ -232,7 +235,7 @@ function chordsIndex(){const base='../',def=CHORDS.find(c=>c.root==='C'&&c.suf==
 <section class="stack"><h1>${t('Chord builder')}</h1><p class="lead">${t('builder lead')}</p></section>
 <div class="grid2 pickers" data-builder='${data}'>
 <section class="card picker" aria-labelledby="rt"><h2 id="rt" class="label">${t('Root')}</h2>
-<div class="opts roots" role="radiogroup" aria-labelledby="rt">${ROOTS.map(r=>`<button type="button" class="opt" role="radio" aria-checked="${r==='C'}" data-root="${r}">${r}</button>`).join('')}</div></section>
+<div class="opts roots" role="radiogroup" aria-labelledby="rt">${ROOTS.map(r=>`<button type="button" class="opt hue" style="--h:${hueOf(r)}" role="radio" aria-checked="${r==='C'}" data-root="${r}">${r}</button>`).join('')}</div></section>
 <section class="card picker" aria-labelledby="ty"><h2 id="ty" class="label">${t('Chord type')}</h2>
 <div class="tabs" role="tablist" aria-labelledby="ty">${GROUPS.map(([g],i)=>`<button type="button" role="tab" class="tab" aria-selected="${i===0}" aria-controls="grp-${i}" id="tab-${i}">${t(g+' short')}</button>`).join('')}</div>
 ${GROUPS.map(([g,sufs],i)=>`<div class="opts types" role="radiogroup" id="grp-${i}" aria-labelledby="tab-${i}"${i?' hidden':''}>${sufs.map(su=>`<button type="button" class="opt" role="radio" aria-checked="${su===''}" data-type="${esc(su)}">${typeChip(su)}</button>`).join('')}</div>`).join('')}
@@ -252,7 +255,7 @@ function circleData(modes){return KEYS.filter(k=>modes.includes(k.mode)).map(k=>
  return {mode:k.mode,i:k.i,name:k.name,url:k.url,acc:k.acc.length?[k.acc.slice(0,half).join(' '),k.acc.slice(half).join(' ')].filter(Boolean):[],sig:sigText(k),scale:notes,
   chords:k.chords.map(x=>{const c=findChord(x.pc,x.triSuf);return {rom:x.rom,name:x.triDisp,url:c.url,midis:chordMidis(x.pc,x.triSuf)}})}})}
 function circleMarkup(modes,size){const keys=KEYS.filter(k=>modes.includes(k.mode)),k0=keys[0],two=modes.length>1;
- const btn=k=>{const outer=k.mode==='major',r=two?(outer?42:27):43,a=(k.i*30-90)*Math.PI/180,h=(210+k.i*30)%360;
+ const btn=k=>{const outer=k.mode==='major',r=two?(outer?42:27):43,a=(k.i*30-90)*Math.PI/180,h=hueAt(k.i);
   return `<button type="button" class="rk ${k.mode}" style="--h:${h};left:${(50+r*Math.cos(a)).toFixed(2)}%;top:${(50+r*Math.sin(a)).toFixed(2)}%" data-mode="${k.mode}" data-i="${k.i}" aria-pressed="false" aria-label="${k.name}"><span>${k.tonic}${k.mode==='minor'?'m':''}</span><small class="rom"></small></button>`};
  return `<div class="cof ${two?'two':'one'}" style="--size:${size}px" role="group" aria-label="${t('Circle of fifths')}">
 <div class="cof-disc" aria-hidden="true"><div class="cof-wedge"></div></div><div class="cof-hole" aria-hidden="true"></div>
