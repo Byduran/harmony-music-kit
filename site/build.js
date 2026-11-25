@@ -41,6 +41,7 @@ for(const mode of ['major','minor'])KEYDATA[mode].forEach((k,i)=>{const tonic=k[
 });
 const keyBy=(mode,pc)=>KEYS.find(k=>k.mode===mode&&pcOf(k.tonic)===pc);
 const parallelMajor=k=>keyBy('major',pcOf(k.tonic));
+const hueOf=root=>{const k=keyBy('major',pcOf(root));return (210+k.i*30)%360};
 const sigText=k=>k.acc.length?t(k.acc[0].includes('♯')?'{n} sharps':'{n} flats',{n:k.acc.length}).replace(/^1 (sharp|flat)s/,'1 $1'):t('No sharps or flats');
 
 // Where each chord appears: degree in major and natural minor keys (triads and seventh chords).
@@ -124,7 +125,7 @@ function chordPage(c){
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Chords'),'chords/'],[c.root,`chords/#root-${ROOTSLUG(c.root)}`],[sym,'']])}
 <nav class="switcher card" aria-label="${t('Change chord')}">
-<div class="opts roots">${ROOTS.map(r=>{const x=CHORDS.find(y=>y.root===r&&y.suf===c.suf);return `<a class="opt" href="${base}${x.url}"${r===c.root?' aria-current="page"':''}>${r}</a>`}).join('')}</div>
+<div class="opts roots">${ROOTS.map(r=>{const x=CHORDS.find(y=>y.root===r&&y.suf===c.suf);return `<a class="opt hue" style="--h:${hueOf(r)}" href="${base}${x.url}"${r===c.root?' aria-current="page"':''}>${r}</a>`}).join('')}</div>
 <details class="typesw"><summary>${t('Chord type')}: <b>${typeChip(c.suf)}</b> <span class="muted">· ${t('change')}</span></summary>
 ${GROUPS.map(([g,sufs])=>`<div class="group"><small>${t(g)}</small><div class="opts">${sufs.map(su=>{const x=CHORDS.find(y=>y.root===c.root&&y.suf===su);return `<a class="opt" href="${base}${x.url}"${su===c.suf?' aria-current="page"':''}>${typeChip(su)}</a>`}).join('')}</div></div>`).join('')}
 </details></nav>
@@ -232,7 +233,7 @@ function chordsIndex(){const base='../',def=CHORDS.find(c=>c.root==='C'&&c.suf==
 <section class="stack"><h1>${t('Chord builder')}</h1><p class="lead">${t('builder lead')}</p></section>
 <div class="grid2 pickers" data-builder='${data}'>
 <section class="card picker" aria-labelledby="rt"><h2 id="rt" class="label">${t('Root')}</h2>
-<div class="opts roots" role="radiogroup" aria-labelledby="rt">${ROOTS.map(r=>`<button type="button" class="opt" role="radio" aria-checked="${r==='C'}" data-root="${r}">${r}</button>`).join('')}</div></section>
+<div class="opts roots" role="radiogroup" aria-labelledby="rt">${ROOTS.map(r=>`<button type="button" class="opt hue" style="--h:${hueOf(r)}" role="radio" aria-checked="${r==='C'}" data-root="${r}">${r}</button>`).join('')}</div></section>
 <section class="card picker" aria-labelledby="ty"><h2 id="ty" class="label">${t('Chord type')}</h2>
 <div class="tabs" role="tablist" aria-labelledby="ty">${GROUPS.map(([g],i)=>`<button type="button" role="tab" class="tab" aria-selected="${i===0}" aria-controls="grp-${i}" id="tab-${i}">${t(g+' short')}</button>`).join('')}</div>
 ${GROUPS.map(([g,sufs],i)=>`<div class="opts types" role="radiogroup" id="grp-${i}" aria-labelledby="tab-${i}"${i?' hidden':''}>${sufs.map(su=>`<button type="button" class="opt" role="radio" aria-checked="${su===''}" data-type="${esc(su)}">${typeChip(su)}</button>`).join('')}</div>`).join('')}
