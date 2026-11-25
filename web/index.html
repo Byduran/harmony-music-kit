@@ -703,8 +703,8 @@ function chordDiagram(s,names,chordPcs){
  s.frets.forEach((f,i)=>{const x=px+i*sw;
   if(f==null){o.push(`<text class="cs-muted" x="${x}" y="${top-13}" text-anchor="middle" font-size="15" font-weight="700">×</text>`);return}
   const p=(GTUNE[i]+f)%12,root=p===chordPcs[0];
-  if(f===0){o.push(`<circle class="${root?'cs-openroot':'cs-open'}" cx="${x}" cy="${top-18}" r="6" fill="none" stroke-width="1.8"/>`)}
-  else{const y=top+(f-first+.5)*fh;o.push(`<circle class="${root?'cs-root':'cs-dot'}" cx="${x}" cy="${y}" r="${r}"/>`);if(s.fingers[i])o.push(`<text class="${root?'cs-rootink':'cs-dotink'}" x="${x}" y="${y+4.6}" text-anchor="middle" font-size="13" font-weight="800">${s.fingers[i]}</text>`)}
+  if(f===0){o.push(`<circle class="${root?'cs-openroot':'cs-open'}" data-m="${GTUNE[i]}" cx="${x}" cy="${top-18}" r="6" fill="none" stroke-width="1.8"/>`)}
+  else{const y=top+(f-first+.5)*fh;o.push(`<circle class="${root?'cs-root':'cs-dot'}" data-m="${GTUNE[i]+f}" cx="${x}" cy="${y}" r="${r}"/>`);if(s.fingers[i])o.push(`<text class="${root?'cs-rootink':'cs-dotink'}" x="${x}" y="${y+4.6}" text-anchor="middle" font-size="13" font-weight="800">${s.fingers[i]}</text>`)}
   o.push(`<text class="cs-muted" x="${x}" y="${H-2}" text-anchor="middle" font-size="11">${label(p)}</text>`)});
  o.push('</svg>');return o.join('');
 }
@@ -726,11 +726,11 @@ function pianoDiagram(inv){
  const pos=m=>{const r=m-lo,o2=Math.floor(r/12),p=r%12,wi=WH.indexOf(p);return wi>=0?{white:true,x:(o2*7+wi)*kw}:{white:false,x:(o2*7+WH.indexOf(p-1)+1)*kw}};
  for(let w=0;w<whites;w++)o.push(`<rect class="pk-w" x="${w*kw+.5}" y="0" width="${kw-1}" height="${H}" rx="4"/>`);
  const mark=(m,i)=>{const q=pos(m),bass=i===0,cx=q.white?q.x+kw/2:q.x;
-  if(q.white){o.push(`<rect class="${bass?'pk-bass':'pk-on'}" x="${q.x+.5}" y="0" width="${kw-1}" height="${H}" rx="4"/>`)}
+  if(q.white){o.push(`<rect class="${bass?'pk-bass':'pk-on'}" data-m="${m}" x="${q.x+.5}" y="0" width="${kw-1}" height="${H}" rx="4"/>`)}
   return {cx,white:q.white,bass}};
  const marks=inv.midis.map((m,i)=>({...mark(m,i),m,i}));
  for(let w=0;w<oct*7;w++)if([0,1,3,4,5].includes(w%7))o.push(`<rect class="pk-b" x="${(w+1)*kw-kw*.32}" y="0" width="${kw*.64}" height="${H*.6}" rx="3"/>`);
- marks.filter(q=>!q.white).forEach(q=>o.push(`<rect class="${q.bass?'pk-bass':'pk-bon'}" x="${q.cx-kw*.32}" y="0" width="${kw*.64}" height="${H*.6}" rx="3"/>`));
+ marks.filter(q=>!q.white).forEach(q=>o.push(`<rect class="${q.bass?'pk-bass':'pk-bon'}" data-m="${q.m}" x="${q.cx-kw*.32}" y="0" width="${kw*.64}" height="${H*.6}" rx="3"/>`));
  marks.forEach(q=>{const y=q.white?H-30:H*.6-26,f=inv.fingers&&inv.fingers[q.i];
   o.push(`<text class="${q.white?'pk-ink':'pk-binink'}" x="${q.cx}" y="${y}" text-anchor="middle" font-size="${kw<20?10:12}" font-weight="800">${inv.names[q.i]}</text>`);
   if(f)o.push(`<circle class="pk-fing" cx="${q.cx}" cy="${y+17}" r="9"/><text class="pk-finging" x="${q.cx}" y="${y+21.2}" text-anchor="middle" font-size="11.5" font-weight="800">${f}</text>`)});

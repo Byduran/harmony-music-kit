@@ -60,6 +60,13 @@ module.exports={en:{
 'keys index description':'Every major and minor key with its scale, sharps and flats, seven chords, common progressions and neighbouring keys.',
 'keys index lead':'Every major and minor key with its scale, chords and common progressions.','Major keys':'Major keys','Minor keys':'Minor keys',
 'Page not found':'Page not found','This page does not exist.':'This page does not exist.','404 text':'Try the home page, the chord list or the key list.',
+'Chord builder':'Chord builder','builder lead':'Pick a root and a chord type. See it on guitar and piano, and hear it — the notes light up as they play.',
+'Root':'Root','Chord type':'Chord type','Triads & power chords short':'Triads','Sixths & added notes short':'6ths & add','Seventh chords short':'7ths','Extended chords short':'Extended','Altered dominants short':'Altered',
+'Major':'Major','Minor':'Minor','Dim':'Dim','Aug':'Aug','5 (power)':'5 (power)',
+'Everything about {sym}':'Everything about {sym} — all positions, inversions, where it is used','Open in the app':'Open in the app','All 420 chords, A–Z':'All 420 chords, A–Z',
+'explorer lead':'Tap a key. Its sharps or flats, its scale and its seven chords appear — and you can hear them.','Major or minor':'Major or minor',
+'Scale':'Scale','scale note':'Copper notes are the sharps or flats of this key.','The seven chords — tap to hear':'The seven chords — tap to hear',
+'wedge note':'The shaded wedge on the circle holds the same chords.','All 24 keys':'All 24 keys',
 // search (also used by site.js)
 'No chord found':'No chord found — try a name like C#m7, Fmaj7 or Bb7.'
 }};

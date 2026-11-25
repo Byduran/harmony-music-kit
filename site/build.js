@@ -84,7 +84,7 @@ ${['site.js',...scripts].map(s=>`<script src="${base}assets/${s}" defer></script
 </html>
 `}
 const crumbs=(base,items)=>`<nav class="crumbs" aria-label="${t('Breadcrumb')}">${items.map(([l,u],i)=>i===items.length-1?`<span aria-current="page">${l}</span>`:`<a href="${base}${u}">${l}</a>`).join(' › ')}</nav>`;
-const pill=(a,b)=>`<span class="pill"><b>${a}</b><small>${b}</small></span>`;
+const pill=(a,b,pc)=>`<span class="pill"${pc!=null?` data-pc="${pc}"`:''}><b>${a}</b><small>${b}</small></span>`;
 const playBtn=(label,midis,opts={})=>`<button type="button" class="btn${opts.ghost?' ghost':''}" data-play='${J(midis)}' data-inst="${opts.inst||'piano'}"${opts.arp?' data-arp="1"':''}${opts.strum?' data-strum="1"':''}>${label}</button>`;
 const chip=(base,c,label)=>`<a class="chip" href="${base}${c.url}">${label||display(c.root,c.suf)}</a>`;
 const searchData=()=>esc(J(CHORDS.map(c=>[c.sym,c.url])));
@@ -117,15 +117,16 @@ function chordPage(c){
  const desc=t('cat '+CAT(c));
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Chords'),'chords/'],[c.root,`chords/#root-${ROOTSLUG(c.root)}`],[sym,'']])}
-<section class="chordhead">
+<div data-light-root>
+<!--frag:head--><section class="chordhead" data-frag="head">
 <div class="stack">
 <h1>${t('{sym} chord',{sym})}</h1>
 <p class="lead">${esc(long[0].toUpperCase()+long.slice(1))} · ${t('guitar shapes and piano voicings')}</p>
-<div class="pills">${P.map(p=>pill(p.name,p.formula)).join('')}</div>
+<div class="pills">${P.map(p=>pill(p.name,p.formula,p.pc)).join('')}</div>
 </div>
 <div class="row">${playBtn('▶ '+t('Play chord'),invs[0].midis)}${playBtn('♪ '+t('Play arpeggio'),invs[0].midis,{ghost:1,arp:1})}</div>
-</section>
-<div class="grid2">
+</section><!--/frag:head-->
+<!--frag:inst--><div class="grid2" data-frag="inst">
 <section class="card inst" aria-labelledby="gt" data-stepper>
 <div class="insthead"><h2 id="gt">${t('On guitar')}</h2><button type="button" class="btn small ghost" data-play-current data-inst="guitar" data-strum="1">▶ ${t('Strum')}</button></div>
 <div class="stage">${shapeSvgs.map((x,i)=>`<div class="step" data-midis='${J(Array.from(x.midis))}' data-info="${esc(x.info)}"${i?' hidden':''}>${x.svg}</div>`).join('')}</div>
@@ -138,6 +139,7 @@ ${stepper(shapeSvgs.length,shapeSvgs[0].info,'position')}
 ${stepper(invs.length,invs[0].info,'inversion')}
 <p class="note">${invs[0].fing?t('piano legend'):t('piano legend nofing')}</p>
 </section>
+</div><!--/frag:inst-->
 </div>
 <div class="grid2">
 <section class="card text" aria-labelledby="about"><h2 id="about">${t('How {sym} is built',{sym})}</h2>
@@ -175,11 +177,11 @@ function keyPage(k){
  const nb=[[down,t('One fifth down')],[up,t('One fifth up')],[relative,t(k.mode==='major'?'Relative minor · same notes':'Relative major · same notes')],[parallel,t('Parallel '+other+' · same root')]].filter(x=>x[0]);
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
-<section class="chordhead">
+<section class="chordhead" data-light-root>
 <div class="stack">
 <h1>${k.name}</h1>
 <p class="lead">${sigText(k)}${k.acc.length?': '+k.acc.join(' · '):''} · ${t(k.mode==='major'?'relative minor':'relative major')} <a href="${base}${relative.url}">${relative.name}</a></p>
-<div class="pills">${k.scale.map((n,i)=>pill(n,deg[i])).join('')}</div>
+<div class="pills">${k.scale.map((n,i)=>pill(n,deg[i],pcOf(n))).join('')}</div>
 </div>
 <div class="row">${playBtn('▶ '+t('Play scale'),scaleMidis,{arp:1})}</div>
 </section>
@@ -197,28 +199,63 @@ ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
 
 // ---------- index pages ----------
 const GROUPS=[['Triads & power chords',['','m','dim','aug','sus2','sus4','5']],['Sixths & added notes',['6','m6','add9','m(add9)','6/9','m6/9','m(♭6)']],['Seventh chords',['maj7','7','m7','m7♭5','dim7','m(maj7)','7sus4']],['Extended chords',['maj9','9','m9','9sus4','11','m11','maj13','13','m13','13sus4']],['Altered dominants',['7♭9','7♯9','7♯11','maj7♯11']]];
-function chordsIndex(){const base='../';
+const typeChip=su=>({'':t('Major'),'m':t('Minor'),'dim':t('Dim'),'aug':t('Aug'),'5':t('5 (power)'),'sus2':'sus2','sus4':'sus4'}[su]??su);
+const frag=(html,name)=>{const m=html.match(new RegExp('<!--frag:'+name+'-->([\\s\\S]*?)<!--/frag:'+name+'-->'));return m?m[1]:''};
+function chordsIndex(){const base='../',def=CHORDS.find(c=>c.root==='C'&&c.suf==='');
+ const html=chordPage(def),data=esc(J(CHORDS.map(c=>[c.root,c.suf,c.url.replace(/^chords\//,''),display(c.root,c.suf)])));
  const body=`${crumbs(base,[[t('Home'),''],[t('Chords'),'']])}
-<section class="stack"><h1>${t('Chords')}</h1><p class="lead">${t('chords index lead')}</p>
-<form class="search" role="search" data-search='${searchData()}'><label class="sr" for="q">${t('Chord name')}</label><input id="q" type="search" autocomplete="off" placeholder="${t('Try C#m7, Fmaj7 or Bb7')}"><button class="btn" type="submit">${t('Find chord')}</button><p class="note searchmsg" role="status"></p></form>
-<nav class="chips" aria-label="${t('Roots')}">${ROOTS.map(r=>`<a class="chip" href="#root-${ROOTSLUG(r)}">${r}</a>`).join('')}</nav></section>
-${ROOTS.map(r=>`<section class="block rootsec" id="root-${ROOTSLUG(r)}" aria-labelledby="h-${ROOTSLUG(r)}"><h2 id="h-${ROOTSLUG(r)}">${t('{root} chords',{root:r})}</h2>
-${GROUPS.map(([g,sufs])=>`<div class="group"><small>${t(g)}</small><div class="chips">${sufs.map(s=>chip(base,CHORDS.find(c=>c.root===r&&c.suf===s))).join('')}</div></div>`).join('')}</section>`).join('')}`;
- return page({title:t('chords index title'),description:t('chords index description'),canonical:'/chords/',base,body});
+<section class="stack"><h1>${t('Chord builder')}</h1><p class="lead">${t('builder lead')}</p></section>
+<div class="grid2 pickers" data-builder='${data}'>
+<section class="card picker" aria-labelledby="rt"><h2 id="rt" class="label">${t('Root')}</h2>
+<div class="opts roots" role="radiogroup" aria-labelledby="rt">${ROOTS.map(r=>`<button type="button" class="opt" role="radio" aria-checked="${r==='C'}" data-root="${r}">${r}</button>`).join('')}</div></section>
+<section class="card picker" aria-labelledby="ty"><h2 id="ty" class="label">${t('Chord type')}</h2>
+<div class="tabs" role="tablist" aria-labelledby="ty">${GROUPS.map(([g],i)=>`<button type="button" role="tab" class="tab" aria-selected="${i===0}" aria-controls="grp-${i}" id="tab-${i}">${t(g+' short')}</button>`).join('')}</div>
+${GROUPS.map(([g,sufs],i)=>`<div class="opts types" role="radiogroup" id="grp-${i}" aria-labelledby="tab-${i}"${i?' hidden':''}>${sufs.map(su=>`<button type="button" class="opt" role="radio" aria-checked="${su===''}" data-type="${esc(su)}">${typeChip(su)}</button>`).join('')}</div>`).join('')}
+</section></div>
+<div id="builder-out" data-light-root aria-live="polite">${frag(html,'head')}${frag(html,'inst')}</div>
+<p class="applink"><a id="b-page" href="${def.url.replace(/^chords\//,'')}">${t('Everything about {sym}',{sym:'C'})} →</a> <span class="muted">·</span> <a id="b-app" class="quietlink" href="${base}app/?page=chords&amp;chord=C">${t('Open in the app')}</a></p>
+<details class="card all"><summary>${t('All 420 chords, A–Z')}</summary>
+${ROOTS.map(r=>`<section class="rootsec" id="root-${ROOTSLUG(r)}" aria-labelledby="h-${ROOTSLUG(r)}"><h2 id="h-${ROOTSLUG(r)}">${t('{root} chords',{root:r})}</h2>
+${GROUPS.map(([g,sufs])=>`<div class="group"><small>${t(g)}</small><div class="chips">${sufs.map(su=>chip(base,CHORDS.find(c=>c.root===r&&c.suf===su))).join('')}</div></div>`).join('')}</section>`).join('')}
+</details>`;
+ return page({title:t('chords index title'),description:t('chords index description'),canonical:'/chords/',base,body,scripts:['audio.js','builder.js']});
 }
+// Circle of fifths (colour wheel) shared by the home page and /keys/.
+function circleData(modes){return KEYS.filter(k=>modes.includes(k.mode)).map(k=>{const half=k.acc.length>3?Math.ceil(k.acc.length/2):3;
+ const deg=k.mode==='major'?['1','2','3','4','5','6','7','8']:['1','2','♭3','4','5','♭6','♭7','8'];let prev=59;const notes=[...k.scale,k.scale[0]].map((n,i)=>{let m=60+pcOf(n);while(m<=prev)m+=12;prev=m;return {n,d:deg[i],m,alt:/[♯♭]/.test(n)}});
+ if(notes[0].m>=66)notes.forEach(x=>x.m-=12);
+ return {mode:k.mode,i:k.i,name:k.name,url:k.url,acc:k.acc.length?[k.acc.slice(0,half).join(' '),k.acc.slice(half).join(' ')].filter(Boolean):[],sig:sigText(k),scale:notes,
+  chords:k.chords.map(x=>{const c=findChord(x.pc,x.triSuf);return {rom:x.rom,name:x.triDisp,url:c.url,midis:chordMidis(x.pc,x.triSuf)}})}})}
+function circleMarkup(modes,size){const keys=KEYS.filter(k=>modes.includes(k.mode)),k0=keys[0],two=modes.length>1;
+ const btn=k=>{const outer=k.mode==='major',r=two?(outer?42:27):43,a=(k.i*30-90)*Math.PI/180,h=(210+k.i*30)%360;
+  return `<button type="button" class="rk ${k.mode}" style="--h:${h};left:${(50+r*Math.cos(a)).toFixed(2)}%;top:${(50+r*Math.sin(a)).toFixed(2)}%" data-mode="${k.mode}" data-i="${k.i}" aria-pressed="false" aria-label="${k.name}"><span>${k.tonic}${k.mode==='minor'?'m':''}</span><small class="rom"></small></button>`};
+ return `<div class="cof ${two?'two':'one'}" style="--size:${size}px" role="group" aria-label="${t('Circle of fifths')}">
+<div class="cof-disc" aria-hidden="true"><div class="cof-wedge"></div></div><div class="cof-hole" aria-hidden="true"></div>
+${keys.map(btn).join('')}
+<div class="cof-center" aria-live="polite"><b data-c="name">${k0.name}</b><span class="acc" data-c="acc"></span><small data-c="sig">${sigText(k0)}</small></div>
+</div>`}
 function keysIndex(){const base='../';
- const grid=mode=>`<div class="grid4">${KEYS.filter(k=>k.mode===mode).map(k=>`<a class="card navcard" href="${base}${k.url}"><small>${sigText(k)}</small><b>${k.name}</b></a>`).join('')}</div>`;
  const body=`${crumbs(base,[[t('Home'),''],[t('Keys'),'']])}
-<section class="stack"><h1>${t('Keys')}</h1><p class="lead">${t('keys index lead')}</p></section>
-<section class="block" aria-labelledby="mj"><h2 id="mj">${t('Major keys')}</h2>${grid('major')}</section>
-<section class="block" aria-labelledby="mn"><h2 id="mn">${t('Minor keys')}</h2>${grid('minor')}</section>`;
- return page({title:t('keys index title'),description:t('keys index description'),canonical:'/keys/',base,body});
+<section class="rowsplit"><div class="stack"><h1>${t('Circle of fifths')}</h1><p class="lead">${t('explorer lead')}</p></div>
+<div class="seg" role="radiogroup" aria-label="${t('Major or minor')}"><button type="button" role="radio" aria-checked="true" data-modepick="major">${t('Major')}</button><button type="button" role="radio" aria-checked="false" data-modepick="minor">${t('Minor')}</button></div></section>
+<div class="explorer" data-circle='${esc(J(circleData(['major','minor'])))}' data-base="${base}" data-light-root>
+<div class="ex-circle">${circleMarkup(['major','minor'],380)}</div>
+<div class="ex-side">
+<section class="card text" aria-labelledby="sc"><div class="insthead"><h2 id="sc">${t('Scale')}</h2><button type="button" class="btn small" data-play-scale>▶ ${t('Play scale')}</button></div>
+<div class="scale" data-c="scale"></div><p class="note">${t('scale note')}</p></section>
+<section class="card text" aria-labelledby="ch"><h2 id="ch">${t('The seven chords — tap to hear')}</h2><div class="diatonic" data-c="chords"></div><p class="note">${t('wedge note')}</p></section>
+<a class="more" data-c="link" href="${base}keys/c-major/">${t('Everything about {key}',{key:'C major'})} →</a>
+</div></div>
+<details class="card all"><summary>${t('All 24 keys')}</summary>
+<h2 class="label">${t('Major keys')}</h2><div class="chips">${KEYS.filter(k=>k.mode==='major').map(k=>`<a class="chip" href="${base}${k.url}">${k.name}</a>`).join('')}</div>
+<h2 class="label">${t('Minor keys')}</h2><div class="chips">${KEYS.filter(k=>k.mode==='minor').map(k=>`<a class="chip" href="${base}${k.url}">${k.name}</a>`).join('')}</div>
+</details>`;
+ return page({title:t('keys index title'),description:t('keys index description'),canonical:'/keys/',base,body,scripts:['audio.js','circle.js']});
 }
 
 // ---------- home ----------
 function home(){
- const majors=KEYS.filter(k=>k.mode==='major'),base='./';
- const circle=majors.map(k=>({key:k.tonic,sig:sigText(k),url:k.url,chords:k.chords.map(x=>({name:x.triDisp,roman:x.rom,url:findChord(x.pc,x.triSuf).url}))}));
+ const base='./';
  const popular=[['C',''],['G',''],['A','m'],['F',''],['D','m7'],['G','7'],['C','maj7'],['E','7'],['B','m7♭5'],['C♯','m7']].map(([r,s])=>CHORDS.find(c=>c.root===r&&c.suf===s));
  const feats=[['Circle of Fifths','feat circle','keys/'],['Chord Library','feat chords','chords/'],['Progressions','feat progressions','app/?page=progressions'],['Modes','feat modes','app/?page=modes'],['Harmony Explorer','feat harmony','app/?page=harmony']];
  const body=`
@@ -230,14 +267,11 @@ function home(){
 <div class="row"><a class="btn" href="#lookup">${t('Find a chord')}</a><a class="btn ghost" href="keys/">${t('Browse keys')}</a></div>
 <span class="muted small">${t('Free, no sign-up. Listen to every chord right on the page.')}</span>
 </div>
-<div class="card circle-card">
-<span class="muted small" id="circle-help">${t('Tap a key — its chords appear below')}</span>
-<div class="circle" role="group" aria-label="${t('Circle of fifths')}" aria-describedby="circle-help" data-circle='${esc(J(circle))}'>
-<div class="circle-center"><b id="ck">${circle[0].key} major</b><span id="cs">${circle[0].sig}</span></div>
-${majors.map((k,i)=>{const a=(i*30-90)*Math.PI/180;return `<button type="button" class="ckey${i===0?' on':''}" data-i="${i}" aria-pressed="${i===0}" aria-label="${k.name}" style="left:calc(50% + ${(43*Math.cos(a)).toFixed(2)}% - 23px);top:calc(50% + ${(43*Math.sin(a)).toFixed(2)}% - 23px)">${k.tonic}</button>`}).join('')}
-</div>
-<div class="diatonic" id="cd">${circle[0].chords.map(c=>`<a class="dchord" href="${c.url}"><small>${c.roman}</small><b>${c.name}</b></a>`).join('')}</div>
-<a id="ckey-link" class="more" href="${circle[0].url}">${t('Everything about {key}',{key:'C major'})} →</a>
+<div class="card circle-card explorer mini" data-circle='${esc(J(circleData(['major'])))}' data-base="${base}">
+<span class="muted small">${t('Tap a key — its chords appear below')}</span>
+${circleMarkup(['major'],300)}
+<div class="diatonic" data-c="chords" data-links="1"></div>
+<a class="more" data-c="link" href="keys/c-major/">${t('Everything about {key}',{key:'C major'})} →</a>
 </div>
 </section>
 <section id="lookup" class="block" aria-labelledby="lookup-t">
@@ -257,7 +291,7 @@ ${[1,2,3].map(n=>`<article class="card lesson"><span class="eyebrow">${t('Lesson
 <h2 id="feat-t">${t('What you can explore')}</h2>
 <div class="grid5">${feats.map(([h,d,u])=>`<a class="card feat" href="${u}"><b>${t(h)}</b><span>${t(d)}</span><small>${u.startsWith('app/')?t('In the app'):t('On this site')} →</small></a>`).join('')}</div>
 </section>`;
- return page({title:t('home title'),description:t('home description'),canonical:'/',base,body});
+ return page({title:t('home title'),description:t('home description'),canonical:'/',base,body,scripts:['audio.js','circle.js']});
 }
 
 // ---------- write ----------

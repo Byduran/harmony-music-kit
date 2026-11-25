@@ -11,15 +11,20 @@
   banks[name].catch(function(){delete banks[name]});return banks[name]}
  function note(bank,m,at,len,vol){var c=ac(),k=bank.keys.reduce(function(a,b){return Math.abs(b-m)<Math.abs(a-m)?b:a}),src=c.createBufferSource(),g=c.createGain(),t=c.currentTime+at;
   src.buffer=bank.buffers[k];src.playbackRate.value=Math.pow(2,(m-k)/12);g.gain.setValueAtTime(vol,t);g.gain.setValueAtTime(vol,t+len);g.gain.exponentialRampToValueAtTime(.0001,t+len+.3);src.connect(g);g.connect(out);src.start(t);src.stop(t+len+.35)}
+ // Light up the notes on screen as they sound: elements with data-m (midi) or data-pc (pitch class) inside the nearest [data-light-root].
+ function light(scope,m,at,len){setTimeout(function(){var els=scope.querySelectorAll('[data-m="'+m+'"],[data-pc="'+(m%12)+'"]');els.forEach(function(e){e.classList.add('lit')});
+  setTimeout(function(){els.forEach(function(e){e.classList.remove('lit')})},len*1000)},at*1000)}
  function play(midis,o){o=o||{};var my=++token,inst=o.inst==='guitar'?'nylon':'piano',vol=inst==='piano'?.19:.16;ac();
-  return load(inst).then(function(bank){if(my!==token)return;
+  return load(inst).then(function(bank){if(my!==token)return;var scope=o.scope;
+   if(scope&&!o.seq)midis.forEach(function(m,i){light(scope,m,o.arp?i*.33:o.strum?i*.035:0,o.arp?.42:1.1)});
    if(o.seq){midis.forEach(function(ch,j){ch.forEach(function(m){note(bank,m,j*1.1,1,vol*.8)})});return}
    midis.forEach(function(m,i){note(bank,m,o.arp?i*.33:o.strum?i*.035:0,o.arp?.6:1.6,o.arp?vol*1.2:vol)})})}
  document.addEventListener('click',function(e){
   var b=e.target.closest('[data-play],[data-seq],[data-play-current]');if(!b)return;
-  var done=function(){b.classList.remove('loading')};b.classList.add('loading');
+  var done=function(){b.classList.remove('loading')};b.classList.add('loading');var scope=b.closest('[data-light-root]');
+  if(b.hasAttribute('data-glow')){b.classList.add('lit');setTimeout(function(){b.classList.remove('lit')},900)}
   var p;if(b.hasAttribute('data-seq'))p=play(JSON.parse(b.getAttribute('data-seq')),{seq:1});
-  else if(b.hasAttribute('data-play-current')){var box=b.closest('[data-stepper]');p=play(box.currentMidis(),{inst:b.dataset.inst,strum:b.hasAttribute('data-strum')})}
-  else p=play(JSON.parse(b.getAttribute('data-play')),{inst:b.dataset.inst,arp:b.hasAttribute('data-arp'),strum:b.hasAttribute('data-strum')});
+  else if(b.hasAttribute('data-play-current')){var box=b.closest('[data-stepper]');p=play(box.currentMidis(),{inst:b.dataset.inst,strum:b.hasAttribute('data-strum'),scope:box})}
+  else p=play(JSON.parse(b.getAttribute('data-play')),{inst:b.dataset.inst,arp:b.hasAttribute('data-arp'),strum:b.hasAttribute('data-strum'),scope:scope});
   p.then(done,function(){done();b.title='Sound could not load'})});
 })();
