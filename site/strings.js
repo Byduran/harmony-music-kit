@@ -67,7 +67,7 @@ module.exports={en:{
 'explorer lead':'Tap a key. Its sharps or flats, its scale and its seven chords appear — and you can hear them.','Major or minor':'Major or minor',
 'Scale':'Scale','scale note':'Copper notes are the sharps or flats of this key.','The seven chords — tap to hear':'The seven chords — tap to hear',
 'wedge note':'The shaded wedge on the circle holds the same chords.','All 24 keys':'All 24 keys',
-'tap a chord':'Tap a chord to hear it · → opens its page','{sym} chord page':'{sym} chord page','Progression':'Progression','Loop':'Loop','Click':'Click','Tempo':'Tempo','Tempo in BPM':'Tempo in BPM','Sound':'Sound','Piano':'Piano','Guitar':'Guitar',
+'Change chord':'Change chord','Change key':'Change key','change':'change','tap a chord':'Tap a chord to hear it · → opens its page','{sym} chord page':'{sym} chord page','Progression':'Progression','Loop':'Loop','Click':'Click','Tempo':'Tempo','Tempo in BPM':'Tempo in BPM','Sound':'Sound','Piano':'Piano','Guitar':'Guitar',
 'player note':'2 beats per chord, like the app’s practice player. The chord playing lights up above.',
 // search (also used by site.js)
 'No chord found':'No chord found — try a name like C#m7, Fmaj7 or Bb7.'

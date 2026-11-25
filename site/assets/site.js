@@ -19,6 +19,10 @@
   if(stage&&n>1){stage.addEventListener('pointerdown',function(e){x0=e.clientX});stage.addEventListener('pointerup',function(e){if(x0===null)return;var dx=e.clientX-x0;x0=null;if(Math.abs(dx)>40)show(i+(dx<0?1:-1))})}
   box.currentMidis=function(){return JSON.parse(steps[i].getAttribute('data-midis'))};
  })}
+ // Key switcher: keep the visitor at the same section (chords / progressions / neighbours) on the new key.
+ document.querySelectorAll('a[data-keep-section]').forEach(function(a){a.addEventListener('click',function(){var best=null;
+  document.querySelectorAll('[data-sec]').forEach(function(s){if(s.getBoundingClientRect().top<window.innerHeight*.5)best=s.getAttribute('data-sec')});
+  if(best)a.href=a.href.split('#')[0]+'#'+best})});
  initSteppers();window.HMK={initSteppers:initSteppers,base:base};
  // Key pages: triads / 7th chords.
  document.querySelectorAll('[data-size]').forEach(function(b){b.addEventListener('click',function(){

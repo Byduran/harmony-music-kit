@@ -147,3 +147,12 @@ h2[id]{scroll-margin-top:16px}
 .pcontrols{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
 .opt[aria-pressed="true"]{background:#2A3B57;border-color:var(--cu)}
 .bpm{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--muted)}.bpm input{width:140px;accent-color:#D89B62}.bpm output{color:var(--ink);min-width:3ch;text-align:right}
+/* switchers on chord and key pages */
+.switcher{padding:12px;display:flex;flex-direction:column;gap:10px;margin:6px 0 4px}
+.switcher .roots{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}
+a.opt{display:grid;place-items:center;text-decoration:none}
+a.opt[aria-current="page"]{background:var(--cu);border-color:var(--cu);color:var(--bg)}
+a.opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);color:#F5EFE6}a.opt.hue[aria-current="page"]{background:var(--cu);border-color:#F4C28F;color:var(--bg)}
+.typesw summary{cursor:pointer;min-height:36px;display:flex;align-items:center;gap:6px;font-size:15px}.typesw .group{margin-top:10px}
+.keysw{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between}.keysw .roots{flex:1 1 420px}
+.seg a{display:grid;place-items:center;border-radius:9px;min-height:40px;padding:0 14px;font-weight:700;font-size:14px;color:var(--muted);text-decoration:none}.seg a[aria-current="page"]{background:var(--cu);color:var(--bg)}

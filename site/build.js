@@ -40,6 +40,7 @@ for(const mode of ['major','minor'])KEYDATA[mode].forEach((k,i)=>{const tonic=k[
  KEYS.push({mode,i,tonic,scale,acc,chords,name:`${tonic} ${mode}`,slug:`${ROOTSLUG(tonic)}-${mode}`,url:`keys/${ROOTSLUG(tonic)}-${mode}/`});
 });
 const keyBy=(mode,pc)=>KEYS.find(k=>k.mode===mode&&pcOf(k.tonic)===pc);
+const parallelMajor=k=>keyBy('major',pcOf(k.tonic));
 const sigText=k=>k.acc.length?t(k.acc[0].includes('♯')?'{n} sharps':'{n} flats',{n:k.acc.length}).replace(/^1 (sharp|flat)s/,'1 $1'):t('No sharps or flats');
 
 // Where each chord appears: degree in major and natural minor keys (triads and seventh chords).
@@ -91,6 +92,10 @@ const chip=(base,c,label)=>`<a class="chip" href="${base}${c.url}">${label||disp
 const searchData=()=>esc(J(CHORDS.map(c=>[c.sym,c.url])));
 
 // ---------- chord pages ----------
+const GROUPS=[['Triads & power chords',['','m','dim','aug','sus2','sus4','5']],['Sixths & added notes',['6','m6','add9','m(add9)','6/9','m6/9','m(♭6)']],['Seventh chords',['maj7','7','m7','m7♭5','dim7','m(maj7)','7sus4']],['Extended chords',['maj9','9','m9','9sus4','11','m11','maj13','13','m13','13sus4']],['Altered dominants',['7♭9','7♯9','7♯11','maj7♯11']]];
+
+const typeChip=su=>({'':t('Major'),'m':t('Minor'),'dim':t('Dim'),'aug':t('Aug'),'5':t('5 (power)'),'sus2':'sus2','sus4':'sus4'}[su]??su);
+
 const CAT=c=>{const f=c.formula;if(c.suf==='5')return 'power';if(f.includes('𝄫7')||c.suf==='dim')return 'dim';if(c.suf==='aug')return 'aug';if(c.suf==='m7♭5')return 'half';if(f.includes('4')||f.includes('2')&&!f.includes('3')&&!f.includes('♭3'))return 'sus';if(f.includes('♭3'))return 'minor';if(f.includes('♭7'))return 'dominant';return 'major'};
 function chordPage(c){
  const base='../../',P=pitches(c.root,c.formula),names=P.map(p=>p.name),sym=display(c.root,c.suf),long=`${ROOTLONG(c.root)} ${c.label.toLowerCase()}`;
@@ -118,6 +123,11 @@ function chordPage(c){
  const desc=t('cat '+CAT(c));
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Chords'),'chords/'],[c.root,`chords/#root-${ROOTSLUG(c.root)}`],[sym,'']])}
+<nav class="switcher card" aria-label="${t('Change chord')}">
+<div class="opts roots">${ROOTS.map(r=>{const x=CHORDS.find(y=>y.root===r&&y.suf===c.suf);return `<a class="opt" href="${base}${x.url}"${r===c.root?' aria-current="page"':''}>${r}</a>`}).join('')}</div>
+<details class="typesw"><summary>${t('Chord type')}: <b>${typeChip(c.suf)}</b> <span class="muted">· ${t('change')}</span></summary>
+${GROUPS.map(([g,sufs])=>`<div class="group"><small>${t(g)}</small><div class="opts">${sufs.map(su=>{const x=CHORDS.find(y=>y.root===c.root&&y.suf===su);return `<a class="opt" href="${base}${x.url}"${su===c.suf?' aria-current="page"':''}>${typeChip(su)}</a>`}).join('')}</div></div>`).join('')}
+</details></nav>
 <div data-light-root>
 <!--frag:head--><section class="chordhead" data-frag="head">
 <div class="stack">
@@ -189,6 +199,10 @@ function keyPage(k){
  const nb=[[down,t('One fifth down')],[up,t('One fifth up')],[relative,t(k.mode==='major'?'Relative minor · same notes':'Relative major · same notes')],[parallel,t('Parallel '+other+' · same root')]].filter(x=>x[0]);
  const body=`
 ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
+<nav class="switcher card keysw" aria-label="${t('Change key')}">
+<div class="opts roots">${KEYS.filter(x=>x.mode===k.mode).map(x=>`<a class="opt hue" style="--h:${(210+x.i*30)%360}" href="${base}${x.url}" data-keep-section${x===k?' aria-current="page"':''}>${x.tonic}${k.mode==='minor'?'m':''}</a>`).join('')}</div>
+<div class="seg"><a role="button" href="${base}${(k.mode==='major'?k:parallelMajor(k)).url}" data-keep-section aria-current="${k.mode==='major'?'page':'false'}">${t('Major')}</a><a role="button" href="${base}${(k.mode==='minor'?k:keyBy('minor',pcOf(k.tonic))).url}" data-keep-section aria-current="${k.mode==='minor'?'page':'false'}">${t('Minor')}</a></div>
+</nav>
 <section class="chordhead" data-light-root>
 <div class="stack">
 <h1>${k.name}</h1>
@@ -197,22 +211,20 @@ ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
 </div>
 <div class="row">${playBtn('▶ '+t('Play scale'),scaleMidis,{arp:1})}</div>
 </section>
-<section class="block" aria-labelledby="kc">
+<section class="block" aria-labelledby="kc" data-sec="kc">
 <div class="rowsplit"><h2 id="kc">${t('The chords of {key}',{key:k.name})}</h2>
 <div class="seg" role="radiogroup" aria-label="${t('Chord size')}"><button type="button" role="radio" aria-checked="false" data-size="tri">${t('Triads')}</button><button type="button" role="radio" aria-checked="true" data-size="sev">${t('7th chords')}</button></div></div>
 <p class="note">${t('tap a chord')}</p>
 <div class="kgrid" data-sizegroup="tri" hidden>${d.map((x,j)=>card(x,false,j)).join('')}</div>
 <div class="kgrid" data-sizegroup="sev">${d.map((x,j)=>card(x,true,j)).join('')}</div>
 </section>
-<section class="block" aria-labelledby="kp"><h2 id="kp">${t('Common progressions in {key}',{key:k.name})}</h2>${player}</section>
-<section class="block" aria-labelledby="kn"><h2 id="kn">${t('Neighbouring keys')}</h2><div class="grid4">${nb.map(([x,l])=>`<a class="card navcard" href="${base}${x.url}"><small>${l} · ${sigText(x)}</small><b>${x.name}</b></a>`).join('')}</div></section>
+<section class="block" aria-labelledby="kp" data-sec="kp"><h2 id="kp">${t('Common progressions in {key}',{key:k.name})}</h2>${player}</section>
+<section class="block" aria-labelledby="kn" data-sec="kn"><h2 id="kn">${t('Neighbouring keys')}</h2><div class="grid4">${nb.map(([x,l])=>`<a class="card navcard" href="${base}${x.url}"><small>${l} · ${sigText(x)}</small><b>${x.name}</b></a>`).join('')}</div></section>
 <p class="applink"><a href="${base}app/?key=${encodeURIComponent(k.tonic)}&amp;mode=${k.mode}">${t('Open {key} on the circle in the app',{key:k.name})} →</a></p>`;
  return page({title:t('key title',{key:k.name}),description:t('key description',{key:k.name,sig:sigText(k),chords:d.map(x=>x.triDisp).join(', ')}),canonical:'/'+k.url,base,body,scripts:['audio.js','player.js']});
 }
 
 // ---------- index pages ----------
-const GROUPS=[['Triads & power chords',['','m','dim','aug','sus2','sus4','5']],['Sixths & added notes',['6','m6','add9','m(add9)','6/9','m6/9','m(♭6)']],['Seventh chords',['maj7','7','m7','m7♭5','dim7','m(maj7)','7sus4']],['Extended chords',['maj9','9','m9','9sus4','11','m11','maj13','13','m13','13sus4']],['Altered dominants',['7♭9','7♯9','7♯11','maj7♯11']]];
-const typeChip=su=>({'':t('Major'),'m':t('Minor'),'dim':t('Dim'),'aug':t('Aug'),'5':t('5 (power)'),'sus2':'sus2','sus4':'sus4'}[su]??su);
 const frag=(html,name)=>{const m=html.match(new RegExp('<!--frag:'+name+'-->([\\s\\S]*?)<!--/frag:'+name+'-->'));return m?m[1]:''};
 function chordsIndex(){const base='../',def=CHORDS.find(c=>c.root==='C'&&c.suf==='');
  const html=chordPage(def),data=esc(J(CHORDS.map(c=>[c.root,c.suf,c.url.replace(/^chords\//,''),display(c.root,c.suf)])));
