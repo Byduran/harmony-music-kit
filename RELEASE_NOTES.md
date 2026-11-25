@@ -1,3 +1,10 @@
+# Harmony Music Kit v0.9.33
+
+- Website: a page for every chord (420) with guitar shapes in every position, piano inversions, sound, where the chord is used and related chords; a page for every key (24) with its scale, chords, common progressions and neighbouring keys; chord and key lists; chord search
+- Website links now open the right page; only the "Practise with the app" section goes to the app
+- App: deep links from the website, e.g. /app/?page=chords&chord=C%E2%99%AFm7&inst=guitar or /app/?key=B&mode=major
+- Tests: chord-name parsing for all 420 chords; the site build checks every internal link
+
 # Harmony Music Kit v0.9.32
 
 - Chords page, Guitar: new "Chord shape" view with chord diagrams (finger numbers, barre, root in copper, open/muted strings); the 12-fret fretboard stays as the second tab
