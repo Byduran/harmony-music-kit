@@ -112,3 +112,12 @@ console.log('PASS circle: diatonic wedge covers the right seven chords in all 24
  for(const [k,[r,suf]] of Object.entries(ex)){const got=vm.runInContext(`parseChordName(${JSON.stringify(k)})`,ctx);assert(got&&got.root===r&&types[got.type][1]===suf,'parse '+k)}
  assert.equal(vm.runInContext('parseChordName("H7")',ctx),null);
  console.log('PASS deep-link chord names');}
+// v0.9.33 lessons: every chord tile plays the notes of the chord it names; quiz answers point at something that exists.
+{const lessons=require('../site/lessons');let n=0;
+ for(const L of lessons)L.steps.forEach((s,si)=>{
+  for(const r of (s.row||[])){const c=vm.runInContext(`parseChordName(${JSON.stringify(r.t.replace('°','dim'))})`,ctx);if(!c)continue;
+   const want=new Set(vm.runInContext(`chordPitch(LIBROOTS[${JSON.stringify(c.root)}]===undefined?${JSON.stringify(c.root)}:${JSON.stringify(c.root)},LIBTYPES[${c.type}][2].split(' ')).map(p=>p.pc)`,ctx));
+   const got=new Set(r.midis.map(m=>m%12));assert.deepEqual([...got].sort(),[...want].sort(),`${L.slug} step ${si+1}: ${r.t}`);n++}
+  if(s.quiz){if(s.quiz.on==='row')assert(s.row&&s.row[s.quiz.answer],L.slug+' quiz row');else assert(/^[Mm]\d+$/.test(s.quiz.answer),L.slug+' quiz circle')}
+ });
+ console.log('PASS lessons:',n,'chord tiles match their names');}
