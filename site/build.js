@@ -170,9 +170,20 @@ function keyPage(k){
  const d=k.chords,pr=k.mode==='major'?[
   ['I – V – vi – IV · pop',[0,4,5,3],0],['ii – V – I · jazz',[1,4,0],1],['I – vi – ii – V · turnaround',[0,5,1,4],0],['vi – IV – I – V',[5,3,0,4],0]]:[
   ['i – VI – III – VII',[0,5,2,6],0],['i – iv – v – i',[0,3,4,0],0],['iiø – V7 – i · jazz minor',[1,'V7',0],1],['i – VII – VI – VII',[0,6,5,6],0]];
- const progs=pr.map(([name,degs,sev])=>{const items=degs.map(x=>x==='V7'?{label:d[4].tri.replace(/m$/,'')+'7',pc:d[4].pc,suf:'7'}:sev?{label:d[x].sev,pc:d[x].pc,suf:d[x].sevSuf}:{label:d[x].triDisp,pc:d[x].pc,suf:d[x].triSuf});
-  return `<div class="card prog"><div><small>${name}</small><b>${items.map(i=>`<a href="${base}${findChord(i.pc,i.suf).url}">${i.label}</a>`).join(' – ')}</b></div><button type="button" class="round" aria-label="${esc(t('Play {name}',{name}))}" data-seq='${J(items.map(i=>chordMidis(i.pc,i.suf)))}'>▶</button></div>`}).join('');
- const card=(x,sev)=>{const c=findChord(x.pc,sev?x.sevSuf:x.triSuf),label=sev?x.sev:x.triDisp;return `<div class="card kchord"><small>${sev?x.romSev:x.rom} · ${t(x.role)}</small><a href="${base}${c.url}">${label}</a><button type="button" class="btn small ghost" data-play='${J(chordMidis(x.pc,sev?x.sevSuf:x.triSuf))}' aria-label="${esc(t('Play {name}',{name:label}))}">▶ ${t('Listen')}</button></div>`};
+ const progs=pr.map(([name,degs,sev])=>({name,steps:degs.map(x=>x==='V7'?{label:d[4].tri.replace(/m$/,'')+'7',pc:d[4].pc,suf:'7',deg:4}:sev?{label:d[x].sev,pc:d[x].pc,suf:d[x].sevSuf,deg:x}:{label:d[x].triDisp,pc:d[x].pc,suf:d[x].triSuf,deg:x}).map(i=>({label:i.label,deg:i.deg,sev:!!sev,url:findChord(i.pc,i.suf).url,midis:chordMidis(i.pc,i.suf)}))}));
+ const player=`<div class="card player" data-player='${esc(J(progs))}' data-base="${base}">
+<div class="chips" role="radiogroup" aria-label="${t('Progression')}">${progs.map((p,i)=>`<button type="button" class="opt" role="radio" aria-checked="${i===0}" data-prog="${i}">${esc(p.name)}</button>`).join('')}</div>
+<div class="psteps" data-steps aria-live="off"></div>
+<div class="pcontrols">
+<button type="button" class="btn" data-pplay>▶ ${t('Play')}</button>
+<button type="button" class="opt" data-ploop aria-pressed="true">⟳ ${t('Loop')}</button>
+<button type="button" class="opt" data-pclick aria-pressed="false">${t('Click')}</button>
+<label class="bpm">${t('Tempo')} <input type="range" min="50" max="180" step="5" value="100" data-pbpm aria-label="${t('Tempo in BPM')}"> <output data-pbpmv>100</output> BPM</label>
+<div class="seg" role="radiogroup" aria-label="${t('Sound')}"><button type="button" role="radio" aria-checked="true" data-pinst="piano">${t('Piano')}</button><button type="button" role="radio" aria-checked="false" data-pinst="guitar">${t('Guitar')}</button></div>
+</div>
+<p class="note">${t('player note')}</p>
+</div>`;
+ const card=(x,sev,j)=>{const c=findChord(x.pc,sev?x.sevSuf:x.triSuf),label=sev?x.sev:x.triDisp;return `<div class="card kchord" data-deg="${j}"><button type="button" class="kplay" data-play='${J(chordMidis(x.pc,sev?x.sevSuf:x.triSuf))}' data-glow="1" aria-label="${esc(t('Play {name}',{name:label}))}"><small class="rom">${sev?x.romSev:x.rom}</small><small>${t(x.role)}</small><b>${label}</b></button><a class="kgo" href="${base}${c.url}" aria-label="${esc(t('{sym} chord page',{sym:label}))}">→</a></div>`};
  const ring=KEYS.filter(x=>x.mode===k.mode),up=ring[(k.i+1)%12],down=ring[(k.i+11)%12],other=k.mode==='major'?'minor':'major';
  const relative=KEYS.find(x=>x.mode===other&&x.i===k.i),parallel=keyBy(other,pcOf(k.tonic));
  const nb=[[down,t('One fifth down')],[up,t('One fifth up')],[relative,t(k.mode==='major'?'Relative minor · same notes':'Relative major · same notes')],[parallel,t('Parallel '+other+' · same root')]].filter(x=>x[0]);
@@ -189,13 +200,14 @@ ${crumbs(base,[[t('Home'),''],[t('Keys'),'keys/'],[k.name,'']])}
 <section class="block" aria-labelledby="kc">
 <div class="rowsplit"><h2 id="kc">${t('The chords of {key}',{key:k.name})}</h2>
 <div class="seg" role="radiogroup" aria-label="${t('Chord size')}"><button type="button" role="radio" aria-checked="false" data-size="tri">${t('Triads')}</button><button type="button" role="radio" aria-checked="true" data-size="sev">${t('7th chords')}</button></div></div>
-<div class="kgrid" data-sizegroup="tri" hidden>${d.map(x=>card(x,false)).join('')}</div>
-<div class="kgrid" data-sizegroup="sev">${d.map(x=>card(x,true)).join('')}</div>
+<p class="note">${t('tap a chord')}</p>
+<div class="kgrid" data-sizegroup="tri" hidden>${d.map((x,j)=>card(x,false,j)).join('')}</div>
+<div class="kgrid" data-sizegroup="sev">${d.map((x,j)=>card(x,true,j)).join('')}</div>
 </section>
-<section class="block" aria-labelledby="kp"><h2 id="kp">${t('Common progressions in {key}',{key:k.name})}</h2><div class="grid2 progs">${progs}</div></section>
+<section class="block" aria-labelledby="kp"><h2 id="kp">${t('Common progressions in {key}',{key:k.name})}</h2>${player}</section>
 <section class="block" aria-labelledby="kn"><h2 id="kn">${t('Neighbouring keys')}</h2><div class="grid4">${nb.map(([x,l])=>`<a class="card navcard" href="${base}${x.url}"><small>${l} · ${sigText(x)}</small><b>${x.name}</b></a>`).join('')}</div></section>
 <p class="applink"><a href="${base}app/?key=${encodeURIComponent(k.tonic)}&amp;mode=${k.mode}">${t('Open {key} on the circle in the app',{key:k.name})} →</a></p>`;
- return page({title:t('key title',{key:k.name}),description:t('key description',{key:k.name,sig:sigText(k),chords:d.map(x=>x.triDisp).join(', ')}),canonical:'/'+k.url,base,body,scripts:['audio.js']});
+ return page({title:t('key title',{key:k.name}),description:t('key description',{key:k.name,sig:sigText(k),chords:d.map(x=>x.triDisp).join(', ')}),canonical:'/'+k.url,base,body,scripts:['audio.js','player.js']});
 }
 
 // ---------- index pages ----------

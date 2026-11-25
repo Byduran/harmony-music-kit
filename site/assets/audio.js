@@ -18,7 +18,10 @@
   return load(inst).then(function(bank){if(my!==token)return;var scope=o.scope;
    if(scope&&!o.seq)midis.forEach(function(m,i){light(scope,m,o.arp?i*.33:o.strum?i*.035:0,o.arp?.42:1.1)});
    if(o.seq){midis.forEach(function(ch,j){ch.forEach(function(m){note(bank,m,j*1.1,1,vol*.8)})});return}
-   midis.forEach(function(m,i){note(bank,m,o.arp?i*.33:o.strum?i*.035:0,o.arp?.6:1.6,o.arp?vol*1.2:vol)})})}
+   midis.forEach(function(m,i){note(bank,m,o.arp?i*.33:o.strum?i*.035:0,o.len?Math.max(.3,o.len*.9):o.arp?.6:1.6,o.arp?vol*1.2:vol)})})}
+ // Used by the progression player.
+ function click(at,accent){var c=ac(),o=c.createOscillator(),g=c.createGain(),t=c.currentTime+(at||0);o.frequency.value=accent?1500:1000;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(accent?.25:.15,t+.002);g.gain.exponentialRampToValueAtTime(.0001,t+.06);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.08)}
+ window.HMKAudio={play:function(midis,o){return play(midis,o||{})},click:click,ready:function(inst){ac();return load(inst==='guitar'?'nylon':'piano')}};
  document.addEventListener('click',function(e){
   var b=e.target.closest('[data-play],[data-seq],[data-play-current]');if(!b)return;
   var done=function(){b.classList.remove('loading')};b.classList.add('loading');var scope=b.closest('[data-light-root]');

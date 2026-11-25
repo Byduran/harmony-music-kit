@@ -132,3 +132,18 @@ rect[data-m].lit{fill:#FFC58F;filter:drop-shadow(0 0 6px rgba(244,194,143,.8))}
 a.lesson{text-decoration:none;color:var(--ink);transition:border-color .2s,transform .2s}a.lesson:hover{border-color:var(--cu);transform:translateY(-2px)}
 a.lesson .go{margin-top:auto;font-weight:700;color:var(--cu2)}a.lesson .soon{font-size:12px;color:var(--muted)}
 h2[id]{scroll-margin-top:16px}
+/* key page: chord cards and progression player */
+.kchord{position:relative;padding:0;display:block}
+.kplay{width:100%;height:100%;min-height:118px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:14px;border:0;background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;border-radius:20px}
+.kplay small{font-size:13px;color:var(--muted)}.kplay .rom{color:var(--cu2);font-weight:700}.kplay b{font-size:22px;font-weight:800;margin-top:auto}
+.kchord .kgo{position:absolute;top:8px;right:8px;width:32px;height:32px;display:grid;place-items:center;border-radius:50%;color:var(--muted);text-decoration:none;font-weight:800}
+.kchord .kgo:hover{color:var(--ink);background:#2A3B57}
+.kchord{transition:border-color .2s,background .2s,transform .2s}.kchord.lit,.kchord:has(.kplay.lit){border-color:var(--cu);background:rgba(216,155,98,.18);transform:translateY(-3px)}
+.kchord:hover{border-color:#5A6F8E}
+.player{padding:18px;display:flex;flex-direction:column;gap:14px}
+.psteps{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:56px}
+.pstep{display:grid;place-items:center;min-width:64px;min-height:52px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--deep);color:var(--ink);text-decoration:none;font-size:18px;transition:background .15s,border-color .15s,transform .15s}
+.pstep.on{background:var(--cu);border-color:var(--cu);color:var(--bg);transform:scale(1.06)}.parrow{color:var(--muted)}
+.pcontrols{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.opt[aria-pressed="true"]{background:#2A3B57;border-color:var(--cu)}
+.bpm{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;color:var(--muted)}.bpm input{width:140px;accent-color:#D89B62}.bpm output{color:var(--ink);min-width:3ch;text-align:right}
