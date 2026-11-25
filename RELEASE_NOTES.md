@@ -1,3 +1,9 @@
+# Harmony Music Kit v0.9.34
+
+- Website in Turkish under /tr/: home, chord builder and 420 chord pages (/tr/akorlar/), circle explorer and 24 key pages (/tr/tonlar/, with solfège names like "B majör (Si majör)"), and the three lessons (/tr/dersler/, sharps order "Fa Do Sol Re La Mi Si")
+- EN | TR switch in the header (globe icon) and English · Türkçe in the footer; each page links to its translation (hreflang); English pages show a small "Türkçe sürüm" hint to visitors whose browser prefers Turkish (no automatic redirect)
+- App: /app/?lang=tr opens the app in Turkish; links from Turkish pages use it
+
 # Harmony Music Kit v0.9.33
 
 - Website: a page for every chord (420) with guitar shapes in every position, piano inversions, sound, where the chord is used and related chords; a page for every key (24) with its scale, chords, common progressions and neighbouring keys; chord and key lists; chord search

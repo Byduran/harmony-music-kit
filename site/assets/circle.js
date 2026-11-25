@@ -16,7 +16,7 @@
    var ch=q('chords'),links=ch&&ch.hasAttribute('data-links');
    if(ch)ch.innerHTML=k.chords.map(function(c){return links?'<a class="dchord" href="'+base+c.url+'"><small>'+c.rom+'</small><b>'+c.name+'</b></a>'
      :'<button type="button" class="dchord" data-play=\''+JSON.stringify(c.midis)+'\' data-glow="1" aria-label="Play '+c.name+'"><small>'+c.rom+'</small><b>'+c.name+'</b></button>'}).join('');
-   var ln=q('link');if(ln){ln.href=base+k.url;ln.textContent='Everything about '+k.name+' →'}
+   var ln=q('link');if(ln){ln.href=base+k.url;ln.textContent=window.HMK.t('js everything',{name:k.name})}
    document.querySelectorAll('[data-modepick]').forEach(function(b){b.setAttribute('aria-checked',String(b.getAttribute('data-modepick')===mode))});
    if(fromUser&&history.replaceState&&box.classList.contains('explorer')&&!box.classList.contains('mini'))history.replaceState(null,'','?key='+encodeURIComponent(k.name))}
   btns.forEach(function(b){b.addEventListener('click',function(){pick(b.getAttribute('data-mode'),+b.getAttribute('data-i'),true)})});

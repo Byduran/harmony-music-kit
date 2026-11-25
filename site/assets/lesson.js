@@ -27,10 +27,10 @@
   setCircle(s.circle);setKb(s.kb);setRow(s.row,s.quiz&&s.quiz.on==='row');msg('');
   if(cof)cof.classList.toggle('quiz',!!(s.quiz&&s.quiz.on==='circle'));
   back.style.visibility=i===0?'hidden':'visible';var last=i===N-1;next.hidden=last;done.hidden=!last;
-  next.textContent=s.quiz?'Skip ›':'Next ›';
+  next.textContent=s.quiz?window.HMK.t('js skip'):window.HMK.t('js next');
   var pb=texts[i].querySelector('.lplay');if(pb)pb.onclick=function(){playThing(s.play)}}
  function answer(given){var s=steps[i],q=s.quiz;if(!q||solved)return;
-  if(given===q.answer){solved=true;msg(q.ok,true);next.textContent='Next ›';var th=q.then||{};if(th.circle)setCircle(th.circle);if(th.kb)setKb(th.kb);if(th.play)playThing(th.play);
+  if(given===q.answer){solved=true;msg(q.ok,true);next.textContent=window.HMK.t('js next');var th=q.then||{};if(th.circle)setCircle(th.circle);if(th.kb)setKb(th.kb);if(th.play)playThing(th.play);
    if(q.on==='row'){var b=rowEl.querySelector('[data-j="'+given+'"]');if(b)b.classList.add('right')}}
   else msg(q.hint,false)}
  rk.forEach(function(b){b.addEventListener('click',function(){var s=steps[i];if(!(s.quiz&&s.quiz.on==='circle'))return;answer((b.getAttribute('data-mode')==='major'?'M':'m')+b.getAttribute('data-i'))})});

@@ -6,7 +6,7 @@
      sel=0,step=0,playing=false,timer=null,inst='piano',loop=true,clickOn=false,BEATS=2;
  function render(){var p=progs[sel];stepsEl.innerHTML=p.steps.map(function(s,i){return '<a class="pstep'+(playing&&i===step?' on':'')+'" href="'+base+s.url+'"><b>'+s.label+'</b></a>'}).join('<span class="parrow" aria-hidden="true">→</span>');
   box.querySelectorAll('[data-prog]').forEach(function(b){b.setAttribute('aria-checked',String(+b.getAttribute('data-prog')===sel))});
-  playBtn.textContent=playing?'❚❚ Pause':'▶ Play';
+  playBtn.textContent=playing?window.HMK.t('js pause'):window.HMK.t('js play');
   document.querySelectorAll('.kchord').forEach(function(c){c.classList.remove('lit')});
   if(playing){var s=p.steps[step];document.querySelectorAll('[data-sizegroup="'+(s.sev?'sev':'tri')+'"] .kchord[data-deg="'+s.deg+'"]').forEach(function(c){c.classList.add('lit')})}}
  function tick(){if(!playing)return;var p=progs[sel],s=p.steps[step],beat=60/(+bpmIn.value);
