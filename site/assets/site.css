@@ -190,3 +190,10 @@ a.opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);co
 .langhint{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;padding:10px 16px;background:#22324C;border-bottom:1px solid var(--line);font-size:14px}
 .langhint a{font-weight:800}.langhint button{border:0;background:transparent;color:var(--muted);font-size:20px;cursor:pointer;min-width:36px;min-height:36px}
 .solf{color:var(--muted);font-weight:600;font-size:.5em;letter-spacing:0}
+.hero-text .search input{min-height:56px;font-size:17px}
+.hero-text .chips .chip{padding:8px 12px;font-size:13.5px}
+.shots{flex-basis:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:900px}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.shots img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);display:block}
+.shots figcaption{font-size:13px;color:var(--muted);line-height:1.45}
+@media (max-width:640px){.shots{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.shots figure{scroll-snap-align:start}}

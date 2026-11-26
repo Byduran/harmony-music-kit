@@ -64,7 +64,8 @@ function appearances(c){const pc=pcOf(c.root),out=[];
  const order=[0,4,3,1,5,2,6];return out.sort((a,b)=>(a.k.mode===b.k.mode?0:a.k.mode==='major'?-1:1)||order.indexOf(a.j)-order.indexOf(b.j));}
 
 // ---------- page shell ----------
-function page({title,description,canonical,body,base='./',alt=null,scripts=[]}){const lang=LANG;
+function page({title,description,canonical,body,base='./',alt=null,scripts=[],appShots=false}){const lang=LANG;
+ const shots=appShots?`<div class="shots">${[['player','shot player'],['modes','shot modes'],['harmony','shot harmony']].map(([n,k])=>`<figure><img src="${base}assets/app-${n}-${lang}.webp?v=${V}" width="280" height="453" loading="lazy" alt="${esc(t(k))}"><figcaption>${t(k)}</figcaption></figure>`).join('')}</div>`:'';
  const L10N=J(Object.fromEntries(['js everything','js builder page','js next','js skip','js play','js pause','No chord found','js tr hint','js tr go','js close'].map(k=>[k,t(k)])));
  const sw=alt?`<div class="langsw" role="group" aria-label="${t('Language')}"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>${['en','tr'].map(l=>`<a href="${base}${alt[l]}" hreflang="${l}" lang="${l}"${l===lang?' aria-current="true"':''}>${l.toUpperCase()}</a>`).join('<span aria-hidden="true">|</span>')}</div>`:'';
  return `<!doctype html>
@@ -98,7 +99,7 @@ ${body}
 <section id="app" class="appbox" aria-labelledby="app-title">
 <div><h2 id="app-title">${t('Practise with the app')}</h2><p>${t('app blurb')}</p></div>
 <div class="row"><a class="btn ghost" href="${base}${appUrl()}">${t('Open in browser')}</a></div>
-</section>
+${shots}</section>
 <footer class="foot"><span>${t('Made by a guitarist, for musicians.')}</span><span class="row">${alt?`<a href="${base}${alt.en}" hreflang="en" lang="en">English</a><a href="${base}${alt.tr}" hreflang="tr" lang="tr">Türkçe</a>`:''}<a href="https://github.com/Byduran/harmony-music-kit">GitHub</a></span>
 <small class="credits">${t('credits')}</small></footer>
 </div>
@@ -341,8 +342,9 @@ function home(){
 <span class="eyebrow">${t('Free interactive music theory')}</span>
 <h1 id="hero-title">${t('See harmony.')}<br>${t('Hear it. Play it.')}</h1>
 <p class="lead">${t('hero lead')}</p>
-<div class="row"><a class="btn" href="#lookup">${t('Find a chord')}</a><a class="btn ghost" href="${base}${PT.keys}">${t('Browse keys')}</a></div>
-<span class="muted small">${t('Free, no sign-up. Listen to every chord right on the page.')}</span>
+<form id="lookup" class="search" role="search" data-search='${searchData()}'><label class="sr" for="q">${t('Chord name')}</label><input id="q" type="search" autocomplete="off" placeholder="${t('Try C#m7, Fmaj7 or Bb7')}"><button class="btn" type="submit">${t('Find chord')}</button><p class="note searchmsg" role="status"></p></form>
+<div class="chips">${popular.slice(0,8).map(c=>chip(base,c)).join('')}<a class="chip quiet" href="${base}${PT.chords}">${t('All chords')} →</a></div>
+<span class="muted small">${t('Free, no sign-up. Listen to every chord right on the page.')} <a href="${base}${PT.keys}">${t('Browse keys')} →</a></span>
 </div>
 <div class="card circle-card explorer mini" data-circle='${esc(J(circleData(['major','minor'])))}' data-base="${base}">
 <span class="muted small">${t('Tap a key — its chords appear below')}</span>
@@ -350,12 +352,6 @@ ${circleMarkup(['major','minor'],340)}
 <div class="diatonic" data-c="chords" data-links="1"></div>
 <a class="more" data-c="link" href="${base}${cmaj.url}">${t('Everything about {key}',{key:cmaj.name})} →</a>
 </div>
-</section>
-<section id="lookup" class="block" aria-labelledby="lookup-t">
-<h2 id="lookup-t">${t('Look up any chord')}</h2>
-<p class="muted">${t('lookup lead')}</p>
-<form class="search" role="search" data-search='${searchData()}'><label class="sr" for="q">${t('Chord name')}</label><input id="q" type="search" autocomplete="off" placeholder="${t('Try C#m7, Fmaj7 or Bb7')}"><button class="btn" type="submit">${t('Find chord')}</button><p class="note searchmsg" role="status"></p></form>
-<div class="chips">${popular.map(c=>chip(base,c)).join('')}<a class="chip quiet" href="${base}${PT.chords}">${t('All chords')} →</a></div>
 </section>
 <section id="learn" class="block" aria-labelledby="learn-t">
 <h2 id="learn-t">${t('Learn by doing')}</h2>
@@ -368,7 +364,7 @@ ${LESSONS.map(x=>`<a class="card lesson" href="${base}${x.url}"><span class="eye
 <h2 id="feat-t">${t('What you can explore')}</h2>
 <div class="grid5">${feats.map(([h,d,u])=>`<a class="card feat" href="${base}${u}"><b>${t(h)}</b><span>${t(d)}</span><small>${u.startsWith('app/')?t('In the app'):t('On this site')} →</small></a>`).join('')}</div>
 </section>`;
- return page({title:t('home title'),description:t('home description'),canonical:'/'+PT.home,base,alt:{en:PATHS.en.home,tr:PATHS.tr.home},body,scripts:['audio.js','circle.js']});
+ return page({title:t('home title'),description:t('home description'),canonical:'/'+PT.home,base,alt:{en:PATHS.en.home,tr:PATHS.tr.home},body,scripts:['audio.js','circle.js'],appShots:true});
 }
 
 // ---------- write ----------

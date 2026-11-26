@@ -1,3 +1,8 @@
+# Website update (app unchanged, still v0.9.34)
+
+- Home: chord search and popular chords moved to the top of the page, next to the circle; the separate "Look up any chord" section is gone
+- "Practise with the app" on the home page now shows three app screenshots (practice player, modes, harmony explorer), in English and Turkish; a swipeable row on phones
+
 # Harmony Music Kit v0.9.34
 
 - Website in Turkish under /tr/: home, chord builder and 420 chord pages (/tr/akorlar/), circle explorer and 24 key pages (/tr/tonlar/, with solfège names like "B majör (Si majör)"), and the three lessons (/tr/dersler/, sharps order "Fa Do Sol Re La Mi Si")
