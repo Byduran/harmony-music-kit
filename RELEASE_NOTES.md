@@ -1,3 +1,12 @@
+# Website update (app unchanged, still v0.9.34)
+
+- New Progressions page (/progressions/, /tr/yuruyusler/): all 24 keys on one page, the seven chords of each key, preset progressions and "Your own" (tap chords to build up to 8), with loop, tempo, click and piano/guitar; the key can change while it plays
+- New Modes page (/modes/, /tr/modlar/): 12 roots x 7 modes, scale with its colour note, compare two modes by ear, relative family
+- New Harmony Explorer page (/harmony/, /tr/armoni/): secondary dominant, tritone substitution, backdoor dominant and modal interchange in all 24 keys, playable, with "How it works"
+- Menu: Chords · Keys · Progressions · Modes · Harmony · Learn; the site no longer links to the web app; the bottom box is now "Coming soon on Google Play"
+- Fix: apostrophes in embedded page data (Turkish texts) are escaped
+- Home: chord search and popular chords moved to the top of the page, next to the circle; the separate "Look up any chord" section is gone
+
 # Harmony Music Kit v0.9.34
 
 - Website in Turkish under /tr/: home, chord builder and 420 chord pages (/tr/akorlar/), circle explorer and 24 key pages (/tr/tonlar/, with solfège names like "B majör (Si majör)"), and the three lessons (/tr/dersler/, sharps order "Fa Do Sol Re La Mi Si")

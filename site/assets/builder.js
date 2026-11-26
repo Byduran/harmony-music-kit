@@ -1,14 +1,14 @@
 // Chord builder (/chords/): pick a root and a type; the chord's own page supplies the diagrams, so both always match.
 (function(){
  var box=document.querySelector('[data-builder]');if(!box)return;
- var list=JSON.parse(box.getAttribute('data-builder')),out=document.getElementById('builder-out'),pageLink=document.getElementById('b-page'),appLink=document.getElementById('b-app'),
+ var list=JSON.parse(box.getAttribute('data-builder')),out=document.getElementById('builder-out'),pageLink=document.getElementById('b-page'),
      base=window.HMK.base,cache={},root='C',suf='',busy=0;
  function find(r,s){for(var i=0;i<list.length;i++)if(list[i][0]===r&&list[i][1]===s)return list[i]}
  function mark(){box.querySelectorAll('[data-root]').forEach(function(b){b.setAttribute('aria-checked',String(b.getAttribute('data-root')===root))});
   box.querySelectorAll('[data-type]').forEach(function(b){var on=b.getAttribute('data-type')===suf;b.setAttribute('aria-checked',String(on));if(on)showGroup(b.parentNode.id)})}
  function showGroup(id){box.querySelectorAll('[role=tab]').forEach(function(t){var on=t.getAttribute('aria-controls')===id;t.setAttribute('aria-selected',String(on));document.getElementById(t.getAttribute('aria-controls')).hidden=!on})}
  function load(push){var c=find(root,suf);if(!c)return;mark();var my=++busy;
-  pageLink.href=base+c[2];pageLink.textContent=window.HMK.t('js builder page',{sym:c[3]});appLink.href=base+'app/?'+(window.HMK.lang==='tr'?'lang=tr&':'')+'page=chords&chord='+encodeURIComponent(c[0]+c[1]);
+  pageLink.href=base+c[2];pageLink.textContent=window.HMK.t('js builder page',{sym:c[3]});
   if(push&&history.replaceState)history.replaceState(null,'','?c='+encodeURIComponent(c[0]+c[1]));
   var got=cache[c[2]]||(cache[c[2]]=fetch(base+c[2]).then(function(r){if(!r.ok)throw Error(r.status);return r.text()}));
   got.then(function(html){if(my!==busy)return;var doc=new DOMParser().parseFromString(html,'text/html');
