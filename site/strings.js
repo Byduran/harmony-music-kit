@@ -3,7 +3,6 @@
 module.exports={en:{
 'Skip to content':'Skip to content','Chords':'Chords','Keys':'Keys','Learn':'Learn','App':'App','Home':'Home','Breadcrumb':'Breadcrumb',
 'Practise with the app':'Practise with the app',
-'shot player':'Practice player with loop and tempo','shot modes':'Hear the colour of each mode','shot harmony':'Harmony explorer: secondary dominants, tritone subs and more',
 'app blurb':'The free Harmony Music Kit app adds a practice player with loop and tempo, mode comparison by ear and the harmony explorer. In the browser or on Android.',
 'Open in browser':'Open in browser','Made by a guitarist, for musicians.':'Made by a guitarist, for musicians.',
 'credits':'Piano: Salamander Grand Piano by Alexander Holm · Guitar: FluidR3_GM nylon guitar via gleitz/midi-js-soundfonts · both CC BY 3.0',
@@ -84,7 +83,6 @@ module.exports={en:{
 ,tr:{
 'Skip to content':'İçeriğe geç','Chords':'Akorlar','Keys':'Tonlar','Learn':'Dersler','App':'Uygulama','Home':'Ana sayfa','Breadcrumb':'Konum',
 'Practise with the app':'Uygulamayla çalış',
-'shot player':'Döngü ve tempo ayarlı pratik oynatıcısı','shot modes':'Her modun rengini kulakla tanı','shot harmony':'Armoni gezgini: ikincil dominantlar, triton ikamesi ve dahası',
 'app blurb':'Ücretsiz Harmony Music Kit uygulaması döngü ve tempo ayarlı bir pratik oynatıcısı, modları kulakla karşılaştırma ve armoni gezgini sunar. Tarayıcıda ya da Android’de.',
 'Open in browser':'Tarayıcıda aç','Made by a guitarist, for musicians.':'Bir gitarist tarafından, müzisyenler için yapıldı.',
 'credits':'Piyano: Salamander Grand Piano, Alexander Holm · Gitar: FluidR3_GM naylon gitar, gleitz/midi-js-soundfonts · ikisi de CC BY 3.0',
