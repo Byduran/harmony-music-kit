@@ -27,7 +27,7 @@ const ALSO={'':['maj'],'m':['min','-'],'m7':['min7','-7'],'maj7':['M7','Δ7'],'m
 const ENH={'C♯':'D♭','E♭':'D♯','F♯':'G♭','A♭':'G♯','B♭':'A♯'};
 const TYPESLUG_TR={...TYPESLUG,'5':'guc-akoru','maj7♯11':'major-7-diyez-11','m(♭6)':'minor-bemol-6','m7♭5':'yarim-eksik','7♭9':'7-bemol-9','7♯9':'7-diyez-9','7♯11':'7-diyez-11','dim':'eksik','dim7':'eksik-7','aug':'artik'};
 // Paths per language: English at the root, Turkish under /tr/ with Turkish folder names (no Turkish letters in URLs).
-const PATHS={en:{home:'',chords:'chords/',keys:'keys/',learn:'learn/'},tr:{home:'tr/',chords:'tr/akorlar/',keys:'tr/tonlar/',learn:'tr/dersler/'}};
+const PATHS={en:{home:'',chords:'chords/',keys:'keys/',learn:'learn/',progressions:'progressions/'},tr:{home:'tr/',chords:'tr/akorlar/',keys:'tr/tonlar/',learn:'tr/dersler/',progressions:'tr/yuruyusler/'}};
 let PT=PATHS.en;
 const chordUrlFor=(lang,root,suf)=>PATHS[lang].chords+(lang==='tr'?ROOTSLUG_TR(root)+'-'+TYPESLUG_TR[suf]:ROOTSLUG_EN(root)+'-'+TYPESLUG[suf])+'/';
 const keyUrlFor=(lang,tonic,mode)=>PATHS[lang].keys+(lang==='tr'?ROOTSLUG_TR(tonic):ROOTSLUG_EN(tonic))+'-'+mode+'/';
@@ -65,7 +65,7 @@ function appearances(c){const pc=pcOf(c.root),out=[];
 
 // ---------- page shell ----------
 function page({title,description,canonical,body,base='./',alt=null,scripts=[]}){const lang=LANG;
- const L10N=J(Object.fromEntries(['js everything','js builder page','js next','js skip','js play','js pause','No chord found','js tr hint','js tr go','js close'].map(k=>[k,t(k)])));
+ const L10N=J(Object.fromEntries(['js everything','js builder page','js next','js skip','js play','js pause','No chord found','js tr hint','js tr go','js close','The chords of {key}','tap a chord','build note','build empty','Your own','Everything about {key} — scale, chords and neighbouring keys'].map(k=>[k,t(k)])));
  const sw=alt?`<div class="langsw" role="group" aria-label="${t('Language')}"><svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg>${['en','tr'].map(l=>`<a href="${base}${alt[l]}" hreflang="${l}" lang="${l}"${l===lang?' aria-current="true"':''}>${l.toUpperCase()}</a>`).join('<span aria-hidden="true">|</span>')}</div>`:'';
  return `<!doctype html>
 <html lang="${lang}">
@@ -90,7 +90,7 @@ ${alt?`<link rel="alternate" hreflang="en" href="${SITE}/${alt.en}">
 <div class="wrap">
 <header class="top">
 <a class="brand" href="${base}${PT.home}"><span class="logo" aria-hidden="true">♫</span>HARMONY <span>MUSIC KIT</span></a>
-<nav aria-label="Main"><a href="${base}${PT.chords}">${t('Chords')}</a><a href="${base}${PT.keys}">${t('Keys')}</a><a href="${base}${PT.learn}">${t('Learn')}</a><a class="quiet" href="#app">${t('App')}</a>${sw}</nav>
+<nav aria-label="Main"><a href="${base}${PT.chords}">${t('Chords')}</a><a href="${base}${PT.keys}">${t('Keys')}</a><a href="${base}${PT.progressions}">${t('Progressions')}</a><a href="${base}${PT.learn}">${t('Learn')}</a>${sw}</nav>
 </header>
 <main id="main">
 ${body}
@@ -194,14 +194,17 @@ function stepper(n,info,kind){
 
 // ---------- key pages ----------
 function chordMidis(pc,suf){const c=findChord(pc,suf);return Array.from(run(`pianoInversions(chordPitch(${J(c.root)},${J(c.formula)}))[0].midis`))}
-function keyPage(k){
- const base=up(2),scaleMidis=[];let prev=59;for(const n of [...k.scale,k.scale[0]]){let m=60+pcOf(n);while(m<=prev)m+=12;scaleMidis.push(m);prev=m}
- if(scaleMidis[0]>=66)for(let i=0;i<scaleMidis.length;i++)scaleMidis[i]-=12;
- const deg=k.mode==='major'?['1','2','3','4','5','6','7']:['1','2','♭3','4','5','♭6','♭7'];
+function keyProgs(k){
  const d=k.chords,pr=k.mode==='major'?[
   ['I – V – vi – IV · '+t('pop'),[0,4,5,3],0],['ii – V – I · '+t('jazz'),[1,4,0],1],['I – vi – ii – V · '+t('turnaround'),[0,5,1,4],0],['vi – IV – I – V',[5,3,0,4],0]]:[
   ['i – VI – III – VII',[0,5,2,6],0],['i – iv – v – i',[0,3,4,0],0],['iiø – V7 – i · '+t('jazz minor'),[1,'V7',0],1],['i – VII – VI – VII',[0,6,5,6],0]];
  const progs=pr.map(([name,degs,sev])=>({name,steps:degs.map(x=>x==='V7'?{label:d[4].tri.replace(/m$/,'')+'7',pc:d[4].pc,suf:'7',deg:4}:sev?{label:d[x].sev,pc:d[x].pc,suf:d[x].sevSuf,deg:x}:{label:d[x].triDisp,pc:d[x].pc,suf:d[x].triSuf,deg:x}).map(i=>({label:i.label,deg:i.deg,sev:!!sev,url:findChord(i.pc,i.suf).url,midis:chordMidis(i.pc,i.suf)}))}));
+ return {d,progs}}
+function keyPage(k){
+ const base=up(2),scaleMidis=[];let prev=59;for(const n of [...k.scale,k.scale[0]]){let m=60+pcOf(n);while(m<=prev)m+=12;scaleMidis.push(m);prev=m}
+ if(scaleMidis[0]>=66)for(let i=0;i<scaleMidis.length;i++)scaleMidis[i]-=12;
+ const deg=k.mode==='major'?['1','2','3','4','5','6','7']:['1','2','♭3','4','5','♭6','♭7'];
+ const {d,progs}=keyProgs(k);
  const player=`<div class="card player" data-player='${esc(J(progs))}' data-base="${base}">
 <div class="chips" role="radiogroup" aria-label="${t('Progression')}">${progs.map((p,i)=>`<button type="button" class="opt" role="radio" aria-checked="${i===0}" data-prog="${i}">${esc(p.name)}</button>`).join('')}</div>
 <div class="psteps" data-steps aria-live="off"></div>
@@ -243,6 +246,47 @@ ${crumbs(base,[[t('Home'),PT.home],[t('Keys'),PT.keys],[k.name,'']])}
 <section class="block" aria-labelledby="kn" data-sec="kn"><h2 id="kn">${t('Neighbouring keys')}</h2><div class="grid4">${nb.map(([x,l])=>`<a class="card navcard" href="${base}${x.url}"><small>${l} · ${sigText(x)}</small><b>${x.name}</b></a>`).join('')}</div></section>
 <p class="applink"><a href="${base}${appUrl('key='+encodeURIComponent(k.tonic)+'&amp;mode='+k.mode)}">${t('Open {key} on the circle in the app',{key:k.name})} →</a></p>`;
  return page({title:t('key title',{key:k.name+(LANG==='tr'?` (${k.solf})`:'')}),alt:k.urls,description:t('key description',{key:k.name,sig:sigText(k),chords:d.map(x=>x.triDisp).join(', ')}),canonical:'/'+k.url,base,body,scripts:['audio.js','player.js']});
+}
+
+// ---------- progressions page (all 24 keys on one page, presets + build your own) ----------
+function progressionsPage(){const base=up(1);
+ const order=m=>KEYS.filter(x=>x.mode===m).sort((a,b)=>a.i-b.i);
+ const data=KEYS.map(k=>{const {d,progs}=keyProgs(k);return {id:k.mode+'-'+k.i,mode:k.mode,pc:pcOf(k.tonic),name:k.name,url:k.url,
+  chords:d.map(x=>({rom:x.rom,romSev:x.romSev,role:t(x.role),tri:{label:x.triDisp,url:findChord(x.pc,x.triSuf).url,midis:chordMidis(x.pc,x.triSuf)},sev:{label:x.sev,url:findChord(x.pc,x.sevSuf).url,midis:chordMidis(x.pc,x.sevSuf)}})),
+  presets:progs}});
+ const rootBtns=m=>order(m).map(x=>`<button type="button" class="opt hue" style="--h:${hueAt(x.i)}" data-key="${x.mode}-${x.i}">${x.tonic}${m==='minor'?'m':''}</button>`).join('');
+ const body=`
+${crumbs(base,[[t('Home'),PT.home],[t('Progressions'),'']])}
+<section class="stack"><h1>${t('Progressions')}</h1><p class="lead">${t('progressions lead')}</p></section>
+<div class="progpage" data-progpage='${esc(J(data))}' data-base="${base}">
+<nav class="switcher card keysw" aria-label="${t('Change key')}">
+<div class="opts roots" data-roots="major">${rootBtns('major')}</div>
+<div class="opts roots" data-roots="minor" hidden>${rootBtns('minor')}</div>
+<div class="seg" role="radiogroup" aria-label="${t('Major')} / ${t('Minor')}"><button type="button" role="radio" aria-checked="true" data-mode="major">${t('Major')}</button><button type="button" role="radio" aria-checked="false" data-mode="minor">${t('Minor')}</button></div>
+</nav>
+<section class="block" aria-labelledby="pc-t">
+<div class="rowsplit"><h2 id="pc-t" data-ktitle></h2>
+<div class="seg" role="radiogroup" aria-label="${t('Chord size')}"><button type="button" role="radio" aria-checked="false" data-size="tri">${t('Triads')}</button><button type="button" role="radio" aria-checked="true" data-size="sev">${t('7th chords')}</button></div></div>
+<p class="note" data-chordnote>${t('tap a chord')}</p>
+<div class="kgrid" data-kgrid></div>
+</section>
+<section class="block" aria-labelledby="pp-t"><h2 id="pp-t">${t('Play a progression')}</h2>
+<div class="card player">
+<div class="chips" role="radiogroup" aria-label="${t('Progression')}" data-presets></div>
+<div class="psteps" data-steps aria-live="off"></div>
+<div class="row ownrow" data-ownctl hidden><button type="button" class="opt" data-undo>↶ ${t('Undo')}</button><button type="button" class="opt" data-clear>${t('Clear')}</button></div>
+<div class="pcontrols">
+<button type="button" class="btn" data-pplay>▶ ${t('Play')}</button>
+<button type="button" class="opt" data-ploop aria-pressed="true">⟳ ${t('Loop')}</button>
+<button type="button" class="opt" data-pclick aria-pressed="false">${t('Click')}</button>
+<label class="bpm">${t('Tempo')} <input type="range" min="50" max="180" step="5" value="100" data-pbpm aria-label="${t('Tempo in BPM')}"> <output data-pbpmv>100</output> BPM</label>
+<div class="seg" role="radiogroup" aria-label="${t('Sound')}"><button type="button" role="radio" aria-checked="true" data-pinst="piano">${t('Piano')}</button><button type="button" role="radio" aria-checked="false" data-pinst="guitar">${t('Guitar')}</button></div>
+</div>
+<p class="note">${t('player note')}</p>
+</div></section>
+<p class="applink"><a data-keylink href="${base}${KEYS[0].url}"></a></p>
+</div>`;
+ return page({title:t('progressions title'),description:t('progressions description'),canonical:'/'+PT.progressions,base,alt:{en:PATHS.en.progressions,tr:PATHS.tr.progressions},body,scripts:['audio.js','progressions.js']});
 }
 
 // ---------- index pages ----------
@@ -384,10 +428,11 @@ for(const lang of ['en','tr']){setLang(lang);
  write(PT.chords+'index.html',chordsIndex());
  write(PT.keys+'index.html',keysIndex());
  write(PT.learn+'index.html',learnIndex());
+ write(PT.progressions+'index.html',progressionsPage());
  for(const L of LESSONS)write(L.url+'index.html',lessonPage(L));
  for(const c of CHORDS)write(c.url+'index.html',chordPage(c));
  for(const k of KEYS)write(k.url+'index.html',keyPage(k));
- urls.push(PT.home,PT.chords,PT.keys,PT.learn,...LESSONS.map(L=>L.url),...KEYS.map(k=>k.url),...CHORDS.map(c=>c.url));
+ urls.push(PT.home,PT.chords,PT.keys,PT.progressions,PT.learn,...LESSONS.map(L=>L.url),...KEYS.map(k=>k.url),...CHORDS.map(c=>c.url));
 }
 setLang('en');
 urls.push('app/');

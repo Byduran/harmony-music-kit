@@ -1,5 +1,7 @@
 # Website update (app unchanged, still v0.9.34)
 
+- New Progressions page (/progressions/, /tr/yuruyusler/): all 24 keys on one page, the seven chords of each key, preset progressions and "Your own" (tap chords to build up to 8), with loop, tempo, click and piano/guitar; the key can change while it plays
+- Menu: Chords · Keys · Progressions · Learn
 - Home: chord search and popular chords moved to the top of the page, next to the circle; the separate "Look up any chord" section is gone
 
 # Harmony Music Kit v0.9.34

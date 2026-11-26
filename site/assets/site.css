@@ -192,3 +192,6 @@ a.opt.hue{background:hsl(var(--h) 38% 31%);border-color:hsl(var(--h) 34% 46%);co
 .solf{color:var(--muted);font-weight:600;font-size:.5em;letter-spacing:0}
 .hero-text .search input{min-height:56px;font-size:17px}
 .hero-text .chips .chip{padding:8px 12px;font-size:13.5px}
+.progpage .opt[aria-current="true"]{background:var(--cu);border-color:var(--cu);color:var(--bg)}
+.ownchip{border-style:dashed}
+.ownrow{gap:8px}
