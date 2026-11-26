@@ -444,7 +444,7 @@ function learnIndex(){const base=up(1);
 function home(){
  const base=up(0),cmaj=KEYS.find(k=>k.mode==='major'&&k.i===0);
  const popular=[['C',''],['G',''],['A','m'],['F',''],['D','m7'],['G','7'],['C','maj7'],['E','7'],['B','m7♭5'],['C♯','m7']].map(([r,s])=>CHORDS.find(c=>c.root===r&&c.suf===s));
- const feats=[['Circle of Fifths','feat circle',PT.keys],['Chord Library','feat chords',PT.chords],['Progressions','feat progressions',PT.progressions],['Modes','feat modes',PT.modes],['Harmony Explorer','feat harmony',PT.harmony]];
+ const feats=[['Keys & Circle of Fifths','feat circle',PT.keys],['Chord Library','feat chords',PT.chords],['Progressions','feat progressions',PT.progressions],['Modes','feat modes',PT.modes],['Harmony Explorer','feat harmony',PT.harmony]];
  const body=`
 <section class="hero" aria-labelledby="hero-title">
 <div class="hero-text">
@@ -471,7 +471,7 @@ ${LESSONS.map(x=>`<a class="card lesson" href="${base}${x.url}"><span class="eye
 </section>
 <section class="block" aria-labelledby="feat-t">
 <h2 id="feat-t">${t('What you can explore')}</h2>
-<div class="grid5">${feats.map(([h,d,u])=>`<a class="card feat" href="${base}${u}"><b>${t(h)}</b><span>${t(d)}</span><small>${t('Explore')} →</small></a>`).join('')}</div>
+<div class="grid5">${feats.map(([h,d,u])=>`<a class="card feat" href="${base}${u}"><b>${t(h)}</b><span>${t(d)}</span></a>`).join('')}</div>
 </section>`;
  return page({title:t('home title'),description:t('home description'),canonical:'/'+PT.home,base,alt:{en:PATHS.en.home,tr:PATHS.tr.home},body,scripts:['audio.js','circle.js']});
 }

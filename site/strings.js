@@ -23,7 +23,7 @@ module.exports={en:{
 'What you can explore':'What you can explore','In the app':'In the app','On this site':'On this site',
 'Circle of Fifths':'Circle of Fifths','feat circle':'Every major and minor key with its chords, sharps and flats.',
 'Chord Library':'Chord Library','feat chords':'420 chords with guitar shapes, finger numbers and piano inversions.',
-'Progressions':'Progressions','feat progressions':'Common progressions with a practice player, loop and tempo control.',
+'Progressions':'Progressions','feat progressions':'Every key on one page: play common progressions on loop, or tap chords to build your own.','Keys & Circle of Fifths':'Keys & Circle of Fifths',
 'Modes':'Modes','feat modes':'Hear each mode on the same root and compare two by ear.',
 'Harmony Explorer':'Harmony Explorer','feat harmony':'Secondary dominants, tritone subs, backdoor and modal interchange, explained.',
 // chord pages
@@ -118,7 +118,7 @@ module.exports={en:{
 'What you can explore':'Neler keşfedebilirsin','In the app':'Uygulamada','On this site':'Bu sitede',
 'Circle of Fifths':'Beşliler Çemberi','feat circle':'Her majör ve minör ton, akorları, diyez ve bemolleriyle.',
 'Chord Library':'Akor Kütüphanesi','feat chords':'420 akor: gitar şekilleri, parmak numaraları ve piyano çevrimleri.',
-'Progressions':'Yürüyüşler','feat progressions':'Yaygın akor yürüyüşleri; döngü ve tempo ayarlı pratik oynatıcısı.',
+'Progressions':'Yürüyüşler','feat progressions':'Her ton tek sayfada: yaygın yürüyüşleri döngüde çal ya da akorlara dokunup kendininkini kur.','Keys & Circle of Fifths':'Tonlar ve Beşliler Çemberi',
 'Modes':'Modlar','feat modes':'Her modu aynı kökten dinle, ikisini kulakla karşılaştır.',
 'Harmony Explorer':'Armoni Gezgini','feat harmony':'İkincil dominantlar, triton ikamesi, backdoor ve mod ödünçlemesi, anlatımlı.',
 'chord title':'{sym} akoru ({long}) – gitar ve piyano | Harmony Music Kit',
